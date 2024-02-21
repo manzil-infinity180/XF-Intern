@@ -1,6 +1,35 @@
 import InputField from '../utils/InputField';
 import '../Login/Login.css'
+import toast from 'react-hot-toast';
+import { useMutation } from "@tanstack/react-query"
+import { addExperience } from '../utils/http';
+import {useNavigate} from 'react-router-dom'
 function Step3() {
+    const navigate = useNavigate();
+    const {mutate,isLoading,isPending,data,isError,error,} = useMutation({
+        mutationFn: addExperience,
+        onSuccess: () => {
+            toast.success("Added Experience....");
+            // navigate('/step3');
+            window.location.reload(true);
+            
+      },
+      onError : (error)=>{
+        toast.error(error.info.status + "\n" + error.info.message);
+      },
+    })
+   
+
+    function handleSubmit(e){
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+         const data = Object.fromEntries(formData);
+         console.log(data);
+         mutate(data);
+    }
+
+
     return (
         <>
     <header className='header_login'>
@@ -43,7 +72,7 @@ function Step3() {
                 So try  to fill all inputs to get MORE COINS
                 Add more Past Experience to earn more coins.
                 </p>
-                <form className='form_login'>
+                <form className='form_login' onSubmit={handleSubmit}>
                     <InputField name="type" placeholder="Enter either job or Internship" 
                     type="text" >Type: Internship/Job?</InputField>
                     <InputField name="company_name" placeholder="Enter your Company name" 

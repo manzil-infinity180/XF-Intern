@@ -1,4 +1,5 @@
 import {createBrowserRouter,RouterProvider} from  "react-router-dom"
+import {QueryClientProvider} from "@tanstack/react-query";
 import LoginPage from "./components/Login/Login"
 import Home from "./components/Home/Home"
 import Register from "./components/Register/Register"
@@ -6,14 +7,12 @@ import Navbar from "./components/Navbar/Navbar"
 import {Toaster} from "react-hot-toast"
 import Profile from "./components/Profile/Profile"
 import Step3 from "./components/Profile/Step3"
+import { queryclient } from "./components/utils/http";
+import Verify from "./components/Login/Verify";
+import { UploadImages } from "./components/UploadImg/UploadImg";
+import List from "./components/List/List";
 function App() {
   const router = createBrowserRouter([
-
-    {
-      path:'/',
-      element :<Navbar />,
-      errorElement : <h1> Something went Wrong</h1>,
-    },
     {
       path:'/login',
       element : <LoginPage />
@@ -23,21 +22,30 @@ function App() {
       element : <Register />
     },{
       path:"*",
-      element:<h1>Hello</h1>
-    },{
-      path:'/home',
-      element : <Home />
+      element:<Home />
     },{
       path:"/profile",
       element:<Profile />
     },{
+      path:'/verify',
+      element:<Verify />
+
+    },{
+      path:'/step2',
+      element:<UploadImages />
+    },
+    {
       path:"/step3",
       element:<Step3 />
+    },{
+      path:"/list",
+      element:<List/>
     }
   ])
 
   return (
     <>
+    <QueryClientProvider client={queryclient}>
     <RouterProvider router={router} />
     <Toaster
         position="top-right"
@@ -71,6 +79,7 @@ function App() {
           },
         }}
       />
+      </QueryClientProvider>
     </>
   )
 }

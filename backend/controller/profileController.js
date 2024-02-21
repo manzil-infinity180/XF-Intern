@@ -68,7 +68,7 @@ exports.updateUser = async(req,res,next)=>{
     }  
 
       const detail = await User.findByIdAndUpdate(req.user,updatedData,{
-        run:true,
+      run:true,
       runValidators:true
       })
 

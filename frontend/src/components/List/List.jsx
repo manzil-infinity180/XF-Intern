@@ -1,16 +1,16 @@
 import Navbar from "../Navbar/Navbar"
-import "./Home.css"
-import { useEffect, useState } from "react"
+import "../Home/Home.css"
 import Content from "../Content/Content";
 import { useQuery } from "@tanstack/react-query"
-import { getInternData } from "../utils/http";
+import { getAppliedData } from "../utils/http";
 import { Loader } from "../utils/Loader";
-function Home() {
+import { useState } from "react";
+function List() {
     const [jobDetail,setJobDetail] = useState([]);
 
     const {data,isError,isLoading,isPending} = useQuery({
-        queryKey:['intern'],
-        queryFn: getInternData
+        queryKey:['applied'],
+        queryFn: getAppliedData
     });
     data && console.log(data);
     
@@ -20,11 +20,11 @@ function Home() {
         <section className="w-full section_content">
             <div>
              <h1 className="text-center mt-8 text-4xl font-bold tracking-wider" 
-             >InternShip / Jobs </h1>
+             >InternShip / Jobs Applied</h1>
             </div>
             <div className="flex items-center my-10 flex-col justify-center ">
             {
-                data && data.detail.map((data)=> <Content data={data} key={data._id}/>)
+                data && data.user.applied.map((data)=> <Content data={data} key={data._id} applyBool={true}/>)
             }
             {
                 (isLoading || isPending) && <Loader />
@@ -37,4 +37,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default List;

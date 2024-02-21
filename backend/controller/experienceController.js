@@ -18,7 +18,7 @@ exports.createExp = async(req,res,next)=>{
         });
     
       }catch(err){
-        res.status(200).json({
+        res.status(404).json({
           status:"Failed",
           message: err.message
         });

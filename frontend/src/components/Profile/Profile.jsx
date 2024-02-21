@@ -1,6 +1,38 @@
 import InputField from '../utils/InputField';
 import '../Login/Login.css'
+import {useNavigate} from 'react-router-dom'
+import { useMutation } from "@tanstack/react-query"
+import toast from 'react-hot-toast';
+import { createProfile } from '../utils/http';
+import { useState } from 'react';
 function Profile() {
+
+     const navigate = useNavigate();
+     const [data,setData] = useState(0);
+
+     const {mutate,isLoading,isPending,isError,error}= useMutation({
+        mutationFn:createProfile,
+        onSuccess: () => {
+            toast.success("Step 1 Completed");
+            navigate('/step2')      
+      },
+      onError : ()=>{
+          toast.error("failed");
+      },
+    });
+
+
+
+
+
+    function handleSubmit(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        mutate(data);
+    }
+
+
     return (
         <>
     <header className='header_login'>
@@ -42,7 +74,7 @@ function Profile() {
                 You will earn COINS on basis of how many input you have filled !!! 
                 So try  to fill all inputs to get MORE COINS
                 </p>
-                <form className='form_login'>
+                <form className='form_login' onSubmit={handleSubmit}>
                     <InputField name="name" placeholder="Enter your fullname" 
                     type="text" >Full Name</InputField>
                     <InputField name="mobile" placeholder="Enter your mobile number" 
@@ -52,7 +84,7 @@ function Profile() {
                     <InputField name="github" placeholder="Entery Github URL" 
                     type="text" >Github</InputField>
                     <InputField name="college_name" placeholder="Your College name" 
-                    type="text" >College Name</InputField>
+                    type="text">College Name</InputField>
                     <InputField name="type" placeholder="School/College" 
                     type="text" >Type</InputField>
                     <InputField name="start" placeholder="College/School starting year" 
@@ -62,12 +94,14 @@ function Profile() {
                     <InputField name="project" placeholder="Your Project Name" 
                     type="text" >Project</InputField>
                     <InputField name="project_description" placeholder="Project Description" 
-                    type="text" >Skills</InputField>
+                    type="text" >Project Description</InputField>
                     <InputField name="member" placeholder="Number of memebe in group" 
                     type="text" >If solo type 1</InputField>
                     <InputField name="project_link" placeholder="Project Repo/Deployed Link" 
                     type="text" >Project Link</InputField>
-                    <button type='submut'>Step 2 &#8599;</button>
+                    <InputField name="resume" placeholder="Paste Your Resume Link" 
+                    type="text" >Resume Link</InputField>
+                    <button type='submit'>Step 2 &#8599;</button>
                 </form>
 
                 <div className='contine_content'>

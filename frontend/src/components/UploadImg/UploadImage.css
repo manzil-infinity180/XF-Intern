@@ -1,0 +1,38 @@
+.upload_div{
+    margin: 5rem auto;
+    padding: 10px 50px;
+    text-align: center;
+}
+.p_ele{
+    font-size: 2.5rem;
+    margin-bottom: 1.8rem;
+    color: #94a3b8;
+}
+.div_input{
+    margin: 5rem 0 ;
+    color: #94a3b8;
+
+}
+.button_upload{
+    padding: 5px 10px;
+    background-color: transparent;
+    border: 1px solid pink;
+    border-radius: 16px;
+    color:#94a3b8;
+    /* font-size: 1.2rem; */
+    cursor: pointer;
+
+
+}
+.button_upload:hover{
+    border: none;
+    opacity: 0.65;
+}
+.text_drag{
+    font-size: 1.2rem;
+    max-width: 60ch;
+    text-align: center;
+    /* justify-content: center; */
+    /* display: flex; */
+    margin: 2rem auto;
+}

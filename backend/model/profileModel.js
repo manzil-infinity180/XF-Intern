@@ -21,7 +21,7 @@ const profileSchema = new mongoose.Schema({
    //   },
      type: {
         type: String,
-        enum:['school','college'],
+        enum:['school','college','College','School'],
         default:"college"
      },
      college_name: {
@@ -45,6 +45,9 @@ const profileSchema = new mongoose.Schema({
      },
      project_link : {
         type: String,
+     },
+     resume:{
+      type:String,
      },
 });
 

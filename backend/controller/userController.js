@@ -8,6 +8,11 @@ const  User = require('../model/userModel.js');
 
 exports.register = async(req,res,next)=>{
     try{
+
+       const dup = await User.findOne({email : req.body.email});
+       if(dup){
+        throw new Error("Already user existed");
+       }
         const user = await User.create(req.body);
         console.log(user);
         await sendEmail({
@@ -37,7 +42,8 @@ let userData;
 
 exports.login = async(req,res,next)=>{
     try{
-        const user = await User.findOne({email:req.body.email}).populate('profile').populate('experience').exec();
+        const user = await User.findOne({email:req.body.email}).populate('profile').populate('experience').
+        populate('applied').exec();
         otp = (Math.random()*100000);
         otp = Math.floor(otp);
         console.log(otp);
@@ -69,7 +75,8 @@ exports.login = async(req,res,next)=>{
 }
 exports.verify = async(req,res,next)=>{
   try{
-    let OTP = req.body.otp;
+    let OTP = Number(req.body.otp);
+    console.log("doc");
       console.log(OTP);
       console.log(otp)
       console.log(userData);
@@ -113,7 +120,8 @@ exports.getUser = async(req,res,next)=>{
       if(!req.user){
         throw new Error("You are logout now , please login again")
       }
-        const user = await User.findById(req.user).populate("profile").populate("experience").exec();
+        const user = await User.findById(req.user).populate("profile").populate("experience")
+        .populate('applied').exec();
         console.log(user);
         res.status(200).json({
             status:"Success",
@@ -144,7 +152,7 @@ exports.logout = async(req,res,next)=>{
 
 
 
-    res.status(200).json({
+    res.status(404).json({
       status:"Failed",
       message: err.message
     });

@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const profileController = require("../controller/profileController");
+const appliedController = require("../controller/appliedController");
 const userController = require("../controller/userController");
 const experienceController = require("../controller/experienceController");
 /* User Controller */
@@ -24,5 +25,8 @@ router.patch('/update-pic',profileController.picUpload,profileController.updateU
 
 router.post('/exp',experienceController.createExp);
 
+/* Applied */
+router.post('/apply',appliedController.apoliedStatus);
+router.get('/get-all',appliedController.getAllApplied);
 
 module.exports = router;

@@ -50,7 +50,7 @@ function LoginRegisterUtil({title,description,type,second,path}) {
                     autoComplete='off' 
                     name='email'>
                     </input>
-                    <button type='submut'>{type}</button>
+                    <button type='submit'>{type}</button>
                 </form>
 
                 <div className='contine_content'>

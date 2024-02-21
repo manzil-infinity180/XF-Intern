@@ -20,9 +20,10 @@ const userSchema = new mongoose.Schema({
      pic:{
       type:String,
      },
-     resume:{
-      type:String,
-     }
+     applied:[{
+      type:mongoose.Schema.Types.ObjectId,
+        ref:"Applied"
+     },]
 });
 
 

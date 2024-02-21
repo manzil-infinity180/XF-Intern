@@ -3,7 +3,7 @@ const validator = require("validator");
 const jobSchema = new mongoose.Schema({
      type: {
         type: String,
-        enum:['internship','job'],
+        enum:['internship','job','Internship','Job'],
         default:'internship'
      },
      company_name:{
@@ -23,6 +23,10 @@ const jobSchema = new mongoose.Schema({
      },
      cover_letter:{
       type:String
+     },
+     applied:{
+      type:Boolean,
+      default:false
      }
 
 });
