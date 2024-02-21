@@ -1,0 +1,73 @@
+.navbar_header{
+    width: 100%;
+    margin-inline: auto;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.left_content{
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
+.logo_name_nav{
+     text-transform: uppercase;
+     letter-spacing: 0.20rem;
+     /* display: none; */
+ }
+ .social_logo_github{
+    padding: 0.5rem;
+    position: relative;
+    left: 60px;
+    font-size: 1.25rem;
+
+ }
+ .social_logo_linkedin{
+    padding: 0.5rem;
+    position: relative;
+    left: 40px;
+    font-size: 1.25rem;
+ }
+ .social_logo_x{
+    padding: 0.5rem;
+    
+    position: relative;
+    left: 20px;
+    font-size: 1.25rem;
+ }
+
+ .nav_icon{
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+ }
+.sign_div{
+    min-width: 4rem;
+    position: relative;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+.signin_btn{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #94a3b8;
+    font-weight: 600;
+    letter-spacing: 0.15ch;
+    padding-bottom: 0.2rem;
+    text-transform: capitalize;
+    text-decoration: none;
+}
+.preview_btn{
+    display: flex;
+    text-decoration: none;
+    gap: 0.5rem;
+    justify-content: center;
+    background-color: #f8fafc;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.345rem;
+    color: black;
+    align-items: center;
+}

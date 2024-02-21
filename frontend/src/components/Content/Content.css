@@ -1,0 +1,25 @@
+.actual_content{
+    /* height: 20rem; */
+    background-color: #0a101f;
+    padding: 0.3rem;
+    box-shadow: rgba(15,23,42,.22);
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: space-between;
+    border-radius: .375rem
+}
+.section_content{
+    margin-inline:auto;padding-inline:.5rem
+}
+.btn_applied{
+    border: 1px solid pink;
+    background-color: transparent;
+    padding: 5px 25px;
+    border-radius: 16px;
+    width: 25%;
+}
+.btn_applied:hover{
+    border: none;
+    opacity: 0.75;
+}
