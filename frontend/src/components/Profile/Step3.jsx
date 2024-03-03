@@ -15,7 +15,7 @@ function Step3() {
             
       },
       onError : (error)=>{
-        toast.error(error.info.status + "\n" + error.info.message);
+        toast.error(error.info.message);
       },
     })
    

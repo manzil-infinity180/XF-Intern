@@ -11,8 +11,8 @@ router.post('/login',userController.login);
 router.post('/verify',userController.verify);
 
 router.use(userController.isAuthenticated);
-
 router.get('/get-user',userController.getUser);
+
 router.get('/logout',userController.logout);
 
 /* Profile */

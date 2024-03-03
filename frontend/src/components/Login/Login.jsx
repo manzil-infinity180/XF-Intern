@@ -19,7 +19,8 @@ function Login() {
             
       },
       onError : (erro)=>{
-          toast.error("failed")
+          toast.error("failed");
+          toast.error(error.info.message)
       },
     })
    

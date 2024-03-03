@@ -18,6 +18,7 @@ function Profile() {
       },
       onError : ()=>{
           toast.error("failed");
+          toast.error(error.info.message)
       },
     });
 

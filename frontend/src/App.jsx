@@ -41,7 +41,7 @@ function App() {
       path:"/list",
       element:<List/>
     }
-  ])
+  ]);
 
   return (
     <>

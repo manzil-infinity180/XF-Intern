@@ -18,7 +18,8 @@ function Verify() {
             
       },
       onError : ()=>{
-          toast.error("failed")
+          toast.error("failed");
+          toast.error(error.info.message)
       },
     })
    

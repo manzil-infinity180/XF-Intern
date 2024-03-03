@@ -14,7 +14,8 @@ export function UploadImages() {
             navigate('/step3');
       },
       onError : ()=>{
-        toast.error("Something went wrong")
+        toast.error("Something went wrong");
+        toast.error(error.info.message)
       },
     })
 

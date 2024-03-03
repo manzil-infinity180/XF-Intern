@@ -2,7 +2,7 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
-  "proxy": "http://localhost:9009/",
+  "proxy": "https://back-anchors-1.onrender.com",
   "type": "module",
   "scripts": {
     "dev": "vite",
