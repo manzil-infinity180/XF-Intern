@@ -71,3 +71,8 @@
     color: black;
     align-items: center;
 }
+.preview_btn_coin{
+    background-color: #3c4553;
+    color: white;
+    font-weight: 600;
+}

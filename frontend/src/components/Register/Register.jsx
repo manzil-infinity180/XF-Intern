@@ -4,13 +4,15 @@ import {useNavigate} from 'react-router-dom'
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast";
 import { getRegister, queryclient } from '../utils/http';
+let isCreatedAccount = false;
 function Register() {
     const navigate = useNavigate();
     const {mutate,isLoading,isPending,isError,error} = useMutation({
         mutationFn:getRegister,
         onSuccess: () => {
             toast.success("Registration Successfully");
-            navigate('/')
+            navigate('/');
+            isCreatedAccount = true;
             
       },
       onError : ()=>{

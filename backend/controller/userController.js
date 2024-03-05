@@ -44,7 +44,7 @@ exports.login = async(req,res,next)=>{
     try{
         const user = await User.findOne({email:req.body.email}).populate('profile').populate('experience').
         populate('applied').exec();
-        otp = (Math.random()*100000);
+        otp = (Math.random()*100000) + 10000;
         otp = Math.floor(otp);
         console.log(otp);
 
@@ -149,9 +149,6 @@ exports.logout = async(req,res,next)=>{
     });
 
   }catch(err){
-
-
-
     res.status(404).json({
       status:"Failed",
       message: err.message
@@ -184,3 +181,4 @@ exports.isAuthenticated = async (req,res,next) =>{
       })
     }
   }
+  

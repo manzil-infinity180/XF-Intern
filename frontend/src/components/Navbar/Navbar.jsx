@@ -1,8 +1,33 @@
 import { useState } from 'react';
 import './Navbar.css'
 import { incValue } from '../utils/InputField';
+import { isAuth } from '../Login/Verify';
+import { getAppliedData, logoutUser, queryclient } from '../utils/http';
+import {useQuery} from "@tanstack/react-query";
+import {useNavigate} from "react-router-dom"
 function Navbar() {
-   
+    const navigate = useNavigate();
+    const [islog,setIslog] = useState(false);
+    const {data} = useQuery({
+        queryKey:['profile'],
+        queryFn: getAppliedData
+    });
+    const {isError,isLoading,error,refetch} = useQuery({
+        queryKey:['profile',islog],
+        queryFn: logoutUser,
+        enabled: false
+    });
+
+    function handlelogoutBtn(){
+        setIslog(true);
+        refetch();
+        window.location.reload(false);
+        
+    }
+
+
+    console.log(data);
+    
     console.log(incValue);
     return (
         <>
@@ -17,21 +42,45 @@ function Navbar() {
               <h2 className='logo_name_nav'>E<span style={{color:"red"}}>x</span>tremely <span style={{color:"red"}}>f</span>rustrated</h2>
             </div>
             <nav className='nav_icon'>
-                <div className='sign_div'>
+                {!data && <div className='sign_div'>
                     <a  href="/login" className='signin_btn'>Login</a>
-                </div>
-                <div className='sign_div'>
+                </div>}
+                {data ? 
+                (<div className='sign_div'>
+                    <a  href="/profile" className='signin_btn'>Update Profile</a>
+                </div>)
+                :
+                (<div className='sign_div'>
                     <a  href="/profile" className='signin_btn'>Create Profile</a>
-                </div>
+                </div>)}
 
                 <div className='sign_div'>
                     <a  href="/list" className='signin_btn'>Applied</a>
                 </div>
-                <a href='/register' className='preview_btn'>
+
+                {data && <a href='/register' className='preview_btn_coin preview_btn'>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="1.3rem">
+                <path fill="#ffd700" d="M504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-141.7-35.3c4.9-33-20.2-50.7-54.6-62.6l11.1-44.7-27.2-6.8-10.9 43.5c-7.2-1.8-14.5-3.5-21.8-5.1l10.9-43.8-27.2-6.8-11.2 44.7c-5.9-1.3-11.7-2.7-17.4-4.1l0-.1-37.5-9.4-7.2 29.1s20.2 4.6 19.8 4.9c11 2.8 13 10 12.7 15.8l-12.7 50.9c.8 .2 1.7 .5 2.8 .9-.9-.2-1.9-.5-2.9-.7l-17.8 71.3c-1.3 3.3-4.8 8.4-12.5 6.5 .3 .4-19.8-4.9-19.8-4.9l-13.5 31.1 35.4 8.8c6.6 1.7 13 3.4 19.4 5l-11.3 45.2 27.2 6.8 11.2-44.7a1038.2 1038.2 0 0 0 21.7 5.6l-11.1 44.5 27.2 6.8 11.3-45.1c46.4 8.8 81.3 5.2 96-36.7 11.8-33.8-.6-53.3-25-66 17.8-4.1 31.2-15.8 34.7-39.9zm-62.2 87.2c-8.4 33.8-65.3 15.5-83.8 10.9l14.9-59.9c18.4 4.6 77.6 13.7 68.8 49zm8.4-87.7c-7.7 30.7-55 15.1-70.4 11.3l13.5-54.3c15.4 3.8 64.8 11 56.8 43z"/></svg>
+                    {data.user.coins}
+                </a>}
+
+                {!data ? (<a href='/register' className='preview_btn preview_btn_coin'>
                     Register
                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z" clipRule="evenodd"></path></svg> 
 
-                </a>
+                </a>) :
+                (<a className='preview_btn preview_btn_coin'
+                style={{
+                    cursor:"pointer"
+                }}
+                onClick={handlelogoutBtn}>
+                Logout
+            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 24 24" aria-hidden="true" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M12.97 3.97a.75.75 0 011.06 0l7.5 7.5a.75.75 0 010 1.06l-7.5 7.5a.75.75 0 11-1.06-1.06l6.22-6.22H3a.75.75 0 010-1.5h16.19l-6.22-6.22a.75.75 0 010-1.06z" clipRule="evenodd"></path></svg> 
+
+            </a>)
+}
+                
+                
             </nav>
 
         </header>

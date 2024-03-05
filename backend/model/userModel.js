@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
      pic:{
       type:String,
      },
+     coins:{
+      type:Number,
+      default:500
+     },
      applied:[{
       type:mongoose.Schema.Types.ObjectId,
         ref:"Applied"

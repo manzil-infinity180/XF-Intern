@@ -24,7 +24,8 @@ function List() {
             </div>
             <div className="flex items-center my-10 flex-col justify-center ">
             {
-                data && data.user.applied.map((data)=> <Content data={data} key={data._id} applyBool={true}/>)
+                data && data.user.applied.map((data)=> <Content data={data} key={data._id} applyBool={true}
+                withdraw={true} />)
             }
             {
                 (isLoading || isPending) && <Loader />

@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
 import {getVerify, queryclient} from "../utils/http"
 import { useState } from 'react';
+export let isAuth = false;
 function Verify() {
     const navigate = useNavigate();
     const [post,setPost] = useState({
@@ -14,7 +15,8 @@ function Verify() {
         mutationFn:getVerify,
         onSuccess: () => {
             toast.success("Login Successfully ");
-            navigate('/home')
+            navigate('/home');
+            isAuth = true;
             
       },
       onError : ()=>{

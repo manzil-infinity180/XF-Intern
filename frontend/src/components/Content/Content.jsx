@@ -4,7 +4,7 @@ import { addToApplied } from '../utils/http';
 import './Content.css'
 import toast from 'react-hot-toast';
 import { useMutation } from "@tanstack/react-query"
-function Content({data,applyBool}) {
+function Content({data,applyBool,withdraw=false}) {
     const [applied,setApplied] = useState({});
     const {mutate,isLoading,isPending,isError,error,data:datax} = useMutation({
         mutationFn: addToApplied,
@@ -19,6 +19,10 @@ function Content({data,applyBool}) {
 
     })
 
+    function handleClickFunc(){
+        console.log(data);
+    }
+
 
     function handleClick(){
         // console.log(data);
@@ -30,7 +34,8 @@ function Content({data,applyBool}) {
         <>
        {data ? <div className='w-3/5 p-9 rounded-lg my-8' style={{
             backgroundColor:"#0a101f"
-        }}>
+            
+        }} onClick={handleClickFunc}>
              <div style={{
             display:"flex",
             justifyContent:"center",
@@ -71,6 +76,11 @@ function Content({data,applyBool}) {
 </div>
     <div className='flex justify-center mt-5 '>
        <button className='btn_applied' onClick={handleClick}>{applyBool && "✅ "}Applied</button>
+       {withdraw && <button className='btn_applied' 
+    //    onClick={handleClick}
+       >
+        {/* {applyBool && "✅ "} */}
+       {withdraw && "❌ Withdraw "}</button>}
     </div>
 
         </div> : <Loader />}
