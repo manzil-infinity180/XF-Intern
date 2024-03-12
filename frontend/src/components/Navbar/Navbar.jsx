@@ -21,7 +21,10 @@ function Navbar() {
     function handlelogoutBtn(){
         setIslog(true);
         refetch();
-        window.location.reload(false);
+        setTimeout(()=>{
+
+            window.location.reload(false);
+        },1000);
         
     }
 

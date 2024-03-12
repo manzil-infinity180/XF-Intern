@@ -15,15 +15,10 @@ function Register() {
             isCreatedAccount = true;
             
       },
-      onError : ()=>{
-        toast.error("Failed");
+      onError : (error)=>{
+        toast.error(error.info.message);
       },
-    });
-
-      if(isError){
-    toast.error(error);
-  }
-  
+    });  
 
     function handleSubmit(e){
         e.preventDefault();

@@ -11,7 +11,7 @@ exports.register = async(req,res,next)=>{
 
        const dup = await User.findOne({email : req.body.email});
        if(dup){
-        throw new Error("Already user existed");
+        throw new Error("Already user existed,Please Login");
        }
         const user = await User.create(req.body);
         console.log(user);
@@ -44,7 +44,7 @@ exports.login = async(req,res,next)=>{
     try{
         const user = await User.findOne({email:req.body.email}).populate('profile').populate('experience').
         populate('applied').exec();
-        otp = (Math.random()*100000) + 10000;
+        otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
         console.log(otp);
 

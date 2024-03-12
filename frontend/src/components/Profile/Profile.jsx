@@ -16,7 +16,7 @@ function Profile() {
             toast.success("Step 1 Completed");
             navigate('/step2')      
       },
-      onError : ()=>{
+      onError : (error)=>{
           toast.error("failed");
           toast.error(error.info.message)
       },

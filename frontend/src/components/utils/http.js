@@ -6,7 +6,7 @@ const server = `http://localhost:9009`
 
 export async function getRegister(post){
     const url = `${server}/api/v1/register`;
-    console.log(JSON.stringify(post));
+    // console.log(JSON.stringify(post));
     const res = await fetch(url,{
        method:"POST",
        body: JSON.stringify(post),
@@ -16,14 +16,15 @@ export async function getRegister(post){
       },
 
     });
-    console.log(res);
+    // console.log(res);
     if (!res.ok) {
       const error = new Error('An error occurred while fetching the events');
-    //   error.code = res.status;
-    //   error.info = await res.json();
+      error.code = res.status;
+      error.info = await res.json();
       throw error;
     }
     const {data} = await res.json();   
+    console.log(data);
     return data;
 }
 
@@ -172,6 +173,7 @@ export async function addToApplied(post){
   console.log(post);
   console.log(JSON.stringify(post));
   const url = `${server}/api/v1/apply`;
+  console.log(post);
   const res = await fetch(url,{
      method:"POST",
      body: JSON.stringify(post),
@@ -181,10 +183,12 @@ export async function addToApplied(post){
     },
 
   });
+  console.log(res);
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
+    
     throw error
   }
   const {data} = await res.json();   
@@ -205,5 +209,47 @@ export async function logoutUser(){
     throw error
   }
   const {data} = await res.json();   
+  console.log(data);
   return data;
+}
+export async function searchField(post){
+  const url = `https://job-56wq.onrender.com/api/v1/search/${post}`;
+  const res = await fetch(url,{
+     credentials :'include',
+     headers: {
+      'Content-type':'application/json'
+    },
+
+  });
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the events');
+    error.code = res.status;
+    error.info = await res.json();
+    console.log(error.info)
+    
+    throw error
+  }
+  const {data} = await res.json();   
+  return data;
+}
+export async function autoCompleteFunc(post){
+  const url = `https://job-56wq.onrender.com/api/v1/auto/${post}`;
+  const res = await fetch(url,{
+     credentials :'include',
+     headers: {
+      'Content-type':'application/json'
+    },
+
+  });
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the events');
+    error.code = res.status;
+    error.info = await res.json();
+    console.log(error.info)
+    
+    throw error
+  }
+  const {data} = await res.json();   
+  return data;
+  
 }

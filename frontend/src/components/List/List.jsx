@@ -28,6 +28,9 @@ function List() {
                 withdraw={true} />)
             }
             {
+                (data && data.user.applied.length === 0) && <h1>You do not applied to any Company yet</h1>
+            }
+            {
                 (isLoading || isPending) && <Loader />
             }
             </div>

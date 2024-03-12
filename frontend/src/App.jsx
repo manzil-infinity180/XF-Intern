@@ -39,6 +39,9 @@ function App() {
     },{
       path:"/list",
       element:<List/>
+    },{
+      path:'/search',
+      element:<h1>Hekki </h1>
     }
   ]);
 

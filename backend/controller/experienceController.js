@@ -6,6 +6,8 @@ exports.createExp = async(req,res,next)=>{
         const exp = await Experience.create(req.body);
 
         const user = await User.findById(req.user);
+       let calcCoins = user.coins + 75; // for every experience it will add 75 coins 
+        await User.findByIdAndUpdate(req.user,{coins:calcCoins});
         user.experience.unshift(exp._id);
         await user.save();
 

@@ -1,5 +1,6 @@
 const Applied = require('../model/appliedModel');
 const User = require("../model/userModel");
+const sendEmail = require('../utils/mailing');
 exports.apoliedStatus = async(req,res,next)=>{
     try{
         const id_data = req.body._id;
@@ -23,6 +24,15 @@ exports.apoliedStatus = async(req,res,next)=>{
          
         user.applied.unshift(exp._id);
         await user.save();
+
+        await sendEmail({
+          email: req.user.email,
+          subject : `Application to ${companyname} successfully submitted`,
+          message : `Your application has been submitted! \n
+          If there's a match, we will make an email introduction. \n
+          Company: ${companyname} | Role: ${roleName} | ${salary} \n
+          Browser more - https://frontend-anchors.onrender.com `,
+         });
 
 
         res.status(200).json({

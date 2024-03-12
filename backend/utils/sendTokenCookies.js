@@ -14,7 +14,7 @@ const sendCookiesAndToken = async (user,res) =>{
   // console.log("demo: "+signToken(45555555));
   // storing the token in cookie with the name 'jwt'
   await res.cookie('jwt',token,{
-    expires: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     // sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
     // sameSite : "none",

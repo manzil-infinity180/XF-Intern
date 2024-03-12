@@ -1,41 +1,61 @@
 import { useState } from 'react';
 import { Loader } from '../utils/Loader';
-import { addToApplied } from '../utils/http';
+import { addToApplied, getAppliedData } from '../utils/http';
 import './Content.css'
 import toast from 'react-hot-toast';
-import { useMutation } from "@tanstack/react-query"
+import { useMutation,useQuery } from "@tanstack/react-query"
+import {useNavigate } from "react-router-dom"
 function Content({data,applyBool,withdraw=false}) {
+
+    const navigate = useNavigate();
     const [applied,setApplied] = useState({});
     const {mutate,isLoading,isPending,isError,error,data:datax} = useMutation({
         mutationFn: addToApplied,
         onSuccess: (datax) => {
         //    console.log(datax);
-            toast.success("Applied"); 
+            toast.success("Successfully Applied"); 
       },
       onError : (error)=>{
         // console.log(error);
-          toast.error(error.info.message)
+        
+          toast.error(error.info.err)
       },
 
     })
 
-    function handleClickFunc(){
-        console.log(data);
-    }
+    const {data:isRegistered} = useQuery({
+        queryKey:['profile'],
+        queryFn: getAppliedData
+    });
+  
+
+    isRegistered && console.log(isRegistered);
+    
 
 
     function handleClick(){
         // console.log(data);
-        toast.success("Role : "+data.roleName);
-        setApplied(data);
-        mutate(data);
+        // if()
+        console.log(isRegistered.user.profile);
+        if(isRegistered && isRegistered.user.profile.length === 0){
+            toast.error("Create your profile first");
+            setTimeout(()=>{
+                navigate('/profile')
+
+            },1000);
+        }else{
+            toast.success("Role : "+data.roleName);
+            setApplied(data);
+            mutate(data);
+        }
+        
     }
     return (
         <>
        {data ? <div className='w-3/5 p-9 rounded-lg my-8' style={{
             backgroundColor:"#0a101f"
             
-        }} onClick={handleClickFunc}>
+        }}>
              <div style={{
             display:"flex",
             justifyContent:"center",

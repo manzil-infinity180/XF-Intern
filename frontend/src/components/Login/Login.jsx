@@ -18,8 +18,8 @@ function Login() {
             navigate('/verify')
             
       },
-      onError : (erro)=>{
-          toast.error("failed");
+      onError : (error)=>{
+        //   toast.error("failed");
           toast.error(error.info.message)
       },
     })
