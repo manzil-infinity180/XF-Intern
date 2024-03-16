@@ -1,7 +1,8 @@
 import {QueryClient} from "@tanstack/react-query"
 export const queryclient = new QueryClient();
 
-// const server = 'https://back-anchors.onrender.com'
+// const server = 'https://back-anchors-1.onrender.com'
+// const server = 'https://job-internship-finders.vercel.app';
 const server = `http://localhost:9009`
 
 export async function getRegister(post){
@@ -14,7 +15,6 @@ export async function getRegister(post){
        headers: {
         'Content-type':'application/json'
       },
-
     });
     // console.log(res);
     if (!res.ok) {
@@ -133,7 +133,7 @@ export async function addExperience(post){
   return data;
 }
 export async function getInternData(){
-  const url = 'https://job-56wq.onrender.com/api/v1';
+  const url = 'https://job-detail-api.vercel.app/api/v1';
   const res = await fetch(url,{
      credentials :'include',
      headers: {
@@ -213,7 +213,7 @@ export async function logoutUser(){
   return data;
 }
 export async function searchField(post){
-  const url = `https://job-56wq.onrender.com/api/v1/search/${post}`;
+  const url = `https://job-detail-api.vercel.app/api/v1/search/${post}`;
   const res = await fetch(url,{
      credentials :'include',
      headers: {
@@ -233,7 +233,7 @@ export async function searchField(post){
   return data;
 }
 export async function autoCompleteFunc(post){
-  const url = `https://job-56wq.onrender.com/api/v1/auto/${post}`;
+  const url = `https://job-detail-api.vercel.app/api/v1/auto/${post}`;
   const res = await fetch(url,{
      credentials :'include',
      headers: {

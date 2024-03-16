@@ -10,7 +10,7 @@ import SearchField from "../Search/SearchField";
 function Home() {
     const [jobDetail,setJobDetail] = useState([]);
     
-    const {data,isError,isLoading,isPending} = useQuery({
+    const {data,isError,isLoading,isPending,error} = useQuery({
         queryKey:['intern'],
         queryFn: getInternData
     });
@@ -31,7 +31,7 @@ function Home() {
             <SearchField />
             <div className="flex items-center my-10 flex-col justify-center ">
             {
-                data && data.detail.map((data)=> <Content data={data} key={data._id}/>)
+                data && data.detail.map((data)=> <Content data={data} key={data._id} error={error}/>)
             }
             {
                 (isLoading || isPending) && <Loader />

@@ -5,21 +5,27 @@ const signToken = (id) => {
 };
 
 
-const sendCookiesAndToken = async (user,res) =>{
+const sendCookiesAndToken = async (user,res,role='user') =>{
   // taking id of github profile
   console.log(user._id);
   if(!user._id) throw new Error("Something went wrong!");
   const token = signToken(user._id);
   console.log({token});
+
+  let jwt = 'jwt';
+  if(role==='admin'){
+    jwt = 'admin';
+  }
+
   // console.log("demo: "+signToken(45555555));
   // storing the token in cookie with the name 'jwt'
-  await res.cookie('jwt',token,{
+  await res.cookie(jwt,token,{
     expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
     httpOnly: true,
     // sameSite: process.env.NODE_ENV === "Development" ? "lax" : "none",
-    // sameSite : "none",
-    secure : false // development
-    // secure: true   // prod
+    sameSite : "none",
+    // secure : false // development
+    secure: true   // prod
   });
  
 

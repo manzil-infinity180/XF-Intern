@@ -2,7 +2,6 @@ import './Login.css'
 import {useNavigate} from 'react-router-dom'
 import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
-import {queryclient} from "../utils/http"
 import { useState } from 'react';
 import { getLogin } from '../utils/http';
 function Login() {
@@ -19,7 +18,6 @@ function Login() {
             
       },
       onError : (error)=>{
-        //   toast.error("failed");
           toast.error(error.info.message)
       },
     })

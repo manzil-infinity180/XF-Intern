@@ -5,19 +5,19 @@ import './Content.css'
 import toast from 'react-hot-toast';
 import { useMutation,useQuery } from "@tanstack/react-query"
 import {useNavigate } from "react-router-dom"
-function Content({data,applyBool,withdraw=false}) {
+function Content({data,applyBool,withdraw=false,error}) {
 
     const navigate = useNavigate();
     const [applied,setApplied] = useState({});
-    const {mutate,isLoading,isPending,isError,error,data:datax} = useMutation({
+    const {mutate,isLoading,isPending,isError} = useMutation({
         mutationFn: addToApplied,
-        onSuccess: (datax) => {
+        onSuccess: () => {
         //    console.log(datax);
             toast.success("Successfully Applied"); 
       },
       onError : (error)=>{
         // console.log(error);
-        
+          
           toast.error(error.info.err)
       },
 

@@ -60,16 +60,17 @@ function Register() {
             </p>
           </div>
         <div className='main_login_box'>
-           <p className='login_text'>Register</p>
+           <p className='login_text'>Register as Job Seeker / Recuriter</p>
             
                
                 <p className='login_description'>
-                    If you are successfully logged in or register, you will get the email for succession.
-                    It&#39;s password free sign in, because reset password link sucks.
+                   You have to register either as job seeker or recuriter. You can simply enter your email to that box...
                 </p>
+                <div className='big_container'>
+                    <div className='child_container'>
                 <form className='form_login' onSubmit={handleSubmit}>
                     <div className='form_label'>
-                    <label>Your Email</label>
+                    <label style={{fontSize:"1.2rem"}}>Your Email (For Recruiters)</label>
                     </div>
                     <input type='email' placeholder='Your email address' 
                     autoComplete='off' 
@@ -78,6 +79,21 @@ function Register() {
                     </input>
                     <button type='submit'>Get Register</button>
                 </form>
+                </div>
+                <div className='child_container'>
+                <form className='form_login' onSubmit={handleSubmit}>
+                    <div className='form_label'>
+                    <label style={{fontSize:"1.2rem"}}>Your Email (For Job Seeker)</label>
+                    </div>
+                    <input type='email' placeholder='Your email address' 
+                    autoComplete='off' 
+                    name='email'
+                   >
+                    </input>
+                    <button type='submit'>Get Register</button>
+                </form>
+                </div>
+                </div>
 
                 <div className='contine_content'>
                     <div className='div_continue'></div>

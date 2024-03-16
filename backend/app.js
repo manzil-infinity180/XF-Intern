@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
 const jobDetailRouter = require("./router/jobDetailRouter");
+const adminRouter = require("./router/adminRouter");
+const adminPostRouter = require("./router/adminPostRouter");
 const cookieParser = require('cookie-parser');
 const session = require("express-session");
 const cors = require('cors');
@@ -10,8 +12,10 @@ app.use(cookieParser());
 app.use(express.json());
 
 
+
 app.use(cors({
   // origin: ["https://frontend-anchors.onrender.com"],
+  // origin:["https://frontend-anchors.onrender.com/","http://localhost:5173"],
   origin:["http://localhost:5173"],
   methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"], 
   credentials:true
@@ -36,6 +40,9 @@ app.get("/message", (req, res) => {
   });
 
 app.use('/api/v1',jobDetailRouter);
+app.use('/api/admin',adminRouter);
+app.use('/api/post',adminPostRouter);
+
 app.get('/',(req,res)=>{
     res.send("Heellooo!!!!");
 })
