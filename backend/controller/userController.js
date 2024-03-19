@@ -6,30 +6,35 @@ const sendCookiesAndToken = require("../utils/sendTokenCookies.js");
 const cloudinary = require("cloudinary").v2;
 const User = require('../model/userModel.js');
 const Admin = require('../model/adminModel.js');
+let otp ;
+let userData;
 exports.register = async(req,res,next)=>{
     try{
-       const already = await User.findOne({email : req.body.email});
-       const adminExist = await Admin.findOne({email : req.body.email});
+        const {email,role} = req.body;
+       const already = await User.findOne({email : email});
+       const adminExist = await Admin.findOne({email : email});
 
        if(already){
         throw new Error("Already user existed,Please Login");
        }else if(adminExist){
         throw new Error("User and Admin email should be different !");
+       }else if(!req.body.role && req.body.role!=='adminn'){
+        throw new Error("Role to mention is must and from here you cannot be admin ,select as user");
        }
-        const user = await User.create(req.body);
-        console.log(user);
-        await sendEmail({
-            email: req.body.email,
-            subject : 'Xf Registration Successfully Done 🦾',
-            message : 'Thank You for Xf registration,you can explore the Xf',
-           })
-        await sendCookiesAndToken(user,res);
 
+       
+
+       otp = (Math.random()*1000) + 10000;
+        otp = Math.floor(otp);
+        console.log(otp);
+       userData = req.body;
+       await sendEmail({
+        email: req.body.email,
+        subject : 'Xf Registration OTP 🦾',
+        message : `Thank You for Xf registration, \n Your OTP for login is ${otp}`,
+       });
         res.status(200).json({
-            status:"Successfully Logined In",
-            data:{
-                user
-            }
+            status:"Successfully OTP Send",
           });
 
     }catch(err){
@@ -40,8 +45,7 @@ exports.register = async(req,res,next)=>{
 
     }
 }
-let otp ;
-let userData;
+
 
 exports.login = async(req,res,next)=>{
     try{
@@ -86,19 +90,26 @@ exports.verify = async(req,res,next)=>{
      if(OTP !== otp){
           throw new Error("Incorrect OTP please check it out")
      }
+     let user
+     if(userData.role){
+       user = await User.create(userData);
+        console.log(user);
 
-      const user = await User.findOne({email: userData})
+     }else{
+      user = await User.findOne({email: userData})
                                 .populate("profile")
-                                .populate("experience");
+                                .populate("experience")
+     }
+       
       
     
       await sendEmail({
-          email: userData,
+          email: userData.email,
           subject : 'Xf Registration Successfully Done 🦾',
           message : `Thank You for Xf registration,You are successfully logined in`,
          });
 
-      await sendCookiesAndToken(user,res);
+      await sendCookiesAndToken(user,res,'user');
 
       res.status(200).json({
           status:"Successfully Login in",
@@ -116,6 +127,8 @@ exports.verify = async(req,res,next)=>{
 
   }
 }
+
+
 
 
 exports.getUser = async(req,res,next)=>{

@@ -3,26 +3,39 @@ const validator = require("validator");
 const appliedSchema = new mongoose.Schema({
     id: {
         type: String,
-        unique:[true,"You already applied"]
      },
-     companyname:{
-        type:String,
+     type:{
+      type:String,
+      enum:['internship-onsite','job-onsite','internship-remote','job-remote'],
      },
-     website : {
+     companyId:{
         type:String,
      },
      roleName : {
         type:String,
      },
-     logo:{
-        type:String,
-     },
      salary:{
       type:Number,
      },
-     experience:{
-      type:String
-     }
+     duration:{
+      type:Number
+     },
+     website : {
+      type:String,
+   },
+   start:{
+    type:Date,
+   },
+   status:{
+      type:String,
+      default:"pending",
+      enum:["pending","inprogress","notselected","selected"]
+   },
+   userId:{
+      type:mongoose.Schema.Types.ObjectId,
+   }
+
+
 
 });
 

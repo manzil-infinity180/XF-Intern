@@ -26,7 +26,12 @@ const adminPostSchema = new mongoose.Schema({
      duration:{
         type:Number,
         required:[true,"Total duration of job/internship"]
+     },
+     userId:[{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User"
      }
+     ]
 
 });
 

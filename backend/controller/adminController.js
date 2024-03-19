@@ -20,25 +20,24 @@ exports.register = async(req,res,next)=>{
         throw new Error("Already user existed,Please Login");
        }else if(userExist){
         throw new Error("User & Admin should have different email address!");
+       }else if(!req.body.role &&req.body.role!=='user' ){
+        throw new Error("You can not be user from here or role is must to entered here")
        }
-        const adminData = req.body;
-        adminData.hiring = new Date().getFullYear();
-        const x = uuidv4();
-        adminData.uuid = x;
-        const admin = await Admin.create(adminData);
-        console.log(admin);
-        await sendEmail({
-            email: req.body.email,
-            subject : 'Xf Registration Successfully Done 🦾 [ADMIN]',
-            message : 'Thank You for Xf registration,you can explore the Xf. We are welcoming you all post your job and internship and hired the person who is fit with your team',
-           });
-        await sendCookiesAndToken(admin ,res,'admin');
+       userData = req.body;
+       otp = (Math.random()*1000) + 10000;
+       otp = Math.floor(otp);
+       console.log(otp);
+
+
+       await sendEmail({
+        email: req.body.email,
+        subject : 'Xf Registration OTP 🦾',
+        message : `Thank You for Xf registration, \n Your OTP for login is ${otp}`,
+       });
+        
 
         res.status(200).json({
-            status:"Successfully Created [ADMIN]",
-            data:{
-                admin
-            }
+            status:"Successfully OTP Send",
           });
 
     }catch(err){
@@ -53,8 +52,9 @@ exports.register = async(req,res,next)=>{
 
 exports.login = async(req,res,next)=>{
     try{
-        const user = await Admin.findOne({email:req.body.email});
 
+        const user = await Admin.findOne({email:req.body.email});
+        console.log(user)
         otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
         console.log(otp);
@@ -62,7 +62,7 @@ exports.login = async(req,res,next)=>{
         if(!user){
           throw new Error("No user existed with these email id")
         }
-        userData = req.body.email;
+        userData = req.body;
        console.log(user);
         await sendEmail({
             email: req.body.email,
@@ -94,22 +94,34 @@ exports.verify = async(req,res,next)=>{
      if(OTP !== otp){
           throw new Error("Incorrect OTP please check it out")
      }
+    let admin
+     if(userData.role){
 
-      const user = await Admin.findOne({email: userData});
+      const adminData = userData;
+        adminData.hiring = new Date().getFullYear();
+        const x = uuidv4();
+        adminData.uuid = x;
+         admin = await Admin.create(adminData);
+        console.log(admin);
+     }else{
+       admin = await Admin.findOne({email: userData.email});
+
+     }
+
     
       await sendEmail({
-          email: userData,
+          email: userData.email,
           subject : 'Xf Registration Login [ADMIN] 🦾',
           message : `Thank You for Xf registration,You are successfully logined in`,
          });
 
-      await sendCookiesAndToken(user,res,'admin');
+      await sendCookiesAndToken(admin,res,'admin');
 
       res.status(200).json({
           status:"Successfully Login in",
 
           data:{
-              user
+              admin
           }
         });
 
@@ -164,10 +176,10 @@ exports.logout = async(req,res,next)=>{
 exports.updateDetails = async  (req,res,next) =>{
     try{
         
-        const {email,image,coins,post} = req.body;
-        if(email || image || coins || post ){
+        const {email,image,coins,post,role} = req.body;
+        if(email || image || coins || post || role ){
             throw new Error(
-                "you can not change the image,email,coins,post fields"
+                "you can not change the image,email,coins,post,role fields"
             )
         }
         

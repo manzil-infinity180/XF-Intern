@@ -29,4 +29,7 @@ router.post('/exp',experienceController.createExp);
 router.post('/apply',appliedController.apoliedStatus);
 router.get('/get-all',appliedController.getAllApplied);
 
+// new applied way 
+router.post('/applied',appliedController.applyToRole);
+
 module.exports = router;

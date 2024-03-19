@@ -44,7 +44,7 @@ exports.createJob = async(req,res,next)=>{
        calcCoins += user.coins;
         await User.findByIdAndUpdate(req.user,{coins:calcCoins});
 
-        user.profile.unshift(profile._id);
+        user.profile =profile._id;
         await user.save();
 
         res.status(200).json({

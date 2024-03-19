@@ -11,8 +11,6 @@ const cloudinary = require("cloudinary").v2;
 app.use(cookieParser());
 app.use(express.json());
 
-
-
 app.use(cors({
   // origin: ["https://frontend-anchors.onrender.com"],
   // origin:["https://frontend-anchors.onrender.com/","http://localhost:5173"],
