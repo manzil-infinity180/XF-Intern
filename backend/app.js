@@ -36,7 +36,6 @@ app.use(bodyParser.json());
 app.get("/message", (req, res) => {
     res.json({ message: "Hello from server!" });
   });
-
 app.use('/api/v1',jobDetailRouter);
 app.use('/api/admin',adminRouter);
 app.use('/api/post',adminPostRouter);

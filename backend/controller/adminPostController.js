@@ -3,6 +3,8 @@ const Post = require("../model/adminPostModel");
 const Applied = require("../model/appliedModel");
 const User = require("../model/userModel");
 const sendEmail = require('../utils/mailing');
+const client = require("../utils/redisConnect");
+let path = 'api/post'
 const successResponse = (res,output,responseCode=200)=>{
     res.status(responseCode).json({
         length:output.length,
@@ -70,6 +72,15 @@ exports.viewPost = async(req,res,next) =>{
     try{
         // get the post using the _id of post
         const post = await Post.findById(req.params.id);
+        try{
+          const key = req.originalUrl || req.url;
+          console.log(key);
+        await client.set(key,JSON.stringify(post),'ex',5*60*60);
+        console.log("done")
+
+      }catch(err){
+        console.error("Redis Error "+err);
+      }
 
         successResponse(res,post,200);
     }catch(err){
@@ -79,8 +90,19 @@ exports.viewPost = async(req,res,next) =>{
 exports.viewAllPost = async(req,res,next) =>{
     try{
         const post = await Post.find({});
+        console.log(req.originalUrl);
+        try{
+            const key = req.originalUrl || req.url;
+            console.log(key);
+          await client.set(key,JSON.stringify(post),'ex',5*60*60);
+          console.log("done")
 
-        successResponse(res,post,200);
+        }catch(err){
+          console.error("RedisError "+err);
+        }
+       
+       
+        successResponse(res,post ,200);
     }catch(err){
         failedResponse(res,err,400);
     }
@@ -108,6 +130,15 @@ exports.getAllPostofAdmin = async(req,res,next) =>{
         const uuid = req.admin.uuid;
         console.log(uuid);
         const data  = await Post.find({adminId:uuid});
+        try{
+          const key = req.originalUrl || req.url;
+          console.log(key);
+        await client.set(key,JSON.stringify(data),'ex',5*60*60);
+        console.log("done")
+
+      }catch(err){
+        console.error("RedisError "+err);
+      }
         // getting all the role that admin posted 
         successResponse(res,data,200);
     }catch(err){
@@ -120,6 +151,14 @@ exports.getAllPostofOthers = async(req,res,next) =>{
         console.log(uuid);
         const data  = await Post.find({adminId:uuid});
         // getting all the role that others admin(only one) posted 
+
+        try{
+            const key = req.originalUrl || req.url;
+          await client.set(key,JSON.stringify(data),'ex',86400);
+        }catch(err){
+          console.error("Redis Error "+err);
+        }
+        
         successResponse(res,data,200);
     }catch(err){
         failedResponse(res,err,400);
@@ -138,6 +177,15 @@ exports.getAllUserApplied = async(req,res,next) =>{
         }
         const data  = await Post.findById(id,{userId:1}).populate("userId");
         // getting all the role that others admin(only one) posted 
+
+        try{
+            const key = req.originalUrl || req.url;
+          await client.set(key,JSON.stringify(data),'ex',5*60*60);
+          console.log("done");
+        }catch(err){
+          console.error("Redis Error "+err);
+        }
+
         successResponse(res,data,200);
     }catch(err){
         failedResponse(res,err,400);

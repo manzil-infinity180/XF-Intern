@@ -6,6 +6,7 @@ const sendCookiesAndToken = require("../utils/sendTokenCookies.js");
 const cloudinary = require("cloudinary").v2;
 const User = require('../model/userModel.js');
 const Admin = require('../model/adminModel.js');
+const redisClient = require("../utils/redisConnect.js");
 let otp ;
 let userData;
 exports.register = async(req,res,next)=>{
@@ -94,6 +95,8 @@ exports.verify = async(req,res,next)=>{
      if(userData.role){
        user = await User.create(userData);
         console.log(user);
+        await redisClient.set(req.path, 120, JSON.stringify({user: user}));
+
 
      }else{
       user = await User.findOne({email: userData})
@@ -139,6 +142,14 @@ exports.getUser = async(req,res,next)=>{
         const user = await User.findById(req.user).populate("profile").populate("experience")
         .populate('applied').exec();
         console.log(user);
+
+      try{
+       const key = req.originalUrl || req.url;
+        await redisClient.set(key,JSON.stringify({data : user}),'ex',5*60*60);
+      }catch(err){
+        console.error("RedisError : "+err);
+      }
+
         res.status(200).json({
             status:"Success",
             data:{

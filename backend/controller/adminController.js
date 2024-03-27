@@ -140,6 +140,12 @@ exports.getAdminDetail = async(req,res,next)=>{
         throw new Error("You are logout now , please login again")
       }
         const user = await Admin.findById(req.admin);
+        try{
+          const key = req.originalUrl || req.url;
+           await redisClient.set(key,JSON.stringify({data : user}),'ex',5*60*60);
+         }catch(err){
+           console.error("RedisError : "+err);
+         }
 
         res.status(200).json({
             status:"Success",

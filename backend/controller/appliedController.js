@@ -3,6 +3,7 @@ const User = require("../model/userModel");
 const Adminpost = require("../model/adminPostModel");
 const sendEmail = require('../utils/mailing');
 const Admin = require('../model/adminModel');
+const client = require("../utils/redisConnect");
 exports.apoliedStatus = async(req,res,next)=>{
     try{
         const id_data = req.body._id;
@@ -57,6 +58,14 @@ exports.getAllApplied = async(req,res,next)=>{
         if(!exp){
             throw new Error("No applied Company yet");
         }
+        // redis part - caching - setting the value 
+        const key = req.originalUrl || req.url;
+        try{
+          await client.set(key,JSON.stringify({data : exp}),'ex',5*60*60);
+        }catch(err){
+          console.error("Redis Error "+err);
+        }
+
 
         res.status(200).json({
           status:"Success",
