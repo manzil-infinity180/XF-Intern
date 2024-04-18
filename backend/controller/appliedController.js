@@ -40,9 +40,7 @@ exports.apoliedStatus = async(req,res,next)=>{
 
         res.status(200).json({
           status:"Success",
-          data:{
-            exp
-          }
+          exp
         });
     
       }catch(err){
@@ -60,18 +58,9 @@ exports.getAllApplied = async(req,res,next)=>{
         }
         // redis part - caching - setting the value 
         const key = req.originalUrl || req.url;
-        try{
-          await client.set(key,JSON.stringify({data : exp}),'ex',5*60*60);
-        }catch(err){
-          console.error("Redis Error "+err);
-        }
-
-
         res.status(200).json({
           status:"Success",
-          data:{
-            exp
-          }
+          exp
         });
     
       }catch(err){
@@ -92,22 +81,36 @@ exports.getAllApplied = async(req,res,next)=>{
 // adminpost ki id
 exports.applyToRole = async(req,res,next) =>{
   try{
-    // post
+    // post 
+    // company detail
       const {_id,type,name,adminId,salary,duration,
-      website,start} = req.body;
-      const user = await User.findById(req.user);
-      if(!user.profile){
-        throw new Error("User must have profile to apply anypost");
+      website,start,description,companyName,skills,
+      deadline} = req.body;
+      if(!req.user){
+        throw new Error("Login/Register first!");
       }
+      const user = await User.findById(req.user);
+      console.log("userId"+user._id);
+      const checkApplied = await Applied.findOne({$and:[{
+        pid:_id},{userId:user._id}]});
+        console.log("checkApplied");
+        console.log(checkApplied);
+        if(checkApplied){
+          throw new Error("Already Applied");
+        }
       const data = await Applied.create({
-      id: _id,
+      pid: _id,
       type,
       companyId:adminId,
       roleName: name,
       salary,
       duration,
+      description,
+      deadline,
       website,
       start,
+      companyName,
+      skills,
       userId:user._id
     });
     
@@ -148,10 +151,6 @@ exports.applyToRole = async(req,res,next) =>{
       status:"success",
       message:"Yeah bro successfully applied ohhhh..."
     })
-
-      
-
-
   }catch(err){
     console.log(err);
     res.status(400).json({
@@ -161,7 +160,3 @@ exports.applyToRole = async(req,res,next) =>{
 
   }
 }
-
-
-
-

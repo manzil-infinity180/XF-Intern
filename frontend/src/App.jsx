@@ -10,6 +10,17 @@ import { queryclient } from "./components/utils/http";
 import Verify from "./components/Login/Verify";
 import { UploadImages } from "./components/UploadImg/UploadImg";
 import List from "./components/List/List";
+import { AdminPost } from "./components/ADMIN/AdminPost";
+import { AdminAllPost } from "./components/ADMIN/AdminAllPost";
+import { UpdatePost } from "./components/ADMIN/UpdatePost";
+import { JobApplyPanel } from "./components/USER/JobApplyPanel";
+import { CompanyDetailsAndOpening } from "./components/USER/CompanyDetailsAndOpening";
+import { UpdateAdmin } from "./components/ADMIN/UpdateAdmin";
+import { WhoApplied } from "./components/ADMIN/WhoApplied";
+import { UserDetailsPreview } from "./components/USER/UserDetailsPreview";
+import { UserDetailsAndUpdate } from "./components/USER/UserDetailsAndUpdate";
+import { Bookmark } from "./components/USER/Bookmark";
+
 function App() {
   const router = createBrowserRouter([
     {
@@ -40,8 +51,35 @@ function App() {
       path:"/list",
       element:<List/>
     },{
-      path:'/search',
-      element:<h1>Hekki </h1>
+      path:'/admin/post',
+      element:<AdminPost/>
+    },{
+      path:'/admin/allpost',
+      element:<AdminAllPost/>
+    },{
+      path:'/admin/update/:id',
+      element:<UpdatePost />
+    },{
+      path:'/user/job',
+      element:<JobApplyPanel />
+    },{
+      path:'/admin/:adminId',
+      element:<CompanyDetailsAndOpening />
+    },{
+      path:'/admin/profile/edits',
+      element:<UpdateAdmin />
+    },{
+      path:"/admin/stats/:postId",
+      element:<WhoApplied />
+    },{
+      path:'/user/profile/:id',
+      element:<UserDetailsPreview />
+    },{
+      path:'/user/profile/edits',
+      element:<UserDetailsAndUpdate />
+    },{
+      path:'/user/bookmark',
+      element:<Bookmark />
     }
   ]);
 

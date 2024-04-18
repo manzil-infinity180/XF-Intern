@@ -3,7 +3,10 @@ import '../Login/Login.css'
 import {useNavigate} from 'react-router-dom'
 import { useMutation } from "@tanstack/react-query"
 import toast from "react-hot-toast";
+import {useDispatch,useSelector} from "react-redux";
 import { getRegister, queryclient } from '../utils/http';
+import { registerAdmin } from '../../redux/actions/adminAction';
+import InputField from '../utils/InputField';
 let isCreatedAccount = false;
 function Register() {
     const navigate = useNavigate();
@@ -11,7 +14,7 @@ function Register() {
         mutationFn:getRegister,
         onSuccess: () => {
             toast.success("Registration Successfully");
-            navigate('/');
+            navigate('/verify');
             isCreatedAccount = true;
             
       },
@@ -19,6 +22,8 @@ function Register() {
         toast.error(error.info.message);
       },
     });  
+ 
+     const [isUser,setIsUser] = useState(true);
 
     function handleSubmit(e){
         e.preventDefault();
@@ -27,6 +32,19 @@ function Register() {
         console.log(data);
         mutate(data);
     }
+
+    const dispatch = useDispatch();
+    let {loading,isAuthenticated,isRedirect} = useSelector(state => state.admin);
+    console.log(loading);
+
+    function handleAdminSubmit(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        dispatch(registerAdmin(data,navigate));  
+    }
+
+
     return (
         <>
     <header className='header_login'>
@@ -60,40 +78,79 @@ function Register() {
             </p>
           </div>
         <div className='main_login_box'>
+            
            <p className='login_text'>Register as Job Seeker / Recuriter</p>
             
                
                 <p className='login_description'>
                    You have to register either as job seeker or recuriter. You can simply enter your email to that box...
                 </p>
-                <div className='big_container'>
-                    <div className='child_container'>
-                <form className='form_login' onSubmit={handleSubmit}>
-                    <div className='form_label'>
-                    <label style={{fontSize:"1.2rem"}}>Your Email (For Recruiters)</label>
+                <div style={{
+                    display:"flex",
+                    justifyContent:"center"
+                }}>
+                    <input type='radio' style={{
+                        tabSize:"5px",
+                        width:"2%"
+                    }} checked = {isUser ? true : false} onChange={() => setIsUser(true)}/>
+                <label style={{
+                    margin:"0 20px",
+                    fontSize:"1.25rem"
+                }}>User (Job Seeker)</label>
+                   <input type="radio" checked = {isUser ? false : true} style={{
+                        tabSize:"5px",
+                        width:"2%"
+                    }} onChange={()=> setIsUser(false)}/>
+            <label style={{
+                    margin:"0 20px",
+                    fontSize:"1.25rem"
+                }}>Admin (Recuriter)</label>
                     </div>
-                    <input type='email' placeholder='Your email address' 
-                    autoComplete='off' 
-                    name='email'
-                   >
-                    </input>
+               { isUser &&    
+                <form className='form_login' onSubmit={handleSubmit}>
+                    <InputField name="name" placeholder="Enter your fullname" 
+                    type="text" required={true}>Full Name</InputField>
+                    <InputField name="email" placeholder="Enter your EmailId" 
+                    type="email" required={true}>Your Email (JOB SEEKER)</InputField>
+                    <InputField name="mobile" placeholder="Enter your mobile number" 
+                    type="number"required={true}>Mobile Number</InputField>
+                    <InputField name="college_name" placeholder="Your College name" 
+                    type="text"required={true}>College Name</InputField>
+                    <InputField name="degree" placeholder="B.Tech in Computer Science" 
+                    type="text" required={true}>Degree & Major</InputField>
+                    <InputField name="year" placeholder="Expected passing year" 
+                    type="number"required={true} >Passing Year</InputField>
+                    <InputField name="linkedin" placeholder="Enter Linkedin URL" 
+                    type="text" >Linkedin</InputField>
+                    <InputField name="github" placeholder="Enter Github URL" 
+                    type="text" >Github</InputField>
+                    <InputField name="resume" placeholder="Enter Resume Browser URL" 
+                    type="text" >Resume</InputField>  
+                    <button type='submit'>Get Register</button>
+                </form>}
+
+                {!isUser &&
+                <form className='form_login' onSubmit={handleAdminSubmit}>
+                    <InputField name="name" placeholder="Enter your Company Name" 
+                    type="text" required={true}>Full Name</InputField>
+                    <InputField name="email" placeholder="Enter your Company EmailId" 
+                    type="email" required={true}>Company Email Id</InputField>
+                    <InputField name="summary" placeholder="Enter about your company (Must be lesser than 75 words)" 
+                    type="text" required={true}>Summary</InputField>
+                    <InputField name="year" placeholder="Year of Establishment" 
+                    type="number"required={true}>Year of Establishment</InputField>
+                    <InputField name="field" placeholder="Your Company Field like IT industry  ..." 
+                    type="text" required={true}>Major Field of Company</InputField>
+                    <InputField name="employee" placeholder="Approx number of employee working" 
+                    type="number">Employee</InputField>
+                    <InputField name="website" placeholder="Enter Website URL" 
+                    type="text">Website</InputField>
+                    <InputField name="linkedin" placeholder="Enter Linkedin URL" 
+                    type="text" >Linkedin</InputField>
+
                     <button type='submit'>Get Register</button>
                 </form>
-                </div>
-                <div className='child_container'>
-                <form className='form_login' onSubmit={handleSubmit}>
-                    <div className='form_label'>
-                    <label style={{fontSize:"1.2rem"}}>Your Email (For Job Seeker)</label>
-                    </div>
-                    <input type='email' placeholder='Your email address' 
-                    autoComplete='off' 
-                    name='email'
-                   >
-                    </input>
-                    <button type='submit'>Get Register</button>
-                </form>
-                </div>
-                </div>
+                }
 
                 <div className='contine_content'>
                     <div className='div_continue'></div>

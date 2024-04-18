@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const appliedSchema = new mongoose.Schema({
-    id: {
+      pid: {
         type: String,
      },
      type:{
@@ -11,7 +11,7 @@ const appliedSchema = new mongoose.Schema({
      companyId:{
         type:String,
      },
-     roleName : {
+     name : {
         type:String,
      },
      salary:{
@@ -26,6 +26,15 @@ const appliedSchema = new mongoose.Schema({
    start:{
     type:Date,
    },
+   deadline:{
+      type:Date
+   },
+   companyName:{
+      type:String
+   },
+   description:{
+      type:String
+   },
    status:{
       type:String,
       default:"pending",
@@ -33,6 +42,10 @@ const appliedSchema = new mongoose.Schema({
    },
    userId:{
       type:mongoose.Schema.Types.ObjectId,
+   },
+   logo:{
+      type:String,
+      default:'https://internshala.com/static/images/company/logo.svg'
    }
 
 

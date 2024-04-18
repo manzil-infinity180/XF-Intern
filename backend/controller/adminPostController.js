@@ -1,4 +1,6 @@
+const { query } = require("express");
 const Admin = require("../model/adminModel");
+const Adminpost = require("../model/adminPostModel");
 const Post = require("../model/adminPostModel");
 const Applied = require("../model/appliedModel");
 const User = require("../model/userModel");
@@ -7,7 +9,6 @@ const client = require("../utils/redisConnect");
 let path = 'api/post'
 const successResponse = (res,output,responseCode=200)=>{
     res.status(responseCode).json({
-        length:output.length,
         status:"success",
         output
         
@@ -30,6 +31,7 @@ exports.createPost= async (req,res,next)=>{
     const adminid = authAdmin.uuid;
     const adminData = req.body;
     adminData.adminId = adminid;
+    adminData.companyName = authAdmin.name;
 
     const post = await Post.create(adminData);
 
@@ -71,16 +73,16 @@ exports.updatePost = async(req,res,next) =>{
 exports.viewPost = async(req,res,next) =>{
     try{
         // get the post using the _id of post
-        const post = await Post.findById(req.params.id);
-        try{
-          const key = req.originalUrl || req.url;
-          console.log(key);
-        await client.set(key,JSON.stringify(post),'ex',5*60*60);
-        console.log("done")
+        const post = await Post.findById(req.params.id).populate('userId');
+      //   try{
+      //     const key = req.originalUrl || req.url;
+      //     console.log(key);
+       
+      //   console.log("done")
 
-      }catch(err){
-        console.error("Redis Error "+err);
-      }
+      // }catch(err){
+      //   console.error("Redis Error "+err);
+      // }
 
         successResponse(res,post,200);
     }catch(err){
@@ -89,12 +91,11 @@ exports.viewPost = async(req,res,next) =>{
 }
 exports.viewAllPost = async(req,res,next) =>{
     try{
-        const post = await Post.find({});
-        console.log(req.originalUrl);
+        const post = await Post.find({}).limit(req.query.limit).skip(req.query.skip);
+        
         try{
             const key = req.originalUrl || req.url;
             console.log(key);
-          await client.set(key,JSON.stringify(post),'ex',5*60*60);
           console.log("done")
 
         }catch(err){
@@ -129,17 +130,10 @@ exports.getAllPostofAdmin = async(req,res,next) =>{
     try{
         const uuid = req.admin.uuid;
         console.log(uuid);
-        const data  = await Post.find({adminId:uuid});
-        try{
-          const key = req.originalUrl || req.url;
-          console.log(key);
-        await client.set(key,JSON.stringify(data),'ex',5*60*60);
-        console.log("done")
-
-      }catch(err){
-        console.error("RedisError "+err);
-      }
-        // getting all the role that admin posted 
+        // if(req.query === '')
+        console.log("helloooooo");
+        console.log(req.query.limit);
+        const data  = await Post.find({adminId:uuid}).populate('userId'); 
         successResponse(res,data,200);
     }catch(err){
         failedResponse(res,err,400);
@@ -150,15 +144,6 @@ exports.getAllPostofOthers = async(req,res,next) =>{
         const uuid = req.params.uuid;
         console.log(uuid);
         const data  = await Post.find({adminId:uuid});
-        // getting all the role that others admin(only one) posted 
-
-        try{
-            const key = req.originalUrl || req.url;
-          await client.set(key,JSON.stringify(data),'ex',86400);
-        }catch(err){
-          console.error("Redis Error "+err);
-        }
-        
         successResponse(res,data,200);
     }catch(err){
         failedResponse(res,err,400);
@@ -178,13 +163,13 @@ exports.getAllUserApplied = async(req,res,next) =>{
         const data  = await Post.findById(id,{userId:1}).populate("userId");
         // getting all the role that others admin(only one) posted 
 
-        try{
-            const key = req.originalUrl || req.url;
-          await client.set(key,JSON.stringify(data),'ex',5*60*60);
-          console.log("done");
-        }catch(err){
-          console.error("Redis Error "+err);
-        }
+        // try{
+        //     const key = req.originalUrl || req.url;
+        //   await client.set(key,JSON.stringify(data),'ex',5*60*60);
+        //   console.log("done");
+        // }catch(err){
+        //   console.error("Redis Error "+err);
+        // }
 
         successResponse(res,data,200);
     }catch(err){
@@ -200,8 +185,11 @@ exports.statusChange = async(req,res,next)=>{
     try{
       const admin = await Admin.findById(req.admin._id);
       console.log(admin)
-      const {status} = req.body;
-      const appliedDetail = await Applied.findOne({id:req.params.id});
+      const {status,pid,userId} = req.body;
+      // applied _id (we need to fetch other data)
+      const appliedDetail = await Applied.findOne({$and:[{
+        pid:pid},{userId:userId}]});
+        const currentStatus = appliedDetail.status;
       console.log(appliedDetail)
       if(status === appliedDetail.status ){
         throw new error("Click on other status to change the status of application")
@@ -220,7 +208,7 @@ exports.statusChange = async(req,res,next)=>{
       })
       res.status(200).json({
         status:"success",
-        message:`Status change from ${appliedDetail.status} to ${status}`
+        message:`Status change from ${currentStatus} to ${status}`
       })
     }catch(err){
         console.log(err);
@@ -229,7 +217,146 @@ exports.statusChange = async(req,res,next)=>{
         message: err.message
       });
     }
-  }
+}
 
+// get the applied post from companyid and userid -> so in frontend we can change the status
+
+// adminId(companyId) / userId (uuid) / post id(_id / pid(in Applied)) // get STATUS
+
+exports.getStatusofApplied = async(req,res,next) =>{
+    try{
+        
+        const {pid,userId,companyId} = req.body;
+        
+        const checkApplied = await Applied.findOne({$and:[{
+         pid:pid},{userId:userId},{companyId:companyId}]});
+         console.log(checkApplied);
+        successResponse(res,checkApplied,200);
+    }catch(err){
+        failedResponse(res,err,400);
+    }
+  } 
+  exports.searchField = async(req,res,next)=>{
+    try{
+      console.log(req.params.search);
+      console.log(req.query.name);
+      const {searchfield} = req.body;
+      let results = [];
+       results = await Adminpost.aggregate([
+        { $search: {
+            index: 'default',
+            text: {
+            //   query: req.params.search,
+              query: searchfield,
+              path:["companyName","name","type","skills"],
+              fuzzy: {"maxEdits": 1, "prefixLength": 1, "maxExpansions": 256},
+                // path:{
+                //   wildcard:"*"
+                // },
+            }
+          }
+        }
+      ]);
+      console.log(results);
+  
+      res.status(200).json({
+          status:"success",
+          results
+      })
+  
+    }catch(err){
+      
+      res.status(404).json({
+        status:"Failed",
+        err:err.message
+      })
+  
+    }
+  }
+  exports.autoComplete = async(req,res,next)=>{
+    try{
+  
+      let result = [];
+      const {searchfield} = req.body;
+      results = await Adminpost.aggregate([
+        // {
+        //   '$search': {
+        //     'index': 'autoComplete', 
+        //     'autocomplete': {
+        //       'query':searchfield,
+        //       path:"name",
+        //       "tokenOrder":"sequential"
+        //     }
+        //   }
+        // }, {
+        //   '$limit': 5
+        // }, {
+        //   '$project': {
+        //     'name': 1,
+        //   }
+        // }
+       { 
+        "$search": {
+          'index': 'autoComplete', 
+          compound: {
+              should: [
+                  {
+                      autocomplete: {
+                          query:searchfield,
+                          path: 'name',
+                          fuzzy: {"maxEdits": 1, "prefixLength": 1, "maxExpansions": 256}
+                      },
+                  },
+                  {
+                      autocomplete: {
+                          query:searchfield,
+                          path: 'skills',
+                          fuzzy: {"maxEdits": 1, "prefixLength": 1, "maxExpansions": 256}
+                      },
+                  },
+                  {
+                    autocomplete: {
+                        query:searchfield,
+                        path: 'companyName',
+                        fuzzy: {"maxEdits": 1, "prefixLength": 1, "maxExpansions": 256}
+                    },
+                },
+              ],
+          },
+      },
+    },
+    {$limit: 8},
+      ])
+      
+      res.status(200).json({
+        status:"success",
+        results
+      })
+  
+    }catch(err){
+      res.status(404).json({
+        status:"Failed",
+        err:err.message
+      })
+    }
+  }
+// search 
+/*
+
+
+[
+  {
+    $search: {
+      index: "default",
+      text: {
+        query: "john,robert,doc",
+        path: {
+          wildcard: "*"
+        }
+      }
+    }
+  }
+]
+*/
 
   

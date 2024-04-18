@@ -17,7 +17,13 @@ const adminPostSchema = new mongoose.Schema({
         type:String,
      },
      start:{
-      type:Date,
+      type:String,
+     },
+     deadline:{
+      type:String
+     },
+     companyName:{
+      type:String
      },
      salary:{
         type:Number,
@@ -30,8 +36,16 @@ const adminPostSchema = new mongoose.Schema({
      userId:[{
       type:mongoose.Schema.Types.ObjectId,
       ref:"User"
+     },
+     ],
+     description:{
+      type:String,
+      required:[true,"Description is required field"]
+     },
+     skills:{
+      type:String,
+      required:[true,"Skills required field is most important"]
      }
-     ]
 
 });
 

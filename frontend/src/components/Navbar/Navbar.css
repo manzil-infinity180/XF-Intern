@@ -23,6 +23,10 @@
     font-size: 1.25rem;
 
  }
+ .text_class{
+    font-size: 3.5rem;
+    color: white;
+ }
  .social_logo_linkedin{
     padding: 0.5rem;
     position: relative;

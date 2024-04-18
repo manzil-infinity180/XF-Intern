@@ -64,6 +64,8 @@ export async function getVerify(post){
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
+    console.log(error.info);
+    console.log(error);
     throw error
   }
   const {data} = await res.json();   
@@ -133,7 +135,7 @@ export async function addExperience(post){
   return data;
 }
 export async function getInternData(){
-  const url = 'https://job-detail-api.vercel.app/api/v1';
+  const url = 'https://job-56wq.onrender.com/api/v1';
   const res = await fetch(url,{
      credentials :'include',
      headers: {
@@ -164,6 +166,7 @@ export async function getAppliedData(){
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
+    // console.log(error.info);
     throw error
   }
   const {data} = await res.json();   
@@ -172,7 +175,7 @@ export async function getAppliedData(){
 export async function addToApplied(post){
   console.log(post);
   console.log(JSON.stringify(post));
-  const url = `${server}/api/v1/apply`;
+  const url = `${server}/api/v1/applied`;
   console.log(post);
   const res = await fetch(url,{
      method:"POST",
@@ -188,6 +191,7 @@ export async function addToApplied(post){
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
+    console.log(error.info);
     
     throw error
   }
@@ -213,33 +217,38 @@ export async function logoutUser(){
   return data;
 }
 export async function searchField(post){
-  const url = `https://job-detail-api.vercel.app/api/v1/search/${post}`;
+  console.log(post);
+  const url = `${server}/api/post/search`;
   const res = await fetch(url,{
+     method:"POST",
      credentials :'include',
+     body:JSON.stringify(post),
      headers: {
       'Content-type':'application/json'
     },
-
   });
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
     console.log(error.info)
-    
     throw error
   }
-  const {data} = await res.json();   
+  const data = await res.json(); 
+  console.log("data");
+  console.log(data);  
   return data;
 }
 export async function autoCompleteFunc(post){
-  const url = `https://job-detail-api.vercel.app/api/v1/auto/${post}`;
+  console.log(post);
+  const url = `${server}/api/post/autocomplete`;
   const res = await fetch(url,{
+     method:"POST",
      credentials :'include',
+     body: JSON.stringify(post),
      headers: {
       'Content-type':'application/json'
     },
-
   });
   if (!res.ok) {
     const error = new Error('An error occurred while fetching the events');
@@ -249,7 +258,9 @@ export async function autoCompleteFunc(post){
     
     throw error
   }
-  const {data} = await res.json();   
+  const data = await res.json(); 
+  console.log("data");
+  console.log(data);  
   return data;
   
 }

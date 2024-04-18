@@ -7,11 +7,13 @@ const cloudinary = require("cloudinary").v2;
 const User = require('../model/userModel.js');
 const Admin = require('../model/adminModel.js');
 const redisClient = require("../utils/redisConnect.js");
+const storage = multer.memoryStorage();
+const upload = multer({storage});
 let otp ;
 let userData;
 exports.register = async(req,res,next)=>{
     try{
-        const {email,role} = req.body;
+       const {email,role} = req.body;
        const already = await User.findOne({email : email});
        const adminExist = await Admin.findOne({email : email});
 
@@ -19,8 +21,6 @@ exports.register = async(req,res,next)=>{
         throw new Error("Already user existed,Please Login");
        }else if(adminExist){
         throw new Error("User and Admin email should be different !");
-       }else if(!req.body.role && req.body.role!=='adminn'){
-        throw new Error("Role to mention is must and from here you cannot be admin ,select as user");
        }
 
        
@@ -29,6 +29,8 @@ exports.register = async(req,res,next)=>{
         otp = Math.floor(otp);
         console.log(otp);
        userData = req.body;
+       userData.role = "user";
+
        await sendEmail({
         email: req.body.email,
         subject : 'Xf Registration OTP 🦾',
@@ -50,7 +52,9 @@ exports.register = async(req,res,next)=>{
 
 exports.login = async(req,res,next)=>{
     try{
-        const user = await User.findOne({email:req.body.email}).populate('profile').populate('experience').
+
+       
+        const user = await User.findOne({email:req.body.email},{role:0}).populate('profile').populate('experience').
         populate('applied').exec();
         otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
@@ -59,7 +63,7 @@ exports.login = async(req,res,next)=>{
         if(!user){
           throw new Error("No user existed with these email id")
         }
-        userData = req.body.email;
+        userData = user;
        console.log(user);
         await sendEmail({
             email: req.body.email,
@@ -83,11 +87,19 @@ exports.login = async(req,res,next)=>{
 }
 exports.verify = async(req,res,next)=>{
   try{
+
+    if(req.admin){
+      res.clearCookie('admin');
+    }
+    console.log("checking");
+    console.log(req.cookies.admin);
+
     let OTP = Number(req.body.otp);
     console.log("doc");
       console.log(OTP);
       console.log(otp)
       console.log(userData);
+      console.log("userdata");
      if(OTP !== otp){
           throw new Error("Incorrect OTP please check it out")
      }
@@ -95,17 +107,14 @@ exports.verify = async(req,res,next)=>{
      if(userData.role){
        user = await User.create(userData);
         console.log(user);
-        await redisClient.set(req.path, 120, JSON.stringify({user: user}));
-
-
      }else{
-      user = await User.findOne({email: userData})
+      console.log("hello .....")
+      user = await User.findOne({email: userData.email})
                                 .populate("profile")
                                 .populate("experience")
      }
        
-      
-    
+      console.log(user);
       await sendEmail({
           email: userData.email,
           subject : 'Xf Registration Successfully Done 🦾',
@@ -116,13 +125,11 @@ exports.verify = async(req,res,next)=>{
 
       res.status(200).json({
           status:"Successfully Login in",
-
-          data:{
               user
-          }
         });
 
   }catch(err){
+    console.log(err);
       res.status(400).json({
           status:"Failed",
           message:err.message
@@ -143,13 +150,6 @@ exports.getUser = async(req,res,next)=>{
         .populate('applied').exec();
         console.log(user);
 
-      try{
-       const key = req.originalUrl || req.url;
-        await redisClient.set(key,JSON.stringify({data : user}),'ex',5*60*60);
-      }catch(err){
-        console.error("RedisError : "+err);
-      }
-
         res.status(200).json({
             status:"Success",
             data:{
@@ -165,6 +165,25 @@ exports.getUser = async(req,res,next)=>{
 
     }
 }
+exports.getUserById = async(req,res,next)=>{
+  try{
+      const id = req.params.id;
+      const user = await User.findById(id);
+      console.log(user);
+      
+      res.status(200).json({
+          status:"Success",
+          user
+        });
+
+  }catch(err){
+      res.status(400).json({
+          status:"Failed",
+          message:err.message
+        })
+
+  }
+}
 exports.logout = async(req,res,next)=>{
   try{
     
@@ -175,6 +194,39 @@ exports.logout = async(req,res,next)=>{
       message : "Logout successfully"
     });
 
+  }catch(err){
+    res.status(404).json({
+      status:"Failed",
+      message: err.message
+    });
+  }
+}
+exports.addbookmark = async(req,res,next)=>{
+  try{
+    
+    if(!req.user) throw new Error("Login first!!");
+    const {bookmark_id} = req.body;
+    const user = await User.findById(req.user);
+    user.bookmark.push(bookmark_id);
+    user.save();
+    res.status(200).json({
+      status:"Success",
+      message : "Bookmark successfully"
+    });
+
+  }catch(err){
+    res.status(404).json({
+      status:"Failed",
+      message: err.message
+    });
+  }
+}
+exports.expandBookmark = async (req,res,next) => {
+  try{
+     const bookmark = await User.findById(req.user).populate("bookmark");
+     res.status(200).json({
+      bookmark
+    });
   }catch(err){
     res.status(404).json({
       status:"Failed",
@@ -208,4 +260,68 @@ exports.isAuthenticated = async (req,res,next) =>{
       })
     }
   }
+  exports.imageUpload = upload.single('pic');
   
+  exports.updateUser = async(req,res,next)=>{
+    try{
+  
+      const updatedData = {};
+      console.log(req.body);
+      const user = await User.findById(req.user);
+  
+      let url;
+      console.log(req.file)
+      if(req.file && req.file.fieldname === 'pic'){
+      const b64 = Buffer.from(req.file.buffer).toString("base64");
+      let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+      let result = await cloudinary.uploader.upload(dataURI,{
+        folder:"job-logo"
+      });
+      updatedData.pic = result.url;
+      } 
+      
+      
+  
+        const detail = await User.findByIdAndUpdate(req.user,updatedData,{
+        run:true,
+        runValidators:true
+        })
+          res.status(200).json({
+              status:"Success",
+              detail
+          });
+      }catch(err){
+          res.status(404).json({
+              status:"Failed",
+              data:{
+                err:err.message
+              }
+            })
+      }
+  }
+
+  
+  /*
+    const imageSize = 10 * 1024 * 1024;
+    if(imageSize < req.file.size){
+      throw new Error("Your file must be less than 10 MB")
+    }
+  if (req.file.fieldname === 'photo') {
+  if (!updateData.photo) {
+    console.log(req.file);
+    
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    // imageURL = req.file.filename;
+    // let imagePath = `https://cloudinary-devs.github.io/cld-docs-assets/assets/images/${imageURL}`;
+    let result = await cloudinary.uploader.upload(dataURI,{
+      folder:"photo"
+    });
+    
+    
+    // console.log(result);
+  // updateData.image = req.file.filename;
+    updateData.image = result.url;
+  }
+} 
+  */

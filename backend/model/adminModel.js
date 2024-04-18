@@ -37,6 +37,7 @@ const adminSchema = new mongoose.Schema({
      },
      image:{
       type:String,
+      default:"https://res.cloudinary.com/dk9gvtcgx/image/upload/v1713268261/xfintern/skn3hfpq78ghwnhp4vyc.png"
      },
      hiring:{
       type:String,
@@ -52,6 +53,10 @@ const adminSchema = new mongoose.Schema({
       type:mongoose.Schema.Types.ObjectId,
       ref:"Adminpost"
    },],
+   role:{
+      type:String,
+      default:"admin"
+   }
 });
 
 

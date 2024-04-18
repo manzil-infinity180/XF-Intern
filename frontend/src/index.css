@@ -31,3 +31,116 @@ body{
 span{
   color: aliceblue;
 }
+.basic_div{
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+.popup {
+  /* display: none; */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  background-color: rgba(94, 91, 91, 0.35); /* Semi-transparent white background */
+  width: 100%;
+  max-width: 50%;
+  text-align: left;
+  border-radius: 0.375rem;
+  /* padding: 20px; */
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); */
+}
+.btn_clickable{
+  border: 1px solid rgba(194, 185, 185, 0.8);
+  background-color: transparent;
+  cursor:pointer;
+  color:white;
+  border-radius:25px;
+  padding:5px 10px;
+  font-weight: 500;
+  box-shadow: 0 5px 15px rgba(179 ,174 ,174, 0.20);
+  letter-spacing: 0.15rem;
+  margin:5px
+}
+
+.popup-content {
+  /* background-color: #7e7878; */
+  padding: 25px;
+  z-index: 9999;
+  /* width: 100%; */
+  border-radius: 10px;
+}
+
+.close {
+  position: absolute;
+  font-size: 5rem;
+  color: rgb(214, 13, 167);
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  width: 5%;
+  font-size: 2.5rem;
+}
+.blur-background {
+  filter: blur(5px); /* Blur the background */
+  /* display: none; */
+}
+#popupBlur{
+  filter: none;
+}
+.container-child > h2{
+  font-size: 1.15rem;
+  letter-spacing: 0.09rem;
+  margin: 0.15rem;
+}
+
+
+/* Update Details and update*/
+.container-big{
+    display: grid;
+    grid-template-columns: 2fr 2fr;
+    padding: 30px 20px;
+    margin: 3% 15%;
+    background: rgb(86 78 78 / 37%);
+    border-radius: 16px;
+}
+.container-big-img{
+   max-width:200px;
+   max-height:200px;
+   border-radius:16px;
+   width:200px;
+   height:200px;
+   margin: 2% 4%;
+}
+.fade-in-text {
+  font-family: Arial;
+  font-size: 150px;
+  animation: fadeIn 8s;
+}
+@keyframes fadeIn {
+  0% { opacity: 0.35; }
+  40% { opacity: 0.4; }
+  50% {opacity: 0.55;}
+  70% { opacity: 0.7; }
+  80% { opacity: 0.8; }
+  100% { opacity: 0.85; }
+}
+/* .cursor-default{
+  cursor: url(default-mouse.png), auto;
+  z-index: 1;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+} */
+@media screen and (max-width: 1080px) {
+    /* .navbar_header{
+      flex-direction: column;
+    }
+    .nav_icon{
+      flex-direction: column;
+    } */
+}

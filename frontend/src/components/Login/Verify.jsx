@@ -4,9 +4,14 @@ import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
 import {getVerify, queryclient} from "../utils/http"
 import { useState } from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import { verifyAdmin } from '../../redux/actions/adminAction';
+import {userSuccess } from '../../redux/admin/adminSlice';
 export let isAuth = false;
 function Verify() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const [post,setPost] = useState({
         email:''
     })
@@ -14,23 +19,33 @@ function Verify() {
     const {mutate,isLoading,isPending,isError,error} = useMutation({
         mutationFn:getVerify,
         onSuccess: () => {
-            toast.success("Login Successfully ");
+            toast.success("Login/Registration Successfully ");
             navigate('/home');
             isAuth = true;
+            dispatch(userSuccess());
             
       },
       onError : ()=>{
           toast.error("failed");
           toast.error(error.info.message)
       },
-    })
+    });
+    const selector = useSelector(s => s.admin);
+    console.log(selector);
+
+
    
     function handleSubmit(e){
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-    mutate(data);
-    
+        mutate(data);
+    }
+    function handleAdminSubmit(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        dispatch(verifyAdmin(data,navigate));
     }
     return (
         <>
@@ -68,7 +83,7 @@ function Verify() {
            <p className='login_text'>Verify Your OTP</p>
             
                
-                <form className='form_login' onSubmit={handleSubmit}>
+                <form className='form_login' onSubmit={selector.isAdmin ? handleAdminSubmit : handleSubmit}>
                     <div className='form_label'>
                     <label>Enter OTP</label>
                     </div>

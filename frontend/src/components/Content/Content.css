@@ -13,14 +13,90 @@
     margin-inline:auto;padding-inline:.5rem
 }
 .btn_applied{
-    border: 1px solid pink;
+    border: 1px solid rgba(194, 185, 185, 0.8);
     background-color: transparent;
-    padding: 5px 25px;
-    border-radius: 16px;
+    padding: 10px 10px;
+    border-radius: 10px;
     width: 25%;
-    margin: 0 5px;
+    margin: 10px 20px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(179, 174, 174, 0.20);
+    letter-spacing: 0.15rem;
 }
+.btn-detail{
+    border: 1px solid rgba(194, 185, 185, 0.8);
+    background-color: transparent;
+    padding: 10px 10px;
+    border-radius: 10px;
+    /* width: 20%; */
+    margin: 10px 20px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(179, 174, 174, 0.20);
+    letter-spacing: 0.15rem;
+}
+
 .btn_applied:hover{
-    border: none;
+    /* border: none; */
     opacity: 0.75;
+    box-shadow: 0 5px 15px rgba(211, 211, 211, 0.65);
+}
+
+.content-bg-image{
+    background-color:rgba(59,59,59,0.35);
+    border:0.75px solid rgba(255,255,255,0.4);
+    border-radius:0.95rem;
+    box-shadow: 1px 5px 15px rgba(179, 174, 174, 0.20);
+}
+.content-bg-image:hover{
+    box-shadow: 0 5px 15px rgba(179, 174, 174, 0.65);
+
+}
+.title-content-text{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    letter-spacing: 0.05em;
+}
+.opening_btn{
+    cursor: pointer; background-color: black; font-weight: 450; border-radius: 25px; padding: 10px 15px; margin: 15px 0px;
+}
+@media screen and (max-width: 1080px) {
+    .btn_applied{
+        padding: 1px 1px;
+        font-size: 0.65rem;
+        /* width: 15%; */
+    }
+    .content-salary{
+        width: 65%;
+        font-size: 0.65rem;
+    }   
+    .content-button-style{
+        font-size: 0.65rem;
+    }
+    .title-content-text{
+        font-size: 1.15rem;
+        /* text-align: center; */
+        letter-spacing: 0.03rem;
+    } 
+}
+@media screen and (max-width: 500px) {
+    .btn_applied{
+        padding: 0.7px 0.7px;
+        font-size: 0.42rem;
+    }
+    .content-salary{
+        width: 85%;
+        font-size: 0.42rem;
+    }   
+    .content-button-style{
+        font-size: 0.42rem;
+    } 
+    .title-content-text{
+        font-size: 0.42rem;
+        letter-spacing: 0;
+    }
+    .title-content-text{
+        font-size: 0.75rem;
+        /* text-align: center; */
+        letter-spacing: 0.03rem;
+    } 
 }

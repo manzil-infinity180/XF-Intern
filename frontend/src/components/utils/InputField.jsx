@@ -23,7 +23,7 @@ export let incValue = {
     "endExp":2,
     "coverLetter":20
 };
-function InputField({name,type,placeholder,children,required=false}) {
+function InputField({name,type,placeholder,children,required=false,style=''}) {
           
         // console.log(incValue);
         // const [formData, setFormData] = useState({
@@ -98,6 +98,7 @@ function InputField({name,type,placeholder,children,required=false}) {
                     autoComplete='off' 
                     name={name}
                     required={required} 
+                    style={{style}}
                     // onChange={handleInput(name)}
                     >
                     </input>

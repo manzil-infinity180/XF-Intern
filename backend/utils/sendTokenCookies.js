@@ -12,10 +12,14 @@ const sendCookiesAndToken = async (user,res,role='user') =>{
   const token = signToken(user._id);
   console.log({token});
 
+  // deleting the present cookies 
+  /* problem i */
+
   let jwt = 'jwt';
   if(role==='admin'){
     jwt = 'admin';
   }
+
 
   // console.log("demo: "+signToken(45555555));
   // storing the token in cookie with the name 'jwt'

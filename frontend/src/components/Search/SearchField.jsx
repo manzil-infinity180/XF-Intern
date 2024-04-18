@@ -2,54 +2,79 @@ import { useQuery } from "@tanstack/react-query"
 import { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast"
 import './SearchField.css'
+import { MdDelete } from "react-icons/md";
 import {useNavigate} from "react-router-dom"
 import {useMutation} from "@tanstack/react-query"
 import { autoCompleteFunc, searchField } from "../utils/http";
+import Content from "../Content/Content";
 function SearchField() {
     const [searchTerm,setSearchTerm] = useState("");
     const [autoComplete,setAutoComplete] = useState([]);
+    const [suggestion, setSuggestion] = useState(false);
+    const [trigger,setTrigger] = useState(false);
+    const [fansyvalue, setFansyValue] = useState("");
     const navigate = useNavigate();
 
     const {data, mutate,error} = useMutation({
       mutationFn: searchField,
       onSuccess : (data) =>{
         console.log(data);
+        toast.success(data.results.length + " results found");
       },
       onError:(error)=>{
-        toast.error(error.info.message);
+        
+        if(error.info.err.includes('"text.query"')){
+          toast.error("Query should not be empty");
+        }else{
+          toast.error(error.info.err);
+        }
       }
-
     });
 
     useEffect(()=>{
       async function functionFetch(x){
-        
-          const user = await autoCompleteFunc(x);
+          const post = {
+            searchfield : x
+          };
+          console.log(x);
+          const user = await autoCompleteFunc(post);
+          console.log(user);
           setAutoComplete(user.results);
-          // console.log(user);
-          console.log(autoComplete);
-  
+          // console.log(autoComplete);  
         }
         if(searchTerm.length > 0){
           functionFetch(searchTerm);
-
-        }
-      
-      
-    },[searchTerm,autoComplete]);
+        } 
+    },[searchTerm,trigger]);
 
 
      function handleSubmit(e){
            e.preventDefault();
-           toast.success(searchTerm);
-           mutate(searchTerm);
+           const post = {
+            searchfield : searchTerm
+          };
+           mutate(post);
            setSearchTerm("");
-
-          //  setTimeout(() => {
-          //    navigate('/search')
-          //  }, 1000);   
      }
-    
+     function handleSearchTerm(e){
+        setSearchTerm(e.target.value);
+        setTrigger(s => !s);
+        setSuggestion(s => !s);
+     }
+    function handleClickFunction(el){
+      console.log(searchTerm);
+      console.log(el.name);
+      setSearchTerm(el.name);
+      toast.success("You can add more text for search");
+      const post = {
+        searchfield : searchTerm
+      };
+      setTimeout(() => {
+        mutate(post);
+      },500);
+      setSearchTerm("");
+
+    }
     
     // data && console.log(data.searchedObj.length);
 
@@ -59,56 +84,79 @@ function SearchField() {
             <form 
             onSubmit={handleSubmit} 
             id="search-form">
+        {/* <input type='text' className='mx-6 lg:mx-0 flex items-center gap-4 rounded-[56px] bg-white/5 border border-white/[.15] backdrop-blur-xl py-2 px-4 z-10 text-white hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' placeholder='Search Here'/> */}
+          <div>
           <input
-           className="input_field_search"
+          style={{
+            margin:"0 25%"
+          }}
+           className=" search_field_class mx-4 pl-12 lg:mx-0 flex items-center gap-4 w-2/4 my-0  rounded-[56px] bg-white/5 border border-white/[.25] backdrop-blur-xl py-4 px-5 z-10 text-lg text-white hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer"
             type="search"
             placeholder="Search Job/Internship . . ."
             value={searchTerm}
-            onChange={(e)=>setSearchTerm(e.target.value)}
+            onChange={handleSearchTerm}
           />
-          <button type="submit"
-          className="submit_btn_input">Search</button>
-        </form>
-        {(autoComplete.length > 0 && searchTerm.length >0 ) && <ul>
+
+          {(autoComplete.length > 0 && searchTerm.length >0 && !suggestion ) && <ul>
         { 
         autoComplete.map((el)=>
-          <li key={el._id} style={{
-            padding:"4px 2px",
-            border:"1px solid black",
-            cursor:"pointer",
-            display:"flex",
-            margin:"2px auto",
-            width:"50%",
-            textAlign:"center",
-            justifyContent:"center",
-            // width:"50%",
-            
-            backgroundColor:"rgb(10, 16, 31)"
-
-          }}>
-            RoleName: {el.roleName} Company: {el.companyname}
-          </li>
-
+        <div key={el._id} style={{
+          margin:"5px 25%"
+         
+        }}
+        onClick={()=> handleClickFunction(el)}
+         className="mx-2 pl-12 lg:mx-0 flex items-center gap-4 w-2/4 my-0  rounded-[6px] bg-white/5 border border-white/[.25] backdrop-blur-xl py-3 px-5 z-10 text-lg text-white hover:scale-[1.01] transition-all duration-200 ease-out cursor-pointer">
+        {el.name}</div>
         )
         }
         </ul>}
-       
-            
+          
+          </div>
+          <button type="submit"
+          className="submit_btn_input hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer">Search</button>
+        </form> 
         </div>
-         {/* <div className='div_content'>
+        {data &&<div className="flex items-center flex-col justify-center ">
+          <h1 className="text-center text-4xl font-bold tracking-wider">Search Results </h1>
+          <h2 className="text-center text-1xl font-bold tracking-wider">Total Result Found : {data.results.length}</h2>
+          <h3>
+            <MdDelete style={{
+              fontSize:"1.5rem"
+            }}/>
+          </h3>
          {
-           data && data.searchedObj.map((user)=>
+           data && data.results.map((user)=>
              
-             <ContentUser user={user} key={user._id} />
+             <Content data={user} key={user._id} />
          ) 
          }
          {
-          data && data.searchedObj.length===0 && <h1 style={{textAlign:"center", 
+          data && data.results.length===0 && <>
+          <h1 style={{textAlign:"center", 
           color:"#7f8ea3",letterSpacing:"0.1cm"}}>
-            No user found</h1>
+            No Post found</h1>
+          </>
          }
-        
-      </div> */}
+        <h1 className="text-center text-3xl tracking-wider">----------------------------</h1>
+        <h1 className="text-center text-4xl font-bold tracking-wider">Other Openings</h1>
+
+      </div>}
+      <div>
+        <div className="filter_search">
+          <div className="search_bar3">
+            <div className="search_content">
+
+            </div>
+            <div className="search_content">
+                <div className="select__control select__control--is-focused css-1pahdxg-control">
+
+                </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
       </>
     );
 }

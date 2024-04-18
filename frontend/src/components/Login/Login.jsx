@@ -4,11 +4,16 @@ import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
 import { useState } from 'react';
 import { getLogin } from '../utils/http';
+
+import {useDispatch,useSelector} from "react-redux";
+// import {loginSuccess} from "../../redux/admin/adminSlice";
+import {loginAdmin} from "../../redux/actions/adminAction"
 function Login() {
     const navigate = useNavigate();
     const [post,setPost] = useState({
         email:''
     })
+    const [isUser,setIsUser] = useState(true);
      
     const {mutate,isLoading,isPending,isError,error} = useMutation({
         mutationFn:getLogin,
@@ -26,9 +31,22 @@ function Login() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-    mutate(data);
+        mutate(data);
     
     }
+    const dispatch = useDispatch();
+    let {loading,isAuthenticated,isRedirect} = useSelector(state => state.admin);
+    console.log(loading);
+
+    function handleAdminSubmit(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+       
+        dispatch(loginAdmin(data,navigate));  
+    }
+    
+
     return (
         <>
     <header className='header_login'>
@@ -69,16 +87,51 @@ function Login() {
                     If you are successfully logged in or register, you will get the email for succession.
                     It&#39;s password free sign in, because reset password link sucks.
                 </p>
-                <form className='form_login' onSubmit={handleSubmit}>
+                <div style={{
+                    display:"flex",
+                    justifyContent:"center",
+                    marginBottom:"3%"
+                }}>
+                    <input type='radio' style={{
+                        tabSize:"5px",
+                        width:"2%"
+                    }} checked = {isUser ? true : false} onChange={() => setIsUser(true)}/>
+                <label style={{
+                    margin:"0 20px",
+                    fontSize:"1.25rem"
+                }}>User (Job Seeker)</label>
+                   <input type="radio" checked = {isUser ? false : true} style={{
+                        tabSize:"5px",
+                        width:"2%"
+                    }} onChange={()=> setIsUser(false)}/>
+            <label style={{
+                    margin:"0 20px",
+                    fontSize:"1.25rem"
+                }}>Admin (Recuriter)</label>
+                    </div>
+
+                {isUser && <form className='form_login' onSubmit={handleSubmit}>
                     <div className='form_label'>
-                    <label>Your Email</label>
+                    <label>Your Email (As Job Seeker)</label>
                     </div>
                     <input type='email' placeholder='Your email address' 
                     autoComplete='off' 
                     name='email'>
                     </input>
                     <button type='submit'>Email</button>
-                </form>
+                </form>}
+
+                {!isUser && <form className='form_login' onSubmit={handleAdminSubmit}>
+                    <div className='form_label'>
+                    <label>Your Email (For Recruiters)</label>
+                    </div>
+                    <input type='email' placeholder='Your email address' 
+                    autoComplete='off' 
+                    name='email'>
+                    </input>
+                    <button type='submit'>Email</button>
+                </form>}
+
 
                 <div className='contine_content'>
                     <div className='div_continue'></div>
@@ -104,7 +157,7 @@ function Login() {
 
         </div>
         </section>
-    </main>
+    </main>     
         </>
     );
 }

@@ -14,9 +14,7 @@ exports.createExp = async(req,res,next)=>{
 
         res.status(200).json({
           status:"Success",
-          data:{
-            exp
-          }
+          exp
         });
     
       }catch(err){
