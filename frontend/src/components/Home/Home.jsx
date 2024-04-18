@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 import { MdEmail } from "react-icons/md";
 import Content from "../Content/Content";
 import { useQuery } from "@tanstack/react-query"
-import { getAppliedData, getInternData } from "../utils/http";
+// import { getAppliedData, getInternData } from "../utils/http";
 import toast from 'react-hot-toast';
 import { Loader } from "../utils/Loader";
 import SearchField from "../Search/SearchField";
@@ -16,18 +16,18 @@ import { getAllPostofAllAdmin } from "../../redux/actions/postAction";
 function Home() {
     const [jobDetail,setJobDetail] = useState([]);
     const [page, setPage] = useState(0);
-    const {data,isError,isLoading,isPending,error} = useQuery({
-        queryKey:['intern'],
-        queryFn: getInternData
-    });
-    data && console.log(data);
+    // const {data,isError,isLoading,isPending,error} = useQuery({
+    //     queryKey:['intern'],
+    //     queryFn: getInternData
+    // });
+    // data && console.log(data);
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getAllPostofAllAdmin(10,page));
     },[dispatch,page]);
     const selector = useSelector(s=>s.adminPost);
     selector && console.log(selector);
-    console.log(data);
+    // console.log(data);
     return (
         <>
         <Navbar />
@@ -41,19 +41,19 @@ function Home() {
              >{"InternShip / Jobs".toUpperCase()} </h1>
             </div>
             <SearchField />
-            <div className="flex items-center my-10 flex-col justify-center ">
+            {(selector && selector.allPostExist) ?<div className="flex items-center my-10 flex-col justify-center ">
                 {
                     selector && selector.allPostExist.length!==0 && selector.allPostExist.map((data)=> 
                 <Content data={data} key={data._id} />)
 
                 }
-            </div>
+            </div> : <Loader />}
             
         </section>
         {/* {
             data && data.map((_,i)=> <span>{i+1}</span>)
         } */}
-        <div style={{
+        {selector.allPostExist && <div style={{
             display:"flex",
             justifyContent:"center",
             margin:"20px 0"
@@ -77,7 +77,7 @@ function Home() {
                 cursor:"pointer"
             }} className="submit_btn_input hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer"
              onClick={()=> setPage(s => s+1)}>Next</button>}
-        </div>
+        </div>}
         <div style={{
             backgroundColor:"rgba(59,59,59,0.35)",
             display:"flex",

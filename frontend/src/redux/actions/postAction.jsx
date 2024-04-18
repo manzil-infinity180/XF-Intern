@@ -8,7 +8,8 @@ import { createPostSuccess, deletePostSuccess, getAllPostExist, getAllPostFailed
     getError,
     getPost,
     updatePostSuccess} from "../admin/postSlice";
-const server = `http://localhost:9009`
+// const server = `http://localhost:9009`
+const server = `https://xfintern-backend.onrender.com`;
 
 export const getAllPostofAllAdmin = (limit=10, skip=0) => async (dispatch) => {
   try{
@@ -24,7 +25,7 @@ export const getAllPostofAllAdmin = (limit=10, skip=0) => async (dispatch) => {
       error.code = res.status;
       error.info = await res.json();
       console.log(error.info);
-      // console.log(error);
+      console.log(error.info);
       throw error
     }
   const admin = await res.json();

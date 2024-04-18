@@ -6,7 +6,8 @@ import { getAdminDetailFailed, getAdminDetailSuccess, getAllAdminDetailSuccess, 
 import { getError } from "../admin/postSlice";
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';
-const server = `http://localhost:9009`
+// const server = `http://localhost:9009`
+const server = `https://xfintern-backend.onrender.com`;
 export const loginAdmin = (post,navigate) => async (dispatch) => {
     try{
         const url = `${server}/api/admin/login`;

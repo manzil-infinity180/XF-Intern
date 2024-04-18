@@ -3,7 +3,8 @@ export const queryclient = new QueryClient();
 
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';
-const server = `http://localhost:9009`
+// const server = `http://localhost:9009`
+const server = `https://xfintern-backend.onrender.com`;
 
 export async function getRegister(post){
     const url = `${server}/api/v1/register`;
@@ -134,24 +135,24 @@ export async function addExperience(post){
   const {data} = await res.json();   
   return data;
 }
-export async function getInternData(){
-  const url = 'https://job-56wq.onrender.com/api/v1';
-  const res = await fetch(url,{
-     credentials :'include',
-     headers: {
-      'Content-type':'application/json'
-    },
+// export async function getInternData(){
+//   const url = 'https://job-56wq.onrender.com/api/v1';
+//   const res = await fetch(url,{
+//      credentials :'include',
+//      headers: {
+//       'Content-type':'application/json'
+//     },
 
-  });
-  if (!res.ok) {
-    const error = new Error('An error occurred while fetching the events');
-    error.code = res.status;
-    error.info = await res.json();
-    throw error
-  }
-  const {data} = await res.json();   
-  return data;
-}
+//   });
+//   if (!res.ok) {
+//     const error = new Error('An error occurred while fetching the events');
+//     error.code = res.status;
+//     error.info = await res.json();
+//     throw error
+//   }
+//   const {data} = await res.json();   
+//   return data;
+// }
 
 export async function getAppliedData(){
   const url = `${server}/api/v1/get-user`;
