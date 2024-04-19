@@ -2,13 +2,15 @@ import { useState } from 'react';
 import { Loader } from '../utils/Loader';
 import { addToApplied, getAppliedData } from '../utils/http';
 import { useDispatch } from 'react-redux';
+import {FaLinkedin,FaFacebook } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { ImCross } from "react-icons/im";
 import './Content.css'
 import toast from 'react-hot-toast';
 import { useMutation,useQuery } from "@tanstack/react-query"
 import {Link, useNavigate } from "react-router-dom"
 import { addBookmark } from '../../redux/actions/postAction';
 function Content({data,applyBool,withdraw=false,error}) {
-     console.log(data);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [applied,setApplied] = useState({});
@@ -60,21 +62,9 @@ function Content({data,applyBool,withdraw=false,error}) {
     }
     return (
         <>
-       {data ? <div className='w-2/3 p-9 rounded-lg my-8 content-bg-image blurMe' style={{
+       {data ? <div className='intern-data blurMe' style={{
             // backgroundColor:"#0a101f"
         }}>
-             {
-             /* --------------- IMAGE SECTION ------
-             <div style={{
-            display:"flex",
-            justifyContent:"center",
-            marginBottom:'10px'
-        }}>
-            <img src={data.logo} alt="img-company" style={{
-                width:"80px",
-                // height:"100px
-            }} loading='lazy'/>
-        </div> */}
        <div className='flex justify-center'>
         <div>
            <h1 className='title-content-text'> {data.companyName.toUpperCase()}</h1>
@@ -85,21 +75,22 @@ function Content({data,applyBool,withdraw=false,error}) {
             {data.name}
         </div>
         </div>
-        <div className="flex justify-between mt-10 content-salary">
-        {/* <div className='tracking-wider'>Experience</div>
-        <div>Stipend</div>
-        <div>Type</div> */}
-        <span className='font-bold tracking-wider mx-2'>Stipend/Salary</span>
-        <span className='font-bold tracking-wider mx-2'>Type</span>
-        <span className='font-bold tracking-wider mx-2'>Duration</span>
 
+        <div className="intern-data-main content-salary">
+        <div className='intern-data-comp'>
+            <div> Stipend/Salary</div>
+            {data.salary}/month
+        </div>
+        <div className='intern-data-comp'>
+            <div>Duration</div>
+            {data.duration}
+        </div>
+        <div className='intern-data-comp'>
+            <div>Type</div>
+            {data.type}
+        </div>
 </div>
-<div className="flex justify-between mt-1">
-        <span className='mx-2 font-normal'>{data.salary}/month</span>
-        <span className='mx-2 font-normal' >{data.type}</span>
-        <span className='mx-2 font-normal'>{data.duration} months</span>
-</div>
-    <div className='flex justify-center mt-5 content-button-style'>
+    <div className='btn-applied-div'>
        <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
        <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={togglePopup}>Details</button>
        {withdraw && <button className='btn_applied' 
@@ -117,7 +108,14 @@ function Content({data,applyBool,withdraw=false,error}) {
 
         {details && <div className='popup'> 
                  <div className="popup-content">
-                  <span className="close" onClick={togglePopup}>&times;</span>
+                  
+                  <div className='share-btn'>
+                  <a href={`https://twitter.com/intent/post?text=${data.companyName.toUpperCase()} (Role: ${data.name}) on Xf Intern&url=https://xfintern.onrender.com/admin/${data.adminId}&via=xfintern`} target="_blank"><span className=''><FaXTwitter /></span></a>
+                  <a href={`https://facebook.com/sharer/sharer.php?u=https://xfintern.onrender.com/admin/${data.adminId}`} target="_blank"><span className='share-comp'><FaFacebook /></span></a>
+                  <a href={`https://linkedin.com/shareArticle/?summary=${data.companyName.toUpperCase()} (Role: ${data.name}) on Xf Intern&mini=true&url=https://xfintern.onrender.com/admin/${data.adminId}`} target="_blank"><span className='share-comp'><FaLinkedin /></span></a>
+                  <span className="share-comp close" onClick={togglePopup}><ImCross /></span>
+                  </div>
+                  
        
                     <h1>Details</h1>
                     <h3>Company: {data.companyName.toUpperCase()}</h3>
@@ -152,3 +150,11 @@ function Content({data,applyBool,withdraw=false,error}) {
 }
 
 export default Content;
+
+/*
+
+href="https://www.linkedin.com/shareArticle/?summary=&mini=true&url=https://wellfound.com/l/2yqGJa"
+
+https://twitter.com/intent/post?text=Rahul Vishwakarma on Xf Intern&url=https://xfintern.onrender.com/
+href="http://facebook.com/sharer/sharer.php?u=https://wellfound.com/l/2yqGJ9"
+*/

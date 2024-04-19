@@ -25,9 +25,19 @@
 }
 .search_field_class{
     box-shadow: 0 5px 15px rgba(255, 255, 255, 0.20);
+    color: pink;
+    font-size: 5rem;
+    margin:"0 25%"
+}
+#search_field_class{    
+        margin:"0 25%"
 }
 .search_field_class:hover,.submit_btn_input:hover{
        box-shadow: 0 5px 15px rgba(255, 255, 255, 0.45);
+}
+.search-box{
+    text-align: center;
+    margin:7% 0 2% ;
 }
 @media (max-width:640px) {
     .input_field_search{
@@ -35,8 +45,15 @@
         width: 50%;
         padding: 0 25px;
     }
+    #search_field_class{
+        width: 50%;
+        color: pink;
+    }
     .submit_btn_input{
         font-size: 1.05rem;
+    }
+    .search-box{
+        margin: 12% 0 0;
     }
 }
 .filter_search {

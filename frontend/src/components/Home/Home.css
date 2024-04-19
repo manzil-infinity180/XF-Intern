@@ -1,3 +1,30 @@
 .section_content{
     margin-top: 7.5%;
 }
+
+.title-page{
+    font-size: 2.5rem;
+    text-align: center;
+    margin-top: 12%;
+    font-weight: 700;
+    line-height: 0.45;
+    /* text-center mt-8 text-5xl font-bold tracking-wider */
+}
+
+@media screen and (max-width: 1080px) {
+    .title-page{
+        font-size: 2.0rem;
+    }
+}
+@media screen and (max-width: 720px) {
+    .title-page{
+        font-size: 2rem;
+        margin-top: 18%;
+    }
+}
+@media screen and (max-width: 540px) {
+    .title-page{
+        font-size: 1.25rem;
+        margin-top: 25%;
+    }
+}

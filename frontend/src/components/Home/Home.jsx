@@ -35,7 +35,7 @@ function Home() {
         {/* <div className="cursor-default" /> */}
         <section className="w-full section_content">
             <div>
-             <h1 className="text-center mt-8 text-5xl font-bold tracking-wider" style={{
+             <h1 className="title-page" style={{
                 letterSpacing:"0.45rem"
              }}
              >{"InternShip / Jobs".toUpperCase()} </h1>
@@ -53,7 +53,7 @@ function Home() {
         {/* {
             data && data.map((_,i)=> <span>{i+1}</span>)
         } */}
-        {selector.allPostExist && <div style={{
+        {selector && selector.allPostExist && <div style={{
             display:"flex",
             justifyContent:"center",
             margin:"20px 0"

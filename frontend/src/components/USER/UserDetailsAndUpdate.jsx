@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { getLoginUserDetails, updateUserData } from '../../redux/actions/adminAction';
 import List from '../List/List';
 import ImageUploadDropDown from './ImageUploadDropDown';
+import { Loader } from '../utils/Loader';
 
 /*
  Copy for future Aspect 
@@ -46,7 +47,7 @@ export function UserDetailsAndUpdate() {
     }
     return (
         <>
-       { loginUser && <>
+       { loginUser ? <>
             <div className='container-big' style={{
                 marginTop:"100px"
             }}>
@@ -121,7 +122,7 @@ export function UserDetailsAndUpdate() {
 
             </div>
             <List />
-        </>
+        </> : <Loader />
         }
         </>
     );

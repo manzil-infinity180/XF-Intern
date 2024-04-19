@@ -45,7 +45,7 @@ function SearchField() {
         if(searchTerm.length > 0){
           functionFetch(searchTerm);
         } 
-    },[searchTerm,trigger]);
+    },[searchTerm,trigger,autoComplete]);
 
 
      function handleSubmit(e){
@@ -75,12 +75,18 @@ function SearchField() {
       setSearchTerm("");
 
     }
+    // function removeSearch(){
+    //   setAutoComplete([]);
+    //   setTrigger(s => !s);
+    //   console.log(autoComplete);
+    //   setSearchTerm("");
+    // }
     
     // data && console.log(data.searchedObj.length);
 
     return (
       <>
-        <div style={{textAlign:"center", margin:"100px 0"}}>
+        <div className="search-box">
             <form 
             onSubmit={handleSubmit} 
             id="search-form">
@@ -90,11 +96,13 @@ function SearchField() {
           style={{
             margin:"0 25%"
           }}
+          id="search_field_class"
            className=" search_field_class mx-4 pl-12 lg:mx-0 flex items-center gap-4 w-2/4 my-0  rounded-[56px] bg-white/5 border border-white/[.25] backdrop-blur-xl py-4 px-5 z-10 text-lg text-white hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer"
             type="search"
             placeholder="Search Job/Internship . . ."
             value={searchTerm}
             onChange={handleSearchTerm}
+            autoComplete='off'
           />
 
           {(autoComplete.length > 0 && searchTerm.length >0 && !suggestion ) && <ul>
@@ -119,11 +127,14 @@ function SearchField() {
         {data &&<div className="flex items-center flex-col justify-center ">
           <h1 className="text-center text-4xl font-bold tracking-wider">Search Results </h1>
           <h2 className="text-center text-1xl font-bold tracking-wider">Total Result Found : {data.results.length}</h2>
-          <h3>
+          {/* <h3 onClick={removeSearch} style={{
+            cursor:'pointer'
+          }}>
             <MdDelete style={{
               fontSize:"1.5rem"
+              
             }}/>
-          </h3>
+          </h3> */}
          {
            data && data.results.map((user)=>
              

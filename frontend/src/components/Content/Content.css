@@ -59,14 +59,48 @@
 .opening_btn{
     cursor: pointer; background-color: black; font-weight: 450; border-radius: 25px; padding: 10px 15px; margin: 15px 0px;
 }
+.intern-data{
+    /* w-2/3 p-9 rounded-lg my-8 content-bg-image */
+    width: 65%;
+    padding:2.25rem;
+    border-radius: 0.5rem;
+    margin: 2rem 0;
+    background-color: rgba(59, 59, 59, 0.35);
+    border: 0.75px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0.95rem;
+    box-shadow: 1px 5px 15px rgba(179, 174, 174, 0.20);
+}
+.intern-data-comp{
+    letter-spacing: .04rem;
+    font-weight: 700;
+    margin: 0 2rem;
+}
+.intern-data-main{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.25rem;
+}
+.btn-applied-div{
+    display: flex;
+    justify-content: center;
+    margin-top: 1.20rem;
+
+}
 @media screen and (max-width: 1080px) {
+    .intern-data{
+        padding: 0;
+        width: 90%;
+    }
+    .intern-data-comp{
+        margin: 0.55rem;
+    }
     .btn_applied{
-        padding: 1px 1px;
-        font-size: 0.65rem;
-        /* width: 15%; */
+        padding: 0.25rem 40px;
+        font-size: 0.75rem;
+        width: 25%;
     }
     .content-salary{
-        width: 65%;
+        width: 85%;
         font-size: 0.65rem;
     }   
     .content-button-style{
@@ -79,13 +113,23 @@
     } 
 }
 @media screen and (max-width: 500px) {
+    .intern-data{
+        width: 95%;
+        padding: 0;
+    }
+    /* .popup{
+        max-width: 100%;
+    } */
+    .intern-data-comp{
+        margin: 0.55rem;
+    }
     .btn_applied{
         padding: 0.7px 0.7px;
-        font-size: 0.42rem;
+        font-size: 0.52rem;
     }
     .content-salary{
-        width: 85%;
-        font-size: 0.42rem;
+        width: 100%;
+        font-size: 0.55rem
     }   
     .content-button-style{
         font-size: 0.42rem;

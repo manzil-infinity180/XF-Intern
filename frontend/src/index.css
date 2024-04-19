@@ -45,7 +45,7 @@ span{
   z-index: 9999;
   background-color: rgba(94, 91, 91, 0.35); /* Semi-transparent white background */
   width: 100%;
-  max-width: 50%;
+  max-width: 90%;
   text-align: left;
   border-radius: 0.375rem;
   /* padding: 20px; */
@@ -73,15 +73,18 @@ span{
 }
 
 .close {
-  position: absolute;
-  font-size: 5rem;
   color: rgb(214, 13, 167);
-  top: 10px;
-  right: 10px;
   cursor: pointer;
-  font-weight: 500;
-  width: 5%;
-  font-size: 2.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.share-btn{
+  display: flex;
+  gap: 2.5%;
+  cursor: pointer;
+  font-size: 1.35rem;
+  justify-content: right;
+  margin-right: 20px;
 }
 .blur-background {
   filter: blur(5px); /* Blur the background */
@@ -137,6 +140,9 @@ span{
   top: 0;
 } */
 @media screen and (max-width: 1080px) {
+  .popup{
+    font-size: 0.7rem;
+  }
     /* .navbar_header{
       flex-direction: column;
     }

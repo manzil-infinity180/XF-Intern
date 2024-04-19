@@ -80,3 +80,11 @@
     color: white;
     font-weight: 600;
 }
+@media screen and (max-width: 1080px) {
+    .xf-logo{
+         display: none;
+    }
+    .content-nav{
+        display: flex;
+    }
+}

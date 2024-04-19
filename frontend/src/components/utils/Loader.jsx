@@ -2,6 +2,7 @@ import { InfinitySpin } from 'react-loader-spinner'
 import logo from './ele-final.png';
 export const Loader = () => {
     return (
+      <>
         <div style={{textAlign:"center",justifyContent:"center",  display:"flex",
       margin:"10% 0"}}
         className='fade-in-text'>
@@ -24,8 +25,13 @@ export const Loader = () => {
   }} 
   loading="lazy"
   />
+  
 
         </div>
+        <p style={{
+          textAlign:"center"
+        }}>I am Using Free-tier so it will takes upto <b>50 seconds</b> to load/fetch. Sorry 🥲</p>
+        </>
     );
 };
 
