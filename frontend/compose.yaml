@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  client:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: xf-frontend-only
+    container_name: xf-only-frontend
+    volumes:
+      - ./:/frontend
+    ports: "5173:5173"
+    networks:
+      - xf-frontend
+networks:
+  xf-frontend:
+
+
+volumes:
+
+

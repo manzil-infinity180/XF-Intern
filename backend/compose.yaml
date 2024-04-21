@@ -1,0 +1,30 @@
+version: '3.9'
+services:
+  server:
+    build: 
+      context: ./
+      dockerfile: Dockerfile
+    image: backend-only-xfintern
+    container_name: backend-xfintern-only
+    volumes:
+      - ./:/backend
+    ports:
+      - "9009:9009"
+    env_file: ./config.env
+    depends_on:
+      - mongodb
+    networks:
+      - backend-newtorks
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - backend-newtorks
+    ports:
+      - "27017:27017"
+volumes:
+  mongodb:
+
+networks:
+  backend-newtorks:

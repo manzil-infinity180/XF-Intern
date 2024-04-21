@@ -40,6 +40,8 @@ services:
       - mongodb:/data/db
     networks:
       - mynetwork
+    ports:
+      - "27017:27017"
 
 volumes:
   mongodb:
