@@ -1,0 +1,49 @@
+version: '3.9'
+
+#services 
+services:
+  # Server services
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: xfintern-server
+    container_name: xfintern_backend
+    volumes:
+      - ./:/server
+    ports:
+      - "9009:9009"
+    env_file: ./backend/config.env
+    depends_on:
+      - mongodb
+    networks:
+      - mynetwork
+  # Frontend Services
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    image: xfintern-client
+    container_name: xfintern_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - server
+    volumes:
+      - ./:/client
+    networks: 
+      - mynetwork
+  # Mongodb Services
+  mongodb:
+    image: mongo:latest
+    volumes:
+      - mongodb:/data/db
+    networks:
+      - mynetwork
+
+volumes:
+  mongodb:
+
+
+networks:
+  mynetwork:

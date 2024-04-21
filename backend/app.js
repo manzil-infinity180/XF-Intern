@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(cors({
   // origin: ["https://frontend-anchors.onrender.com"],
-  origin:["*","https://xfintern.onrender.com","http://localhost:5173"],
+  origin:["https://xfintern.onrender.com","http://localhost:5173","http://localhost:5000","*"],
   // origin:["http://localhost:5173"],
   methods: ["GET,HEAD,PUT,PATCH,POST,DELETE"], 
   credentials:true

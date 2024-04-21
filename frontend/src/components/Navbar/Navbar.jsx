@@ -13,7 +13,6 @@ function Navbar() {
     const {isAuthenticated} = useSelector(s => s.admin);
     const  selector = useSelector(s  => s.admin);
     console.log(selector);
-    const [menu,setMenu] = useState(false)
     const [islog,setIslog] = useState(false);
     const [enable,setEnable] = useState(false);
     const {data,refetch:fetchMe} = useQuery({
@@ -66,7 +65,6 @@ function Navbar() {
                 <img src="https://res.cloudinary.com/dk9gvtcgx/image/upload/v1713337557/job-logo/knycmbmkqrcfzpx3r2au.png" alt=""
                 width="165px"
                 className='hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
-                loading="lazy"
                 />
             <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
              width="45" height="70" viewBox="0 0 2000 1520" className='xf-logo'>
