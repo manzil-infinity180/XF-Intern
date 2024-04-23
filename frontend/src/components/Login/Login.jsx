@@ -6,16 +6,12 @@ import { useState } from 'react';
 import { getLogin } from '../utils/http';
 
 import {useDispatch,useSelector} from "react-redux";
-// import {loginSuccess} from "../../redux/admin/adminSlice";
 import {loginAdmin} from "../../redux/actions/adminAction"
-function Login() {
+export function Login() {
     const navigate = useNavigate();
-    const [post,setPost] = useState({
-        email:''
-    })
     const [isUser,setIsUser] = useState(true);
      
-    const {mutate,isLoading,isPending,isError,error} = useMutation({
+    const {mutate} = useMutation({
         mutationFn:getLogin,
         onSuccess: () => {
             toast.success("Otp sent Successfully ");
@@ -25,7 +21,7 @@ function Login() {
       onError : (error)=>{
           toast.error(error.info.message)
       },
-    })
+    });
    
     function handleSubmit(e){
         e.preventDefault();
@@ -35,8 +31,7 @@ function Login() {
     
     }
     const dispatch = useDispatch();
-    let {loading,isAuthenticated,isRedirect} = useSelector(state => state.admin);
-    console.log(loading);
+    let {loading} = useSelector(state => state.admin);
 
     function handleAdminSubmit(e){
         e.preventDefault();
@@ -161,5 +156,3 @@ function Login() {
         </>
     );
 }
-
-export default Login;

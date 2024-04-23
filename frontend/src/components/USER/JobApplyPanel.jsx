@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
 import { Loader } from "../utils/Loader";
 import { JobDetails } from "./JobDetails";
@@ -6,12 +5,7 @@ import {useDispatch,useSelector} from "react-redux";
 import { getAllPost } from "../../redux/actions/postAction";
 import { useEffect } from "react";
 export function JobApplyPanel() {
-    // const [jobDetail, setJobDetail] = useState([]);
-
     const dispatch = useDispatch();
-
-    // dispatch(getAllPost());
-    // const selector = useSelector(s=>s.adminPost);
     const selector1 = useSelector(s => s.admin);
     console.log(selector1);
     useEffect(() => {

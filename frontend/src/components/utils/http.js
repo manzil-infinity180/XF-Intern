@@ -3,8 +3,18 @@ export const queryclient = new QueryClient();
 
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';
-// const server = `http://localhost:9009`
-const server = `https://xfintern-backend.onrender.com`;
+const server = `http://localhost:9009`
+// const server = `https://xfintern-backend.onrender.com`;
+
+const removeCookies = () => {
+  sessionStorage.removeItem("loginValue");
+}
+const cookiesState = (valueX) => {
+  if(sessionStorage.getItem("loginValue")){
+    sessionStorage.removeItem("loginValue");
+  }
+  sessionStorage.setItem("loginValue",JSON.stringify(valueX));
+}
 
 export async function getRegister(post){
     const url = `${server}/api/v1/register`;
@@ -26,6 +36,15 @@ export async function getRegister(post){
     }
     const {data} = await res.json();   
     console.log(data);
+    const valueX = {
+      admin:false,
+      user:true
+    }
+    if(sessionStorage.getItem("loginValue")){
+      sessionStorage.removeItem("loginValue");
+    }
+    sessionStorage.setItem("loginValue",JSON.stringify(valueX));
+    
     return data;
 }
 
@@ -47,6 +66,14 @@ export async function getLogin(post){
       throw error
     }
     const {data} = await res.json();   
+    const valueX = {
+      admin:false,
+      user:true
+    }
+    if(sessionStorage.getItem("loginValue")){
+      sessionStorage.removeItem("loginValue");
+    }
+    sessionStorage.setItem("loginValue",JSON.stringify(valueX));
     return data;
 }
 export async function getVerify(post){
@@ -62,13 +89,23 @@ export async function getVerify(post){
 
   });
   if (!res.ok) {
+    
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();
     console.log(error.info);
     console.log(error);
+    if(!error.info.message.includes("Incorrect OTP please check it out")){
+      sessionStorage.removeItem("loginValue");
+      
+    }
+   
     throw error
   }
+  const valuedemo = JSON.parse(sessionStorage.getItem("loginValue"));
+    valuedemo.verify = true;
+    console.warn(valuedemo);
+    cookiesState(valuedemo);
   const {data} = await res.json();   
   return data;
 }
@@ -213,7 +250,30 @@ export async function logoutUser(){
     error.info = await res.json();
     throw error
   }
-  const {data} = await res.json();   
+  const data = await res.json();
+  sessionStorage.removeItem("loginValue");    
+  console.log(data);
+  return data;
+}
+export async function logoutAdmin(){
+  const url = `${server}/api/admin/get/logout`;
+  const res = await fetch(url,{
+    credentials :'include',
+    headers: {
+     'Content-type':'application/json'
+   },
+  });
+  console.log(res);
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the events');
+    error.code = res.status;
+    error.info = await res.json();
+    throw error
+  }
+
+  const data = await res.json();  
+  console.log(data);
+  sessionStorage.removeItem("loginValue"); 
   console.log(data);
   return data;
 }

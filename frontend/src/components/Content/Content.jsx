@@ -15,7 +15,7 @@ function Content({data,applyBool,withdraw=false,error}) {
     const dispatch = useDispatch();
     const [applied,setApplied] = useState({});
     const [details,setDetails] = useState(false);
-    const {mutate,isLoading,isPending,isError} = useMutation({
+    const {mutate} = useMutation({
         mutationFn: addToApplied,
         onSuccess: () => {
             toast.success("Successfully Applied"); 
@@ -25,7 +25,8 @@ function Content({data,applyBool,withdraw=false,error}) {
           toast.error(error.info.err)
       },
 
-    })
+    });
+
 
     const {data:isRegistered} = useQuery({
         queryKey:['profile'],
@@ -58,7 +59,7 @@ function Content({data,applyBool,withdraw=false,error}) {
         const post = {
             bookmark_id : data._id
         };
-        dispatch(addBookmark(post,navigate));
+        dispatch(addBookmark(post));
     }
     return (
         <>
@@ -83,7 +84,7 @@ function Content({data,applyBool,withdraw=false,error}) {
         </div>
         <div className='intern-data-comp'>
             <div>Duration</div>
-            {data.duration}
+            {data.duration} months
         </div>
         <div className='intern-data-comp'>
             <div>Type</div>
@@ -93,15 +94,8 @@ function Content({data,applyBool,withdraw=false,error}) {
     <div className='btn-applied-div'>
        <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
        <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={togglePopup}>Details</button>
-       {withdraw && <button className='btn_applied' 
-    //    onClick={handleClick}
-       >
-        {/* {applyBool && "✅ "} */}
+       {withdraw && <button className='btn_applied'> 
        {withdraw && "❌ Withdraw "}</button>}
-       {/* <button className='btn_applied'>{data.status==='pending' ? '🟡 Pending' :
-        data.status ==='notselected' ? '🔴 Not Selected ' : '🟢 Selected'}
-       
-       </button>  */}
     </div>
 
         </div> : <Loader />}
@@ -140,7 +134,8 @@ function Content({data,applyBool,withdraw=false,error}) {
                     }
                         </button>
                 <button style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
-                <button style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark}>Bookmark</button>
+                <button
+                style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark}>Bookmark</button>
                 </div>
                 
                 </div>}

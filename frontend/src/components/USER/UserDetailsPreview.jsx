@@ -1,11 +1,10 @@
-import {Link, useParams} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {useDispatch,useSelector} from 'react-redux';
 import { useEffect } from 'react';
 import { getUserDetails } from '../../redux/actions/adminAction';
 
 export function UserDetailsPreview({id}) {
     const dispatch = useDispatch();
-    // const {id} = useParams();
     useEffect(()=>{
         dispatch(getUserDetails(id));
     },[dispatch,id]);
@@ -19,7 +18,6 @@ export function UserDetailsPreview({id}) {
                 <div style={{
                     width:"200px",
                     height:"200px",
-                    // border:"4px solid white",
                     borderBottom:"none",
                     margin:"0 !important"
                 }}>

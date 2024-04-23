@@ -1,22 +1,20 @@
 import { useEffect, useState } from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import { getAdminDetail, updateAdminData } from '../../redux/actions/adminAction';
-import { Link } from 'react-router-dom';
 import './Admin.css';
-import { getAllPost } from '../../redux/actions/postAction';
 import { AdminAllPost } from './AdminAllPost';
 import { Loader } from '../utils/Loader';
+import { ErrorPage } from '../utils/ErrorPage';
+import { GoPrevPage } from '../utils/GoPrevPage';
 export function UpdateAdmin() {
     const [change, setChange] = useState(false);
-    const [render, setRender] = useState(false);
     const [filebg,setFileBg] = useState(null);
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getAdminDetail());
-        // dispatch(getAllPost());
     },[dispatch]);
     const {admin} = useSelector(s=>s.admin);
-    // console.log(selector);
+    const selector = useSelector(s => s.admin);
     const handleSubmitFunction = (e)  => {
         e.preventDefault();
         const formData = new FormData();
@@ -29,41 +27,24 @@ export function UpdateAdmin() {
         e.preventDefault();
         setFileBg(e.target.files[0]);
         setChange(true);
-        setRender(false);
     }
     return (
         <>
-        {admin && <div>
+        <GoPrevPage />
+        {admin ? <>
+        <div>
             <div className='container-big'>
-                <div className='container-child' style={{
-                    width:"200px",
-                    height:"200px",
-                    // border:"4px solid white",
-                    borderBottom:"none",
-                    margin:"0 !important"
-                }}>
+                <div className='container-child div-class-container'>
                     
                      <form action="">
-                   { admin ? <img src={admin.image} alt="profile-image" className='container-big-img'/> : <Loader />}
+                   { admin && <img src={admin.image} alt="profile-image" className='container-big-img'/>}
                     <input type="file"  name='image' onChange={handleChange}/>
                     { change && <button type='submit' onClick={handleSubmitFunction}
-                    style={{
-                            border: "1px solid rgba(194, 185, 185, 0.8)",
-                            backgroundColor: "transparent",
-                            cursor:"pointer",
-                            color:"white",
-                            borderRadius:"25px",
-                            padding:"5px 10px",
-                            fontWeight: "500",
-                            boxShadow:" 0 5px 15px rgba(179, 174, 174, 0.20)",
-                            letterSpacing:" 0.15rem",
-                            margin:"5px"
-                    }}
-                    className='hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
+                    className='hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer update-me-class'
                     >Update Me</button>}
                     </form>
                 </div>
-                {admin && <div className='container-child'>
+                 <div className='container-child'>
                     <h2>Company Name :{admin.name} </h2>
                     <h4>Summary : {admin.summary} </h4>
                     <h2>Year of Establishment : {admin.year}</h2>
@@ -82,12 +63,12 @@ export function UpdateAdmin() {
                     </div>
 
                 </div>
-                }
-
             </div> 
-        </div>}
-        
-       {admin ? <AdminAllPost /> : <Loader />}
+        </div>
+         <AdminAllPost /> 
+         </> : 
+(!admin && (!selector.admin && selector.error)) ? <ErrorPage message={"Not For You 🥲"} selector={selector} /> : <Loader />
+         }
         </>
     );
 }

@@ -120,6 +120,24 @@ span{
   font-size: 150px;
   animation: fadeIn 8s;
 }
+.div-class-container{
+  width: 200px;
+  height: 200px;
+  border-bottom: none;
+  margin: 0 !important;
+}
+.update-me-class{
+  border:1px solid rgba(194, 185, 185, 0.8);
+  background-color: transparent;
+  cursor: pointer;
+  color: white;
+  border-radius: 25px;
+  padding:5px 10px;
+  font-weight: 500;
+  box-shadow: 0 5px 15px rgba(179, 174, 174, 0.20);
+  letter-spacing: 0.15rem;
+  margin: 5px; 
+}
 @keyframes fadeIn {
   0% { opacity: 0.35; }
   40% { opacity: 0.4; }

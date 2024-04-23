@@ -1,13 +1,15 @@
+// NOT USING IT NOW
+
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
-import {queryclient, uploadUserPhoto} from "../utils/http";
+import { uploadUserPhoto} from "../utils/http";
 import './UploadImage.css'
 import {useNavigate} from 'react-router-dom'
 export function UploadImages() {
     const [file,setFile] = useState(null);
     const navigate = useNavigate();
-    const {mutate,isPending,isError,error} = useMutation({
+    const {mutate,error} = useMutation({
         mutationFn : uploadUserPhoto,
         onSuccess: () => {
             toast.success("Step2 : Image uploaded successfully");

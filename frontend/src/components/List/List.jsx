@@ -1,13 +1,11 @@
-import Navbar from "../Navbar/Navbar"
 import "../Home/Home.css"
 import Content from "../Content/Content";
 import { useQuery } from "@tanstack/react-query"
 import { getAppliedData } from "../utils/http";
 import { Loader } from "../utils/Loader";
-import { useState } from "react";
 import { ErrorPage } from "../utils/ErrorPage";
+import { GoPrevPage } from "../utils/GoPrevPage";
 function List() {
-    const [jobDetail,setJobDetail] = useState([]);
 
     const {data,isError,isLoading,isPending,error} = useQuery({
         queryKey:['applied'],
@@ -20,7 +18,7 @@ function List() {
     }
     return (
         <>
-        {/* <Navbar /> */}
+          <GoPrevPage />
         <section className="w-full section_content">
             <div>
              <h1 className="text-center mt-4 text-5xl font-bold tracking-wider" 

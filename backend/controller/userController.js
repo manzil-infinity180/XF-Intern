@@ -7,6 +7,7 @@ const cloudinary = require("cloudinary").v2;
 const User = require('../model/userModel.js');
 const Admin = require('../model/adminModel.js');
 const redisClient = require("../utils/redisConnect.js");
+const { ObjectId } = require("mongodb");
 const storage = multer.memoryStorage();
 const upload = multer({storage});
 let otp ;
@@ -27,7 +28,7 @@ exports.register = async(req,res,next)=>{
 
        otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
-        console.log(otp);
+        // console.log(otp);
        userData = req.body;
        userData.role = "user";
 
@@ -58,13 +59,13 @@ exports.login = async(req,res,next)=>{
         populate('applied').exec();
         otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
-        console.log(otp);
+        // console.log(otp);
 
         if(!user){
           throw new Error("No user existed with these email id")
         }
         userData = user;
-       console.log(user);
+      //  console.log(user);
         await sendEmail({
             email: req.body.email,
             subject : 'Xf Registration OTP 🦾',
@@ -91,30 +92,30 @@ exports.verify = async(req,res,next)=>{
     if(req.admin){
       res.clearCookie('admin');
     }
-    console.log("checking");
-    console.log(req.cookies.admin);
+    // console.log("checking");
+    // console.log(req.cookies.admin);
 
     let OTP = Number(req.body.otp);
-    console.log("doc");
-      console.log(OTP);
-      console.log(otp)
-      console.log(userData);
-      console.log("userdata");
+    // console.log("doc");
+      // console.log(OTP);
+      // console.log(otp)
+      // console.log(userData);
+      // console.log("userdata");
      if(OTP !== otp){
           throw new Error("Incorrect OTP please check it out")
      }
      let user
      if(userData.role){
        user = await User.create(userData);
-        console.log(user);
+        // console.log(user);
      }else{
-      console.log("hello .....")
+      // console.log("hello .....")
       user = await User.findOne({email: userData.email})
                                 .populate("profile")
                                 .populate("experience")
      }
        
-      console.log(user);
+      // console.log(user);
       await sendEmail({
           email: userData.email,
           subject : 'Xf Registration Successfully Done 🦾',
@@ -129,7 +130,7 @@ exports.verify = async(req,res,next)=>{
         });
 
   }catch(err){
-    console.log(err);
+    // console.log(err);
       res.status(400).json({
           status:"Failed",
           message:err.message
@@ -148,7 +149,7 @@ exports.getUser = async(req,res,next)=>{
       }
         const user = await User.findById(req.user).populate("profile").populate("experience")
         .populate('applied').exec();
-        console.log(user);
+        // console.log(user);
 
         res.status(200).json({
             status:"Success",
@@ -169,7 +170,7 @@ exports.getUserById = async(req,res,next)=>{
   try{
       const id = req.params.id;
       const user = await User.findById(id);
-      console.log(user);
+      // console.log(user);
       
       res.status(200).json({
           status:"Success",
@@ -206,8 +207,15 @@ exports.addbookmark = async(req,res,next)=>{
     
     if(!req.user) throw new Error("Login first!!");
     const {bookmark_id} = req.body;
+
     const user = await User.findById(req.user);
-    user.bookmark.push(bookmark_id);
+    const length = user.bookmark.length;
+    for(let i=0;i<length;i++){
+       if((user.bookmark[i]+'').includes(bookmark_id)){
+        throw new Error("Already bookmark 🥱")
+       }
+    }
+    user.bookmark.unshift(bookmark_id);
     user.save();
     res.status(200).json({
       status:"Success",
@@ -237,19 +245,19 @@ exports.expandBookmark = async (req,res,next) => {
 exports.isAuthenticated = async (req,res,next) =>{
     try{
       let token;
-      console.log(req.cookies);
+      // console.log(req.cookies);
       if(req.cookies.jwt){
         token = req.cookies.jwt;
       }
-      console.log("token----->")
-      console.log(token);
+      // console.log("token----->")
+      // console.log(token);
       if(!token){
         throw new Error("OOPs, Firstly you have to logined in !!");
       }
       const decode = jwt.verify(token,process.env.JWT_SECRET);
-      console.log(decode);
+      // console.log(decode);
       const currentloginedUser = await User.findById(decode.id);
-      console.log(currentloginedUser);
+      // console.log(currentloginedUser);
       req.user = currentloginedUser;
       next();
   
@@ -266,11 +274,11 @@ exports.isAuthenticated = async (req,res,next) =>{
     try{
   
       const updatedData = {};
-      console.log(req.body);
+      // console.log(req.body);
       const user = await User.findById(req.user);
   
       let url;
-      console.log(req.file)
+      // console.log(req.file)
       if(req.file && req.file.fieldname === 'pic'){
       const b64 = Buffer.from(req.file.buffer).toString("base64");
       let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -308,7 +316,7 @@ exports.isAuthenticated = async (req,res,next) =>{
     }
   if (req.file.fieldname === 'photo') {
   if (!updateData.photo) {
-    console.log(req.file);
+    // console.log(req.file);
     
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -319,7 +327,7 @@ exports.isAuthenticated = async (req,res,next) =>{
     });
     
     
-    // console.log(result);
+    console.log(result);
   // updateData.image = req.file.filename;
     updateData.image = result.url;
   }

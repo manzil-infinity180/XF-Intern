@@ -3,8 +3,9 @@ import {useDispatch,useSelector} from 'react-redux';
 import { useEffect, useState } from 'react';
 import { getLoginUserDetails, updateUserData } from '../../redux/actions/adminAction';
 import List from '../List/List';
-import ImageUploadDropDown from './ImageUploadDropDown';
 import { Loader } from '../utils/Loader';
+import { ErrorPage } from '../utils/ErrorPage';
+import { GoPrevPage } from '../utils/GoPrevPage';
 
 /*
  Copy for future Aspect 
@@ -13,11 +14,6 @@ import { Loader } from '../utils/Loader';
  -> how it look to admin 
  -> 
 */
-
-
-
-
-
 
 export function UserDetailsAndUpdate() {
     const dispatch = useDispatch();
@@ -47,7 +43,9 @@ export function UserDetailsAndUpdate() {
     }
     return (
         <>
+         <GoPrevPage />
        { loginUser ? <>
+
             <div className='container-big' style={{
                 marginTop:"100px"
             }}>
@@ -116,7 +114,7 @@ export function UserDetailsAndUpdate() {
 
                     }} >Update Details</button></Link> */}
                     </div>
-                </div>
+                </div> 
                 }
 
 
@@ -124,6 +122,9 @@ export function UserDetailsAndUpdate() {
             <List />
         </> : <Loader />
         }
+        {
+                (!selector.loginUser && selector.error) && <ErrorPage message={"No Content 🥲"} selector={selector} /> 
+         }
         </>
     );
 }

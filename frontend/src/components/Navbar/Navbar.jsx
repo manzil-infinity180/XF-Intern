@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import './Navbar.css'
 import { incValue } from '../utils/InputField';
-import { isAuth } from '../Login/Verify';
-import { getAppliedData, logoutUser, queryclient } from '../utils/http';
+import { getAppliedData, logoutAdmin, logoutUser } from '../utils/http';
 import {useQuery} from "@tanstack/react-query";
-import {useNavigate} from "react-router-dom"
-import {useDispatch, useSelector} from "react-redux";
-import { AiOutlineMenu } from 'react-icons/ai';
-import { userSuccess } from '../../redux/admin/adminSlice';
+import {useSelector} from "react-redux";
+
 function Navbar() {
-    const navigate = useNavigate();
     const {isAuthenticated} = useSelector(s => s.admin);
     const  selector = useSelector(s  => s.admin);
     console.log(selector);
+    const [isLogin,setIsLogin] = useState({user:false,admin:false});
     const [islog,setIslog] = useState(false);
     const [enable,setEnable] = useState(false);
     const {data,refetch:fetchMe} = useQuery({
@@ -20,35 +17,43 @@ function Navbar() {
         queryFn: getAppliedData,
         enabled: enable
     });
-    // const dispatch = useDispatch(s => s.admin);
-    // useEffect(()=>{
-    //     dispatch(userSuccess());
-    // },[dispatch]);
-    const {isError,isLoading,error,refetch} = useQuery({
-        queryKey:['profile',islog],
+    useEffect(()=>{
+        if(sessionStorage.getItem("loginValue")){
+            const value = sessionStorage.getItem("loginValue")
+            console.log(JSON.parse(value));
+            setIsLogin(JSON.parse(value));
+        }
+    },[setIsLogin]);
+    const {user:userLogin,admin:adminLogin,verify:verifyLogin} = isLogin;
+    const {refetch} = useQuery({
+        queryKey:['profile','logout'],
         queryFn: logoutUser,
         enabled: false
     });
-
+    const {refetch:logoutAdminFetch} = useQuery({
+        queryKey:["logout"],
+        queryFn: logoutAdmin,
+        enabled: false
+    });
     function handlelogoutBtn(){
         setIslog(true);
         refetch();
         setTimeout(()=>{
-
             window.location.reload(false);
         },1000);
         
+    }
+    function handleAdmin(){
+        logoutAdminFetch();
+        setTimeout(()=>{
+            window.location.reload(false);
+        },1000);
     }
     useEffect(()=>{
         if(isAuthenticated){
             setEnable(true);
         }
     },[fetchMe,isAuthenticated])
-    // if(isAuthenticated){
-    //     fetchMe();
-    // }
-    
-
 
     console.log(data);
     
@@ -77,13 +82,13 @@ function Navbar() {
          </li>
        </ul>
        <ul className='lg:flex lg:flex-row h-full group content-nav'>
-        {selector.userlogin && <li className='relative h-full grid hover:text-[#02F67C]'>
-           <a href={isAuthenticated ? '/admin/profile/edits' : 'user/profile/edits'}style={{backgroundSize:"200%"}} className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center '>
-            Update Profile</a>
+        {verifyLogin && <li className='relative h-full grid hover:text-[#02F67C]'>
+           <a href={(adminLogin) ? '/admin/profile/edits' : 'user/profile/edits'}style={{backgroundSize:"200%"}} className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center '>
+            Profile</a>
         </li>}
-        {(isAuthenticated || selector.userlogin) &&<li className='relative h-full grid hover:text-[#02F67C] '>
-           <a href="/user/bookmark"style={{backgroundSize:"200%"}} className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center '>
-            Bookmark</a>
+        {verifyLogin && <li className='relative h-full grid hover:text-[#02F67C] '>
+           <a href={(adminLogin) ? '/admin/post': "/user/bookmark"}style={{backgroundSize:"200%"}} className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center '>
+            {(adminLogin) ? 'Create Post' : 'Bookmark'}</a>
         </li>}
         <li className='relative h-full grid hover:text-[#02F67C] '>
            <a href="/company/docs"style={{backgroundSize:"200%"}} className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center '>
@@ -97,19 +102,25 @@ function Navbar() {
        </ul>
 
        <ul className='ml-auto hidden lg:flex lg:flex-row lg:gap-4 pr-8'>
-        <li>
-            <a href="/list" className='block md:hover:border-[#02F67C] md:hover:border md:hover:text-[#fff] border-[transparent] border font-medium text-[16px] text-white max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300 '>
-                See Application
+       { verifyLogin && <li>
+            <a href={adminLogin ? '/admin/allPost': "/list"} className='block md:hover:border-[#02F67C] md:hover:border md:hover:text-[#fff] border-[transparent] border font-medium text-[16px] text-white max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300 '>
+                {adminLogin ? 'See All Post' : 'See Application'}
             </a>
-        </li>
-        <li>
+        </li>}
+        {!(adminLogin || userLogin ) && <li>
             <a href="/login" className='block md:hover:border-[#02F67C] md:hover:border md:hover:text-[#fff] border-[transparent] border font-medium text-[16px] text-white max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300 '>
                 Login
             </a>
-        </li>
+        </li>}
         <li>
-            <a href="/register" className='flex items-center hover:bg-transparent md:hover:border md:hover:text-[#fff] border-[#02F67C] border bg-[#02F67C] font-medium text-[16px] text-[#0A2121] max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300'>
-                Register
+            <a href={!(adminLogin || userLogin ) && "/register" }
+            style={{
+                cursor:"pointer"
+            }} 
+            className='flex items-center hover:bg-transparent md:hover:border md:hover:text-[#fff] border-[#02F67C] border bg-[#02F67C] font-medium text-[16px] text-[#0A2121] max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300'
+            onClick={(adminLogin || userLogin) ? (adminLogin ? handleAdmin : handlelogoutBtn) : ''}
+            >
+                {((adminLogin || userLogin) && verifyLogin ) ? 'Logout' : 'Register'}
             </a>
         </li>
 

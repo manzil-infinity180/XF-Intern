@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import '../Register/Register.css'
 export let incValue = {
     "name":1,

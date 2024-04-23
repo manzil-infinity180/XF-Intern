@@ -45,10 +45,14 @@ const adminPostSchema = new mongoose.Schema({
      skills:{
       type:String,
       required:[true,"Skills required field is most important"]
-     }
+     },
+     createdAt:{
+      type:String,
+      default : Date.now()
+    },
 
 });
 
-
+adminPostSchema.index({createdAt:1});
  const Adminpost = mongoose.model('Adminpost',adminPostSchema);
  module.exports = Adminpost;

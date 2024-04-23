@@ -1,13 +1,29 @@
 import toast from "react-hot-toast";
 import {useNavigate} from 'react-router-dom'
 
-import { getAdminDetailFailed, getAdminDetailSuccess, getAllAdminDetailSuccess, getAppliedUserDetailSuccess, getLoginUserDetailsSuccess, getUserDetailsSuccess, loginFailed, loginSuccess, otpFailed, otpSuccess, 
+import { getAdminDetailFailed, getAdminDetailSuccess, getAllAdminDetailSuccess, getAppliedUserDetailSuccess, getLoginUserDetailsFailed, getLoginUserDetailsSuccess, getUserDetailsSuccess, loginFailed, loginSuccess, otpFailed, otpSuccess, 
   registerFailed, registerSuccess } from "../admin/adminSlice";
 import { getError } from "../admin/postSlice";
+
+const removeCookies = () => {
+  sessionStorage.removeItem("loginValue");
+}
+const cookiesState = (valueX) => {
+  // const valueX = {
+  //   admin:true,
+  //   user:false,
+  //   verify:false
+  // }
+  if(sessionStorage.getItem("loginValue")){
+    sessionStorage.removeItem("loginValue");
+  }
+  sessionStorage.setItem("loginValue",JSON.stringify(valueX));
+}
+
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';
-// const server = `http://localhost:9009`
-const server = `https://xfintern-backend.onrender.com`;
+const server = `http://localhost:9009`
+// const server = `https://xfintern-backend.onrender.com`;
 export const loginAdmin = (post,navigate) => async (dispatch) => {
     try{
         const url = `${server}/api/admin/login`;
@@ -27,13 +43,20 @@ export const loginAdmin = (post,navigate) => async (dispatch) => {
         // console.log(error);
         throw error
       }
-
-    
-
     const admin = await res.json();
     console.log(res);
     console.log(admin);
     dispatch(loginSuccess(admin.message));
+    const valueX = {
+      admin:true,
+      user:false,
+    }
+    // if(sessionStorage.getItem("loginValue")){
+    //   sessionStorage.removeItem("loginValue");
+    // }
+    // sessionStorage.setItem("loginValue",JSON.stringify(valueX));
+
+    cookiesState(valueX);
     toast.success("OTP sent successfully");
     navigate('/verify');
          
@@ -69,6 +92,11 @@ export const verifyAdmin = (post,navigate) => async (dispatch) => {
   const admin = await res.json();
   console.log(admin);
   dispatch(otpSuccess(admin.admin));
+  const valuedemo = JSON.parse(sessionStorage.getItem("loginValue"));
+  console.log(valuedemo);
+  valuedemo.verify = true;
+  console.log(valuedemo)
+  cookiesState(valuedemo);
   toast.success("Login/Register Successful");
   navigate('/');
 
@@ -103,6 +131,15 @@ export const registerAdmin = (post,navigate) => async (dispatch) =>{
 
     const admin = await res.json();
     dispatch(registerSuccess(admin.admin));
+    const valueX = {
+      admin:true,
+      user:false
+    }
+    if(sessionStorage.getItem("loginValue")){
+      sessionStorage.removeItem("loginValue");
+    }
+    sessionStorage.setItem("loginValue",JSON.stringify(valueX));
+    
     toast.success("Done 🦾");
     navigate('/verify');
   }catch(err){
@@ -209,8 +246,7 @@ export const getLoginUserDetails = () => async (dispatch) =>{
   dispatch(getLoginUserDetailsSuccess(user.data.user));
 
   }catch(err){
-    dispatch(getError(err.info.err));
-
+    dispatch(getLoginUserDetailsFailed(err.info.err));
   }
 }
 

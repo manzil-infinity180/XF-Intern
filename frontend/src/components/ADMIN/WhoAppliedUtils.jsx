@@ -1,4 +1,3 @@
-import {Link, useNavigate} from "react-router-dom";
 import {useEffect, useState} from 'react'
 import { useDispatch } from "react-redux";
 import { changeStats } from "../../redux/actions/adminAction";
@@ -10,7 +9,7 @@ export function WhoAppliedUtils({data,appliedPostDetail}) {
     const [details,setDetails] = useState(false);
    useEffect(()=>{
          async function fetchData(){
-            const res = await fetch('http://localhost:9009/api/post/status/getStatus',{
+            const res = await fetch('https://xfintern-backend.onrender.com/api/post/status/getStatus',{
                 method:"POST",
                 body:JSON.stringify(detailForStatusChange),
                credentials :'include',
@@ -29,7 +28,6 @@ export function WhoAppliedUtils({data,appliedPostDetail}) {
     setDetails(!details);
     if (!details) {
         document.querySelector('.blurMe').classList.add('blur-background')
-        // document.body.classList.add('blur-background');
       } else {
         document.querySelector('.blurMe').classList.remove('blur-background')
       }
@@ -61,21 +59,6 @@ export function WhoAppliedUtils({data,appliedPostDetail}) {
                  <div className="popup-content content-bg-image">
                   <span className="close" onClick={togglePopup}>&times;</span>
                   <UserDetailsPreview />
-                    {/* <h1>Details</h1>
-                    <h3>Company: {data.companyName.toUpperCase()}</h3>
-                    <h3>Role: {data.name}</h3>
-                    <p>Description: {data.description}</p>
-                    <p>Skills: {data.skills}</p>
-                    <p>Salary:{data.salary} / months</p> */}
-                    hello 
-                    {/* <button style={{
-                        cursor:"pointer",
-                        backgroundColor:"black",
-                        fontWeight:"450",
-                        borderRadius:"25px",
-                        padding:"10px 15px",
-                        margin:"15px 0"
-                    }}><Link to={`/admin/stats/${data._id}`}>WHO APPLIED</Link></button> */}
                 </div>
 
                 </div>}

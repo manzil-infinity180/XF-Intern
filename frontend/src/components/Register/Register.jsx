@@ -7,16 +7,13 @@ import {useDispatch,useSelector} from "react-redux";
 import { getRegister, queryclient } from '../utils/http';
 import { registerAdmin } from '../../redux/actions/adminAction';
 import InputField from '../utils/InputField';
-let isCreatedAccount = false;
 function Register() {
     const navigate = useNavigate();
-    const {mutate,isLoading,isPending,isError,error} = useMutation({
+    const {mutate} = useMutation({
         mutationFn:getRegister,
         onSuccess: () => {
             toast.success("Registration Successfully");
             navigate('/verify');
-            isCreatedAccount = true;
-            
       },
       onError : (error)=>{
         toast.error(error.info.message);
@@ -34,7 +31,7 @@ function Register() {
     }
 
     const dispatch = useDispatch();
-    let {loading,isAuthenticated,isRedirect} = useSelector(state => state.admin);
+    let {loading} = useSelector(state => state.admin);
     console.log(loading);
 
     function handleAdminSubmit(e){

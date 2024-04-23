@@ -77,6 +77,9 @@ const adminSlice = createSlice({
       },
       getLoginUserDetailsSuccess : (state,action) =>{
          state.loginUser = action.payload
+      },
+      getLoginUserDetailsFailed: (state,action) =>{
+         state.error = action.payload
       }
       // changeStatusUserAppliedSuccess : (state,action) =>{
          
@@ -93,7 +96,7 @@ export const {
    getOtherAdminFailed, getOtherAdminSuccess,
    getAllAppliedPostFailed, getAllAppliedPostSuccess,
    getAllAdminDetailSuccess,getAppliedUserDetailSuccess,
-   getUserDetailsSuccess,getLoginUserDetailsSuccess,userSuccess
+   getUserDetailsSuccess,getLoginUserDetailsSuccess,userSuccess,getLoginUserDetailsFailed
  } = adminSlice.actions;
 
 export default adminSlice.reducer;

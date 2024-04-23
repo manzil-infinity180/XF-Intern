@@ -8,8 +8,8 @@ import { createPostSuccess, deletePostSuccess, getAllPostExist, getAllPostFailed
     getError,
     getPost,
     updatePostSuccess} from "../admin/postSlice";
-// const server = `http://localhost:9009`
-const server = `https://xfintern-backend.onrender.com`;
+const server = `http://localhost:9009`
+// const server = `https://xfintern-backend.onrender.com`;
 
 export const getAllPostofAllAdmin = (limit=10, skip=0) => async (dispatch) => {
   try{
@@ -326,16 +326,12 @@ export const getAllBookmark = ()  => async (dispatch) =>{
     // toast.success(admin.message);
     dispatch(getBookmark(admin.bookmark));
 }catch(err){
-    dispatch(getError(err.info.err));
-    // console.log(err.info.);
-    if(err.info.message.includes("E11000")){
-      toast.error("You already applied !");
-    }else{
+    dispatch(getError(err.info.message));   
       toast.error(err.info.message);
-    }
+
 }
 }
-export const addBookmark = (post,navigate)  => async (dispatch) =>{
+export const addBookmark = (post)  => async (dispatch) =>{
   try{
     console.log(JSON.stringify(post));
     const url = `${server}/api/v1/add/bookmark`;
@@ -360,13 +356,8 @@ export const addBookmark = (post,navigate)  => async (dispatch) =>{
     console.log(res);
     console.log(admin);
     toast.success("Added to Bookmark");
-    navigate('/user/bookmark');
 }catch(err){
     dispatch(getError(err.info.message));
-    if(err.info.err.includes("E11000")){
-      toast.error("You already applied !");
-    }else{
-      toast.error(err.info.err);
-    }
+      toast.error(err.info.message);
 }
 }

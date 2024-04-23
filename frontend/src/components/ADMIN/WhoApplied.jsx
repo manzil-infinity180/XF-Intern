@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {viewPost } from '../../redux/actions/postAction';
-import {Link, useParams} from "react-router-dom"; 
+import {useParams} from "react-router-dom"; 
 import { WhoAppliedUtils } from './WhoAppliedUtils';
 export function WhoApplied() {
     const dispatch = useDispatch();

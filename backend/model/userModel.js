@@ -61,13 +61,14 @@ const userSchema = new mongoose.Schema({
      },
      bookmark:[{
       type:mongoose.Schema.Types.ObjectId,
-      ref:"Adminpost"
+      ref:"Adminpost",
+      unique: true
      }],
      resume:{
       type:String,
      }
 });
 
-
+ userSchema.index({ 'bookmark': 1 }, { unique: true });
  const User = mongoose.model('User',userSchema);
  module.exports = User;

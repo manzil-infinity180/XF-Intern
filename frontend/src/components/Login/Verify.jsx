@@ -2,8 +2,7 @@ import './Login.css'
 import {useNavigate} from 'react-router-dom'
 import { useMutation } from "@tanstack/react-query"
 import toast from 'react-hot-toast';
-import {getVerify, queryclient} from "../utils/http"
-import { useState } from 'react';
+import {getVerify} from "../utils/http"
 import {useSelector,useDispatch} from 'react-redux';
 import { verifyAdmin } from '../../redux/actions/adminAction';
 import {userSuccess } from '../../redux/admin/adminSlice';
@@ -11,12 +10,7 @@ export let isAuth = false;
 function Verify() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
-    const [post,setPost] = useState({
-        email:''
-    })
-     
-    const {mutate,isLoading,isPending,isError,error} = useMutation({
+    const {mutate} = useMutation({
         mutationFn:getVerify,
         onSuccess: () => {
             toast.success("Login/Registration Successfully ");
@@ -25,8 +19,7 @@ function Verify() {
             dispatch(userSuccess());
             
       },
-      onError : ()=>{
-          toast.error("failed");
+      onError : (error)=>{
           toast.error(error.info.message)
       },
     });

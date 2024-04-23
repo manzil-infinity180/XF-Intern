@@ -90,11 +90,11 @@ exports.applyToRole = async(req,res,next) =>{
         throw new Error("Login/Register first!");
       }
       const user = await User.findById(req.user);
-      console.log("userId"+user._id);
+      // console.log("userId"+user._id);
       const checkApplied = await Applied.findOne({$and:[{
         pid:_id},{userId:user._id}]});
-        console.log("checkApplied");
-        console.log(checkApplied);
+        // console.log("checkApplied");
+        // console.log(checkApplied);
         if(checkApplied){
           throw new Error("Already Applied");
         }
@@ -102,7 +102,7 @@ exports.applyToRole = async(req,res,next) =>{
       pid: _id,
       type,
       companyId:adminId,
-      roleName: name,
+      name,
       salary,
       duration,
       description,
@@ -117,12 +117,12 @@ exports.applyToRole = async(req,res,next) =>{
     // fix the profile field on User Model change it from array to normal one 
     
 
-    user.applied.push(data._id);
+    user.applied.unshift(data._id);
     await user.save();
 
     const adminPost = await Adminpost.findById(_id);
-    console.log(adminPost);
-    adminPost.userId.push(user._id);
+    // console.log(adminPost);
+    adminPost.userId.unshift(user._id);
     await adminPost.save();
     // admin -> adminPost -> adminId -> email
     // user -> User -> email 
@@ -136,7 +136,7 @@ exports.applyToRole = async(req,res,next) =>{
       message : `Your application has been submitted! \n
       If there's a match, we will make an email introduction. \n
       Company: ${adminDetail.name} | Role: ${name} | ${salary} \n
-      Browser more - https://frontend-anchors.onrender.com `,
+      Browser more - https://xfintern.onrender.com `,
      });
     
     await sendEmail({
@@ -144,7 +144,7 @@ exports.applyToRole = async(req,res,next) =>{
       subject:` New User applied to role :${name} `,
       message:`A new user recently applied to your role see there details 
       Email:${user.email}
-      Browser more - https://frontend-anchors.onrender.com`
+      Browser more - https://xfintern.onrender.com`
     });
 
     res.status(200).json({
@@ -152,7 +152,7 @@ exports.applyToRole = async(req,res,next) =>{
       message:"Yeah bro successfully applied ohhhh..."
     })
   }catch(err){
-    console.log(err);
+    // console.log(err);
     res.status(400).json({
       status:"failed",
       message:err.message

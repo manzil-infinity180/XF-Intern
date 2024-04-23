@@ -42,7 +42,6 @@ export function PostContent({data, className}) {
                             </div>
                         </div>
                         <div className="flex justify-between mt-10">
-        
                             <span className='font-bold tracking-wider mx-2'>Stipend/Salary</span>
                             <span className='font-bold tracking-wider mx-2'>Type</span>
                             <span className='font-bold tracking-wider mx-2'>Duration</span>
@@ -64,7 +63,6 @@ export function PostContent({data, className}) {
                 {details && <div className='popup' id='popupBlur'> 
                  <div className="popup-content content-bg-image">
                   <span className="close" onClick={togglePopup}>&times;</span>
-       
                     <h1>Details</h1>
                     <h3>Company: {data.companyName.toUpperCase()}</h3>
                     <h3>Role: {data.name}</h3>
@@ -77,10 +75,7 @@ export function PostContent({data, className}) {
                       <Link to={`/admin/stats/${data._id}`}>WHO APPLIED</Link>
                     </button>
                 </div>
-
                 </div>}
-                {/* <div className='blurMe boxx'></div> */}
-               
         </>
     );
 }

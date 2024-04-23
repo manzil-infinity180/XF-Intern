@@ -1,9 +1,7 @@
-import { useQuery } from "@tanstack/react-query"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast"
 import './SearchField.css'
-import { MdDelete } from "react-icons/md";
-import {useNavigate} from "react-router-dom"
+
 import {useMutation} from "@tanstack/react-query"
 import { autoCompleteFunc, searchField } from "../utils/http";
 import Content from "../Content/Content";
@@ -12,10 +10,8 @@ function SearchField() {
     const [autoComplete,setAutoComplete] = useState([]);
     const [suggestion, setSuggestion] = useState(false);
     const [trigger,setTrigger] = useState(false);
-    const [fansyvalue, setFansyValue] = useState("");
-    const navigate = useNavigate();
 
-    const {data, mutate,error} = useMutation({
+    const {data, mutate} = useMutation({
       mutationFn: searchField,
       onSuccess : (data) =>{
         console.log(data);
@@ -75,14 +71,7 @@ function SearchField() {
       setSearchTerm("");
 
     }
-    // function removeSearch(){
-    //   setAutoComplete([]);
-    //   setTrigger(s => !s);
-    //   console.log(autoComplete);
-    //   setSearchTerm("");
-    // }
-    
-    // data && console.log(data.searchedObj.length);
+
 
     return (
       <>
@@ -90,7 +79,6 @@ function SearchField() {
             <form 
             onSubmit={handleSubmit} 
             id="search-form">
-        {/* <input type='text' className='mx-6 lg:mx-0 flex items-center gap-4 rounded-[56px] bg-white/5 border border-white/[.15] backdrop-blur-xl py-2 px-4 z-10 text-white hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' placeholder='Search Here'/> */}
           <div>
           <input
           style={{
@@ -127,14 +115,6 @@ function SearchField() {
         {data &&<div className="flex items-center flex-col justify-center ">
           <h1 className="text-center text-4xl font-bold tracking-wider">Search Results </h1>
           <h2 className="text-center text-1xl font-bold tracking-wider">Total Result Found : {data.results.length}</h2>
-          {/* <h3 onClick={removeSearch} style={{
-            cursor:'pointer'
-          }}>
-            <MdDelete style={{
-              fontSize:"1.5rem"
-              
-            }}/>
-          </h3> */}
          {
            data && data.results.map((user)=>
              

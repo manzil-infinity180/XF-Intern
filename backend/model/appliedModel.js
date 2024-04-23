@@ -46,12 +46,13 @@ const appliedSchema = new mongoose.Schema({
    logo:{
       type:String,
       default:'https://internshala.com/static/images/company/logo.svg'
-   }
-
-
-
+   },
+   createdAt:{
+      type:String,
+      default : Date.now()
+    },
 });
 
-
+appliedSchema.index({createdAt:1});
  const Applied = mongoose.model('Applied',appliedSchema);
  module.exports = Applied;

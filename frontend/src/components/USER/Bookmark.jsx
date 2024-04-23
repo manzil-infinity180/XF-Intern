@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBookmark } from "../../redux/actions/postAction";
 import Content from "../Content/Content";
-import { Link } from "react-router-dom";
 import { ErrorPage } from "../utils/ErrorPage";
+import { GoPrevPage } from "../utils/GoPrevPage";
 import { Loader } from "../utils/Loader";
 export function Bookmark() {
     const dispatch = useDispatch();
@@ -14,6 +14,8 @@ export function Bookmark() {
     const selector = useSelector(s => s.adminPost);
     console.log(selector);
     return (
+      <>
+        <GoPrevPage />
         <section className="w-full section_content">
         <div>
          <h1 className="text-center mt-8 text-5xl font-bold tracking-wider" style={{
@@ -27,13 +29,16 @@ export function Bookmark() {
         </div>
         <div className="flex items-center my-10 flex-col justify-center ">
             {
-                selector && selector.bookmark && selector.bookmark.bookmark.map((el) => <Content data={el}  key={el._id} />)
+                (selector && selector.bookmark) ? 
+                selector.bookmark.bookmark.map((el) => <Content data={el} notBookmark={true}  key={el._id} />) :
+               ( !selector.bookmark && selector.error) ? <ErrorPage message={"No Content 🥲"} selector={selector} /> : <Loader />
             }
-            {
-                !selector.bookmark && selector.error ? <ErrorPage message={"No Content 🥲"} selector={selector} /> : <Loader />
-            }
+ 
+               
+
           </div> 
           
         </section>
+        </>
     );
 }

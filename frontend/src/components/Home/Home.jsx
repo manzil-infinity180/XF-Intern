@@ -5,16 +5,12 @@ import { FaXTwitter } from "react-icons/fa6";
 import { useEffect, useState } from "react"
 import { MdEmail } from "react-icons/md";
 import Content from "../Content/Content";
-import { useQuery } from "@tanstack/react-query"
-// import { getAppliedData, getInternData } from "../utils/http";
-import toast from 'react-hot-toast';
 import { Loader } from "../utils/Loader";
 import SearchField from "../Search/SearchField";
-import { AiOutlineMenu } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPostofAllAdmin } from "../../redux/actions/postAction";
+import { Link } from "react-router-dom";
 function Home() {
-    const [jobDetail,setJobDetail] = useState([]);
     const [page, setPage] = useState(0);
     // const {data,isError,isLoading,isPending,error} = useQuery({
     //     queryKey:['intern'],
@@ -27,12 +23,10 @@ function Home() {
     },[dispatch,page]);
     const selector = useSelector(s=>s.adminPost);
     selector && console.log(selector);
-    // console.log(data);
     return (
         <>
         <Navbar />
         
-        {/* <div className="cursor-default" /> */}
         <section className="w-full section_content">
             <div>
              <h1 className="title-page" style={{
@@ -50,9 +44,6 @@ function Home() {
             </div> : <Loader />}
             
         </section>
-        {/* {
-            data && data.map((_,i)=> <span>{i+1}</span>)
-        } */}
         {selector && selector.allPostExist && <div style={{
             display:"flex",
             justifyContent:"center",
@@ -99,11 +90,11 @@ function Home() {
         justifyContent:"center",
         marginBottom:"35px"
     }}>
-
-        <a href="https://linkedin.com/company/xf2809" style={{margin:"0 5px",fontSize:"1.75rem"}}><FaLinkedin /></a>
-        <a href="https://twitter.com/xfintern"style={{margin:"0 5px",fontSize:"1.75rem"}}><FaXTwitter /></a>
-        <a href="https://github.com/manzil-infinity180"style={{margin:"0 5px",fontSize:"1.75rem"}}><FaGithub /></a>
-        <a href="mailto:xfintern@gmail.com"style={{margin:"0 5px",fontSize:"1.75rem"}}><MdEmail /></a>
+         
+        <Link to={"https://linkedin.com/company/xf2809"} style={{margin:"0 10px",fontSize:"1.75rem"}} target="blank"><FaLinkedin /></Link>
+        <Link to={"https://twitter.com/xfintern"} style={{mLinkrgin:"0 10px",fontSize:"1.75rem"}} target="blank"><FaXTwitter /></Link>
+        <Link to={"https://github.com/manzil-infinity180"} style={{margin:"0 10px",fontSize:"1.75rem"}} target="blank"><FaGithub /></Link>
+        <Link to={"mailto:xfintern@gmail.com"} style={{margin:"0 10px",fontSize:"1.75rem"}} target="_top"><MdEmail /></Link>
   </div>
 
         <p style={{

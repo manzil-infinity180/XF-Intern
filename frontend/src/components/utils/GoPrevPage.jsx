@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
-// import { useNavigation } from 'react-router-dom';
-export function GoBack() {
-    // const navigate = useNavigation();
+import { useNavigate } from "react-router-dom";
+
+export function GoPrevPage() {
+    const navigate = useNavigate();
     return (
         <>
-        <header className='header_login'>
-      <Link to={'/'}
+            <header className='header_login'>
+      <button onClick={() => navigate(-1)}
       className='goBack_button'
       >
       <svg stroke="currentColor" 
@@ -16,8 +16,9 @@ export function GoBack() {
         <path d="M11.03 3.97a.75.75 0 010 1.06l-6.22 6.22H21a.75.75 0 010 1.5H4.81l6.22 6.22a.75.75 0 11-1.06 1.06l-7.5-7.5a.75.75 0 010-1.06l7.5-7.5a.75.75 0 011.06 0z"></path>
       </svg> 
          Go Back
-      </Link>
+      </button>
     </header>
-    </>
+        </>
     );
 }
+

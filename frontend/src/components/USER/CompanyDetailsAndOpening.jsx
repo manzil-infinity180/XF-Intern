@@ -2,9 +2,9 @@ import { useEffect } from "react";
 import {Link, useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import { getAllAdminDetail } from "../../redux/actions/adminAction";
-import { AdminAllPost } from "../ADMIN/AdminAllPost";
 import Content from "../Content/Content";
 import { Loader } from "../utils/Loader";
+import { GoPrevPage } from "../utils/GoPrevPage";
 export function CompanyDetailsAndOpening() {
     const {adminId} = useParams();
     const dispatch = useDispatch();
@@ -13,22 +13,20 @@ export function CompanyDetailsAndOpening() {
     },[dispatch,adminId]);
     const selector = useSelector(s => s.admin);
     const {adminDetail} = selector;
-    // console.log(selector);
-    // const {post} = adminDetail;
 
     console.log(selector);
     return (
         <>
+          <GoPrevPage />
          {adminDetail && <div>
             <div className='container-big'>
                 <div className='container-child' style={{
                     width:"200px",
                     height:"200px",
-                    // border:"4px solid white",
                     borderBottom:"none",
                     margin:"0 !important"
                 }}>
-                    <img src="https://res.cloudinary.com/dk9gvtcgx/image/upload/v1709552988/photo/na9swtokmgrlqawtraon.jpg" alt="" style={{
+                    <img src={adminDetail.image} alt="" style={{
                         maxWidth:"200px",
                         maxHeight:"200px",
                         borderRadius:"9999px",
@@ -40,10 +38,18 @@ export function CompanyDetailsAndOpening() {
                     <h2>Company Name :{adminDetail.name.toUpperCase()} </h2>
                     <h2> Summary: {adminDetail.summary}</h2>
                     <h2>Year of Establishment : {adminDetail.year}</h2>
-                    <h2>Website : <Link to={adminDetail.website} >{adminDetail.website} </Link></h2>
-                    <h2>LinkedIn : <Link to={adminDetail.linkedin}>{adminDetail.linkedin}</Link></h2>
                     <h2>Hiring Since : {adminDetail.hiring}</h2>
                     <h2>Emolyees : {Math.abs(adminDetail.employee)}</h2>
+                    <div style={{
+                        margin:"10px 0"
+                    }}>
+                    {adminDetail.website &&<a href={adminDetail.website} ><button
+                    className='btn_clickable hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
+                    >Website</button> </a>}
+                    {adminDetail.linkedin && <a href={adminDetail.linkedin}><button
+                    className='btn_clickable hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
+                    >Linkedin</button></a>}
+                    </div>
                 </div>}
             </div>
         </div>}

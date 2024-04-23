@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {useDispatch,useSelector} from "react-redux";
 import { updatePost, viewPost } from "../../redux/actions/postAction";
 import {useParams,useNavigate} from "react-router-dom"
-import InputField from "../utils/InputField";
 import { Header } from "../utils/Header";
 import { Logo } from "../utils/Logo";
 import InputFieldUpdate from "../utils/InputFieldUpdate";
@@ -28,7 +27,6 @@ export function UpdatePost() {
     const selector = useSelector(s => s.adminPost);
     console.log(selector);
     const {type,name,deadline,duration,start,salary,skills,description} = selector.post;
-    const [selectValue,setSelectValue] = useState(type);
     return (
         <>
      <Header navigate={navigate} />
@@ -66,8 +64,6 @@ export function UpdatePost() {
                     type="date" value={start}>Expected Starting date</InputFieldUpdate>
                     <InputFieldUpdate name="deadline" placeholder="Deadline to apply" 
                     type="date" value={deadline}>Deadline Date (For Apply) </InputFieldUpdate>
-                    
-                   
                     <button type='submit'>Update Post</button>
                 </form>
 

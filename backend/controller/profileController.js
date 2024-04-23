@@ -11,7 +11,7 @@ exports.picUpload = upload.single('pic');
 
 exports.createJob = async(req,res,next)=>{
     try{
-    console.log(req.body);
+    // console.log(req.body);
     // let url;
     const {
       name,mobile,linkedin,github,college_name,type,start,end,project,project_description,member,
@@ -65,11 +65,11 @@ exports.updateUser = async(req,res,next)=>{
   try{
 
     const updatedData = {};
-    console.log(req.body);
+    // console.log(req.body);
     const user = await User.findById(req.user);
 
     let url;
-    console.log(req.file)
+    // console.log(req.file)
     if(req.file && req.file.fieldname === 'pic'){
     const b64 = Buffer.from(req.file.buffer).toString("base64");
     let dataURI = "data:" + req.file.mimetype + ";base64," + b64;

@@ -16,7 +16,7 @@ const successResponse = (res,output,responseCode=200)=>{
      })
 }
 const failedResponse = (res,error,responseCode=400)=>{
-    console.log(error)
+    // console.log(error)
     res.status(responseCode).json({
         status:"failed",
         err:error.message
@@ -24,9 +24,9 @@ const failedResponse = (res,error,responseCode=400)=>{
 }
 exports.createPost= async (req,res,next)=>{
     try{
-      console.log("rahul"+ req.admin);
+      // console.log("rahul"+ req.admin);
     const authAdmin = await Admin.findById(req.admin._id);
-    console.log("authAdmin"+authAdmin);
+    // console.log("authAdmin"+authAdmin);
 
     const adminid = authAdmin.uuid;
     const adminData = req.body;
@@ -55,9 +55,9 @@ exports.updatePost = async(req,res,next) =>{
       
         const id = req.params.id;
         const authAdmin = await Admin.findById(req.admin);
-       console.log("authAdmin : ",authAdmin);
+      //  console.log("authAdmin : ",authAdmin);
         const postToUpdate = await Post.findById(req.params.id);
-        console.log("postToUpdate"+postToUpdate);
+        // console.log("postToUpdate"+postToUpdate);
         if(postToUpdate.adminId !== authAdmin.uuid){
             throw new Error("No permission to change others post");
         }
@@ -76,9 +76,8 @@ exports.viewPost = async(req,res,next) =>{
         const post = await Post.findById(req.params.id).populate('userId');
       //   try{
       //     const key = req.originalUrl || req.url;
-      //     console.log(key);
        
-      //   console.log("done")
+        console.log("done")
 
       // }catch(err){
       //   console.error("Redis Error "+err);
@@ -91,12 +90,14 @@ exports.viewPost = async(req,res,next) =>{
 }
 exports.viewAllPost = async(req,res,next) =>{
     try{
-        const post = await Post.find({}).limit(req.query.limit).skip(req.query.skip);
+        const post = await Post.find({}).limit(req.query.limit).skip(req.query.skip).sort({
+          createdAt:-1
+        });
         
         try{
             const key = req.originalUrl || req.url;
-            console.log(key);
-          console.log("done")
+            // console.log(key);
+          // console.log("done")
 
         }catch(err){
           console.error("RedisError "+err);
@@ -112,7 +113,7 @@ exports.deletePost = async(req,res,next) =>{
     try{
         const authAdmin = await Admin.findById(req.admin);
         const postToDelete = await Post.findById(req.params.id);
-         console.log("userid "+authAdmin.uuid +"& uuid " +postToDelete.adminId);
+        //  console.log("userid "+authAdmin.uuid +"& uuid " +postToDelete.adminId);
         if(postToDelete.adminId !== authAdmin.uuid){
             throw new Error("No permission to change others post");
         }
@@ -133,7 +134,9 @@ exports.getAllPostofAdmin = async(req,res,next) =>{
         // if(req.query === '')
         console.log("helloooooo");
         console.log(req.query.limit);
-        const data  = await Post.find({adminId:uuid}).populate('userId'); 
+        const data  = await Post.find({adminId:uuid}).populate('userId').sort({
+          createdAt:-1
+        }); 
         successResponse(res,data,200);
     }catch(err){
         failedResponse(res,err,400);
@@ -190,7 +193,6 @@ exports.statusChange = async(req,res,next)=>{
       const appliedDetail = await Applied.findOne({$and:[{
         pid:pid},{userId:userId}]});
         const currentStatus = appliedDetail.status;
-      console.log(appliedDetail)
       if(status === appliedDetail.status ){
         throw new error("Click on other status to change the status of application")
       }else if(admin.uuid !==appliedDetail.companyId){
@@ -203,8 +205,8 @@ exports.statusChange = async(req,res,next)=>{
       const userData = await User.findById(appliedDetail.userId);
       await sendEmail({
         email:userData.email,
-        subject:`Recuriter seen your application ${appliedDetail.roleName}`,
-        message:`Your application and resume is seen by the recuriter and the status is changed from ${appliedDetail.status} to ${status}`
+        subject:`Recuriter seen your application ${appliedDetail.name}`,
+        message:`Your application and resume is seen by the recuriter and the status is changed from ${currentStatus} to ${status}`
       })
       res.status(200).json({
         status:"success",
