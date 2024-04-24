@@ -14,7 +14,6 @@ export function CompanyDetailsAndOpening() {
     const selector = useSelector(s => s.admin);
     const {adminDetail} = selector;
 
-    console.log(selector);
     return (
         <>
           <GoPrevPage />

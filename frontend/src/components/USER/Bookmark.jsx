@@ -12,7 +12,6 @@ export function Bookmark() {
        dispatch(getAllBookmark());
     },[dispatch]);
     const selector = useSelector(s => s.adminPost);
-    console.log(selector);
     return (
       <>
         <GoPrevPage />
@@ -30,7 +29,7 @@ export function Bookmark() {
         <div className="flex items-center my-10 flex-col justify-center ">
             {
                 (selector && selector.bookmark) ? 
-                selector.bookmark.bookmark.map((el) => <Content data={el} notBookmark={true}  key={el._id} />) :
+                selector.bookmark.bookmark.map((el) => <Content data={el} Bookmarked={true}  key={el._id} />) :
                ( !selector.bookmark && selector.error) ? <ErrorPage message={"No Content 🥲"} selector={selector} /> : <Loader />
             }
  

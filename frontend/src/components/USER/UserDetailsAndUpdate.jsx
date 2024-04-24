@@ -26,13 +26,10 @@ export function UserDetailsAndUpdate() {
     },[dispatch,id,render]);
     const selector = useSelector(s => s.admin);
     const {loginUser} = selector;
-    console.log(selector);
     const handleSubmitFunction = (e)  => {
         e.preventDefault();
         const formData = new FormData();
         formData.append("pic",filebg);
-        console.log(formData);
-        console.log(filebg);
         dispatch(updateUserData(formData));
     }
     function handleChange(e){
@@ -43,7 +40,6 @@ export function UserDetailsAndUpdate() {
     }
     return (
         <>
-         <GoPrevPage />
        { loginUser ? <>
 
             <div className='container-big' style={{

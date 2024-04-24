@@ -26,13 +26,11 @@ function Register() {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData);
-        console.log(data);
         mutate(data);
     }
 
     const dispatch = useDispatch();
     let {loading} = useSelector(state => state.admin);
-    console.log(loading);
 
     function handleAdminSubmit(e){
         e.preventDefault();

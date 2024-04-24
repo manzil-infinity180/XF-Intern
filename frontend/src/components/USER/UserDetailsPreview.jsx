@@ -10,7 +10,6 @@ export function UserDetailsPreview({id}) {
     },[dispatch,id]);
     const selector = useSelector(s => s.admin);
     const {userDetail} = selector;
-    console.log(selector);
     return (
         <>
        { userDetail && <div>

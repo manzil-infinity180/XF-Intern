@@ -13,7 +13,6 @@ export function UpdatePost() {
     
     const {id} = useParams();
     const navigate = useNavigate();
-    console.log(id);
     useEffect(()=>{
        dispatch(viewPost(id));
     },[dispatch,id]);
@@ -25,7 +24,6 @@ export function UpdatePost() {
         dispatch(updatePost(data,id,navigate));
     }
     const selector = useSelector(s => s.adminPost);
-    console.log(selector);
     const {type,name,deadline,duration,start,salary,skills,description} = selector.post;
     return (
         <>

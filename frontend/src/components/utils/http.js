@@ -3,8 +3,8 @@ export const queryclient = new QueryClient();
 
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';
-const server = `http://localhost:9009`
-// const server = `https://xfintern-backend.onrender.com`;
+// const server = `http://localhost:9009`
+const server = `https://xfintern-backend.onrender.com`;
 
 const removeCookies = () => {
   sessionStorage.removeItem("loginValue");

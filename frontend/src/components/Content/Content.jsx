@@ -10,7 +10,7 @@ import toast from 'react-hot-toast';
 import { useMutation,useQuery } from "@tanstack/react-query"
 import {Link, useNavigate } from "react-router-dom"
 import { addBookmark } from '../../redux/actions/postAction';
-function Content({data,applyBool,withdraw=false,error}) {
+function Content({data,applyBool,withdraw=false,error,Bookmarked=false}) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [applied,setApplied] = useState({});
@@ -19,10 +19,9 @@ function Content({data,applyBool,withdraw=false,error}) {
         mutationFn: addToApplied,
         onSuccess: () => {
             toast.success("Successfully Applied"); 
-      },
+        },
       onError : (error)=>{
-        console.log(error);
-          toast.error(error.info.err)
+          toast.error(error.info.message)
       },
 
     });
@@ -33,14 +32,8 @@ function Content({data,applyBool,withdraw=false,error}) {
         queryFn: getAppliedData
     });
   
-
-    isRegistered && console.log(isRegistered);
-    
-
-
     function handleClick(){        
             setApplied(data);
-            console.log(data);
             mutate(data); 
     }
     function togglePopup(){
@@ -135,7 +128,7 @@ function Content({data,applyBool,withdraw=false,error}) {
                         </button>
                 <button style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
                 <button
-                style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark}>Bookmark</button>
+                style={{borderRadius:"24px"}} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark} >Bookmark {Bookmarked && "✅" }</button>
                 </div>
                 
                 </div>}

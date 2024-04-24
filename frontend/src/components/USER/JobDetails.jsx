@@ -19,9 +19,7 @@ export function JobDetails({data}) {
           }
     }
     function handleApply(){
-        console.log(data);
         dispatch(appliedPost(data));  
-        // console.log(JSON.stringify(data)); 
     }
     return (
         <>

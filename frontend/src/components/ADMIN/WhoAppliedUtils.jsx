@@ -18,9 +18,7 @@ export function WhoAppliedUtils({data,appliedPostDetail}) {
               },
             });
             const {output} = await res.json();
-            console.log(output);
             setStatus(output.status);
-            console.log(status);
          }
          fetchData();
    },[status,detailForStatusChange]);
@@ -70,13 +68,10 @@ function SelectFiledStatus({ data, post, status}){
     const [value,setValue] = useState(status);
     const [currentStatus,setCurrentStatus] = useState(false);
     // const [currentPost,setcurrentPost] = useState(post);
-   console.log(status);
-    console.log(data);
     const dispatch = useDispatch();
     function handleChange(e) {
         setValue(e.target.value);
         setCurrentStatus(true);
-        console.log(value);
     }
     function handleSubmit(e){
         e.preventDefault();

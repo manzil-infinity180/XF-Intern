@@ -8,8 +8,8 @@ import { createPostSuccess, deletePostSuccess, getAllPostExist, getAllPostFailed
     getError,
     getPost,
     updatePostSuccess} from "../admin/postSlice";
-const server = `http://localhost:9009`
-// const server = `https://xfintern-backend.onrender.com`;
+// const server = `http://localhost:9009`
+const server = `https://xfintern-backend.onrender.com`;
 
 export const getAllPostofAllAdmin = (limit=10, skip=0) => async (dispatch) => {
   try{
@@ -24,17 +24,13 @@ export const getAllPostofAllAdmin = (limit=10, skip=0) => async (dispatch) => {
       const error = new Error('An error occurred while fetching the events');
       error.code = res.status;
       error.info = await res.json();
-      console.log(error.info);
-      console.log(error.info);
       throw error
     }
   const admin = await res.json();
-  console.log(res);
-  console.log(admin);
   dispatch(getAllPostExist(admin.output));
 
   }catch(err){
-      dispatch(getError(err.info.err)) 
+      // dispatch(getError(err.info.message)) 
   }
 }
 
@@ -51,13 +47,9 @@ export const getAllPost = () => async (dispatch) => {
         const error = new Error('An error occurred while fetching the events');
         error.code = res.status;
         error.info = await res.json();
-        console.log(error.info);
-        // console.log(error);
         throw error
       }
     const admin = await res.json();
-    console.log(res);
-    console.log(admin);
     dispatch(getAllPostSuccess(admin.output));
 
     }catch(err){
@@ -78,13 +70,9 @@ export const getAllPostOtherAdmin = (id) => async (dispatch) => {
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         dispatch(getallPostOtherAdminSuccess(admin.output));
 
     }catch(err){
@@ -105,14 +93,10 @@ export const getAllUserOnPost = (id) => async (dispatch) => {
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         dispatch(getAllAppliedPostSuccess(admin.output));
     }catch(err){
         dispatch(getAllAppliedPostFailed(err.info.err));
@@ -132,14 +116,10 @@ export const ChangeStatus = (id) => async (dispatch) =>{
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         dispatch(getchangeStatusSuccess(admin.output));
 
     }catch(err){
@@ -163,14 +143,10 @@ export const createPost = (post,navigate) => async (dispatch) => {
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         toast.success("Yeah Sir,Created New Post");
         setTimeout(()=>{
           navigate('/admin/allpost')
@@ -196,14 +172,10 @@ export const updatePost = (post,id,navigate) => async (dispatch) =>{
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         toast.success("Updated Sir 🫡");
         navigate('/admin/allpost');
         dispatch(getPost(admin));
@@ -225,14 +197,10 @@ export const deletePost = (id) => async (dispatch) =>{
             const error = new Error('An error occurred while fetching the events');
             error.code = res.status;
             error.info = await res.json();
-            console.log(error.info);
-            // console.log(error);
             throw error
           }
         
         const admin = await res.json();
-        console.log(res);
-        console.log(admin);
         toast.success("Deleted Post");
         dispatch(getAllPost());
     }catch(err){
@@ -253,14 +221,10 @@ export const viewPost = (id) => async (dispatch) =>{
           const error = new Error('An error occurred while fetching the events');
           error.code = res.status;
           error.info = await res.json();
-          console.log(error.info);
-          // console.log(error);
           throw error
         }
       
       const admin = await res.json();
-      console.log(res);
-      console.log(admin);
       dispatch(getPost(admin.output));
   }catch(err){
       dispatch(getError(err.info.err));
@@ -281,19 +245,14 @@ export const appliedPost = (post)  => async (dispatch) =>{
         const error = new Error('An error occurred while fetching the events');
         error.code = res.status;
         error.info = await res.json();
-        console.log(error.info);
-        // console.log(error);
         throw error
       }
     
     const admin = await res.json();
-    console.log(res);
-    console.log(admin);
     toast.success(admin.message);
     // dispatch(getPost(admin.output));
 }catch(err){
     dispatch(getError(err.info.message));
-    // console.log(err.info.);
     if(err.info.message.includes("E11000")){
       toast.error("You already applied !");
     }else{
@@ -315,14 +274,10 @@ export const getAllBookmark = ()  => async (dispatch) =>{
         const error = new Error('An error occurred while fetching the events');
         error.code = res.status;
         error.info = await res.json();
-        console.log(error.info);
-        // console.log(error);
         throw error
       }
     
     const admin = await res.json();
-    console.log(res);
-    console.log(admin);
     // toast.success(admin.message);
     dispatch(getBookmark(admin.bookmark));
 }catch(err){
@@ -333,7 +288,6 @@ export const getAllBookmark = ()  => async (dispatch) =>{
 }
 export const addBookmark = (post)  => async (dispatch) =>{
   try{
-    console.log(JSON.stringify(post));
     const url = `${server}/api/v1/add/bookmark`;
     const res = await fetch(url,{
         method:"POST",
@@ -347,16 +301,71 @@ export const addBookmark = (post)  => async (dispatch) =>{
         const error = new Error('An error occurred while fetching the events');
         error.code = res.status;
         error.info = await res.json();
-        console.log(error.info);
-        // console.log(error);
         throw error
       }
     
     const admin = await res.json();
-    console.log(res);
-    console.log(admin);
     toast.success("Added to Bookmark");
 }catch(err){
+    dispatch(getError(err.info.message));
+      toast.error(err.info.message);
+}
+}
+
+export const feedbackMe = (post)  => async (dispatch) =>{
+  try{
+   
+    const url = `${server}/api/v1/feedback`;
+    const res = await fetch(url,{
+        method:"POST",
+        body:JSON.stringify(post),
+        credentials :'include',
+        headers: {
+         'Content-type':'application/json'
+       },
+     });
+   
+     if (!res.ok) {
+        const error = new Error('An error occurred while fetching the events');
+        error.code = res.status;
+        error.info = await res.json();
+        throw error
+      }
+  
+    const feedback = await res.json();
+
+    toast.success("Thanks for feedback");
+}catch(err){
+  
+    dispatch(getError(err.info.message));
+      toast.error(err.message);
+}
+}
+export const subscribeMe = (post)  => async (dispatch) =>{
+  try{
+    
+    const url = `${server}/api/v1/subscribe`;
+    const res = await fetch(url,{
+        method:"POST",
+        body:JSON.stringify(post),
+        credentials :'include',
+        headers: {
+         'Content-type':'application/json'
+       },
+     });
+     if (!res.ok) {
+        const error = new Error('An error occurred while fetching the events');
+        error.code = res.status;
+        error.info = await res.json();
+        
+        throw error
+      }
+    
+    const subscribeMe = await res.json();
+   
+    toast.success("Thanks for subscribing Us");
+}catch(err){
+  
     dispatch(getError(err.info.message));
       toast.error(err.info.message);
 }

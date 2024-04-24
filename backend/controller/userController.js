@@ -8,6 +8,8 @@ const User = require('../model/userModel.js');
 const Admin = require('../model/adminModel.js');
 const redisClient = require("../utils/redisConnect.js");
 const { ObjectId } = require("mongodb");
+const Feedback = require("../model/feedbackModel.js");
+const SubscribeUs = require("../model/subscriberModel.js");
 const storage = multer.memoryStorage();
 const upload = multer({storage});
 let otp ;
@@ -28,14 +30,13 @@ exports.register = async(req,res,next)=>{
 
        otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
-        // console.log(otp);
        userData = req.body;
        userData.role = "user";
 
        await sendEmail({
         email: req.body.email,
-        subject : 'Xf Registration OTP 🦾',
-        message : `Thank You for Xf registration, \n Your OTP for login is ${otp}`,
+        subject : 'Xf Intern OTP 🦾',
+        message : `Thank You for using Xf Intern, \n Your OTP for login is <span style="font-size:1.15rem;"> ${otp}</span>`,
        });
         res.status(200).json({
             status:"Successfully OTP Send",
@@ -59,17 +60,15 @@ exports.login = async(req,res,next)=>{
         populate('applied').exec();
         otp = (Math.random()*1000) + 10000;
         otp = Math.floor(otp);
-        // console.log(otp);
 
         if(!user){
           throw new Error("No user existed with these email id")
         }
         userData = user;
-      //  console.log(user);
         await sendEmail({
             email: req.body.email,
-            subject : 'Xf Registration OTP 🦾',
-            message : `Thank You for Xf registration, \n Your OTP for login is ${otp}`,
+            subject : `Xf Itern Registration OTP 🦾 - ${user.name}`,
+            message : `Thank You for using Xf Itern, Your OTP for login is  <span style="font-size:1.15rem;"> ${otp} </span>`,
            });
 
         // await sendCookiesAndToken(user,res);
@@ -92,33 +91,23 @@ exports.verify = async(req,res,next)=>{
     if(req.admin){
       res.clearCookie('admin');
     }
-    // console.log("checking");
-    // console.log(req.cookies.admin);
 
     let OTP = Number(req.body.otp);
-    // console.log("doc");
-      // console.log(OTP);
-      // console.log(otp)
-      // console.log(userData);
-      // console.log("userdata");
      if(OTP !== otp){
           throw new Error("Incorrect OTP please check it out")
      }
      let user
      if(userData.role){
        user = await User.create(userData);
-        // console.log(user);
      }else{
-      // console.log("hello .....")
       user = await User.findOne({email: userData.email})
                                 .populate("profile")
                                 .populate("experience")
      }
        
-      // console.log(user);
       await sendEmail({
           email: userData.email,
-          subject : 'Xf Registration Successfully Done 🦾',
+          subject : 'Xf Intern Successfully Done 🦾',
           message : `Thank You for Xf registration,You are successfully logined in`,
          });
 
@@ -130,7 +119,6 @@ exports.verify = async(req,res,next)=>{
         });
 
   }catch(err){
-    // console.log(err);
       res.status(400).json({
           status:"Failed",
           message:err.message
@@ -149,7 +137,6 @@ exports.getUser = async(req,res,next)=>{
       }
         const user = await User.findById(req.user).populate("profile").populate("experience")
         .populate('applied').exec();
-        // console.log(user);
 
         res.status(200).json({
             status:"Success",
@@ -170,7 +157,6 @@ exports.getUserById = async(req,res,next)=>{
   try{
       const id = req.params.id;
       const user = await User.findById(id);
-      // console.log(user);
       
       res.status(200).json({
           status:"Success",
@@ -245,19 +231,14 @@ exports.expandBookmark = async (req,res,next) => {
 exports.isAuthenticated = async (req,res,next) =>{
     try{
       let token;
-      // console.log(req.cookies);
       if(req.cookies.jwt){
         token = req.cookies.jwt;
       }
-      // console.log("token----->")
-      // console.log(token);
       if(!token){
         throw new Error("OOPs, Firstly you have to logined in !!");
       }
       const decode = jwt.verify(token,process.env.JWT_SECRET);
-      // console.log(decode);
       const currentloginedUser = await User.findById(decode.id);
-      // console.log(currentloginedUser);
       req.user = currentloginedUser;
       next();
   
@@ -274,11 +255,9 @@ exports.isAuthenticated = async (req,res,next) =>{
     try{
   
       const updatedData = {};
-      // console.log(req.body);
       const user = await User.findById(req.user);
   
       let url;
-      // console.log(req.file)
       if(req.file && req.file.fieldname === 'pic'){
       const b64 = Buffer.from(req.file.buffer).toString("base64");
       let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
@@ -307,29 +286,39 @@ exports.isAuthenticated = async (req,res,next) =>{
             })
       }
   }
-
-  
-  /*
-    const imageSize = 10 * 1024 * 1024;
-    if(imageSize < req.file.size){
-      throw new Error("Your file must be less than 10 MB")
+exports.giveFeedback = async (req,res,next) => {
+    try{
+       const bookmark = await Feedback.create(req.body);
+       res.status(200).json({
+        bookmark
+      });
+    }catch(err){
+      res.status(404).json({
+        status:"Failed",
+        message: err.message
+      });
     }
-  if (req.file.fieldname === 'photo') {
-  if (!updateData.photo) {
-    // console.log(req.file);
-    
-    const b64 = Buffer.from(req.file.buffer).toString("base64");
-    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
-    // imageURL = req.file.filename;
-    // let imagePath = `https://cloudinary-devs.github.io/cld-docs-assets/assets/images/${imageURL}`;
-    let result = await cloudinary.uploader.upload(dataURI,{
-      folder:"photo"
+}
+exports.subscribeMe = async (req,res,next) => {
+  try{
+     const subscribed  = await SubscribeUs.findOne({email:req.body.email});
+
+     if(subscribed){
+      throw new Error("You already subscribed!")
+     }
+     const subscribe = await SubscribeUs.create(req.body);
+     await sendEmail({
+      email: req.body.email,
+      subject : 'Xf Intern Subscribed 🦾',
+      message : `Thank You for <b>Subscribing Us</b>. In some recent time we will notified you when our website is full active ❤️.`,
+     });
+     res.status(200).json({
+      subscribe
     });
-    
-    
-    console.log(result);
-  // updateData.image = req.file.filename;
-    updateData.image = result.url;
+  }catch(err){
+    res.status(404).json({
+      status:"Failed",
+      message: err.message
+    });
   }
-} 
-  */
+}

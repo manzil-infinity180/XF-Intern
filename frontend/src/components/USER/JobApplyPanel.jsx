@@ -7,13 +7,10 @@ import { useEffect } from "react";
 export function JobApplyPanel() {
     const dispatch = useDispatch();
     const selector1 = useSelector(s => s.admin);
-    console.log(selector1);
     useEffect(() => {
         dispatch(getAllPost());
     }, [dispatch]);
     const selector = useSelector(s => s.adminPost);
-    console.log(selector);
-    selector.aPost && console.log(selector.aPost);
 
     return (
         <>

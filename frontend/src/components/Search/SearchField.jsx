@@ -14,7 +14,6 @@ function SearchField() {
     const {data, mutate} = useMutation({
       mutationFn: searchField,
       onSuccess : (data) =>{
-        console.log(data);
         toast.success(data.results.length + " results found");
       },
       onError:(error)=>{
@@ -32,11 +31,8 @@ function SearchField() {
           const post = {
             searchfield : x
           };
-          console.log(x);
           const user = await autoCompleteFunc(post);
-          console.log(user);
           setAutoComplete(user.results);
-          // console.log(autoComplete);  
         }
         if(searchTerm.length > 0){
           functionFetch(searchTerm);
@@ -58,8 +54,6 @@ function SearchField() {
         setSuggestion(s => !s);
      }
     function handleClickFunction(el){
-      console.log(searchTerm);
-      console.log(el.name);
       setSearchTerm(el.name);
       toast.success("You can add more text for search");
       const post = {

@@ -9,6 +9,8 @@ const experienceController = require("../controller/experienceController");
 router.post('/register',userController.register);
 router.post('/login',userController.login);
 router.post('/verify',userController.verify);
+router.post('/feedback',userController.giveFeedback);
+router.post('/subscribe',userController.subscribeMe);
 
 router.use(userController.isAuthenticated);
 router.get('/get-user',userController.getUser);

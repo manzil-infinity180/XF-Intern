@@ -11,8 +11,6 @@ function List() {
         queryKey:['applied'],
         queryFn: getAppliedData
     });
-    data && console.log(data);
-    isError && console.log(error.info.err);
     const selector = {
         error: isError ? error.info.err : "Something went wrong 🫤"
     }

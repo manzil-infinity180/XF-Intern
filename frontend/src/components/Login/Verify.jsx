@@ -24,7 +24,6 @@ function Verify() {
       },
     });
     const selector = useSelector(s => s.admin);
-    console.log(selector);
 
 
    

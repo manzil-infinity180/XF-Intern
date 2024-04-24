@@ -8,7 +8,7 @@ import Content from "../Content/Content";
 import { Loader } from "../utils/Loader";
 import SearchField from "../Search/SearchField";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPostofAllAdmin } from "../../redux/actions/postAction";
+import { getAllPostofAllAdmin, subscribeMe } from "../../redux/actions/postAction";
 import { Link } from "react-router-dom";
 function Home() {
     const [page, setPage] = useState(0);
@@ -16,13 +16,18 @@ function Home() {
     //     queryKey:['intern'],
     //     queryFn: getInternData
     // });
-    // data && console.log(data);
     const dispatch = useDispatch();
     useEffect(()=>{
         dispatch(getAllPostofAllAdmin(10,page));
     },[dispatch,page]);
     const selector = useSelector(s=>s.adminPost);
-    selector && console.log(selector);
+    function handleSubscriber(e){
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        dispatch(subscribeMe(data));  
+        e.target.reset();
+    }
     return (
         <>
         <Navbar />
@@ -85,6 +90,27 @@ function Home() {
         width="500px" height="500px" 
         loading="lazy"
         />
+        <div style={{
+            display:'flex',
+            justifyContent:"center"
+        }}>
+            <form onSubmit={handleSubscriber}>
+        <input type="email" 
+            style={{
+                width:"300px"
+            }}
+          placeholder="example@xfintern.com"
+          name="email"
+          autoComplete='off' 
+          className='btn-detail-demo hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' />
+          <button type="submit"
+          style={{borderRadius:"24px", marginTop:"20px"}} className='btn-detail-demo hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' >
+            Subscribe
+          </button>
+          </form>
+        </div>
+         
+        
     <div style={{
         display:"flex",
         justifyContent:"center",

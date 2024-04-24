@@ -11,7 +11,6 @@ export function WhoApplied() {
     }, [dispatch,postId]);
     const {post} = useSelector(s => s.adminPost);
      const {userId} = post
-    console.log(userId);
 
     return (
         <>

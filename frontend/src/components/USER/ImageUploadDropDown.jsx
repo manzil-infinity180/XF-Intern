@@ -4,8 +4,6 @@
 //     const [value,setValue] = useState("");
 //     function handleUpload(e){
 //         const files = Array.from(e.target.files)
-//         console.log(files);
-//        console.log(URL.createObjectURL(e.target.files[0]))
 //        setValue(URL.createObjectURL(e.target.files[0]));
 //     }
 //     return (
@@ -34,7 +32,6 @@
 //   const { getRootProps, getInputProps } = useDropzone({
 //     onDrop: (acceptedFiles) => {
 //       setUploadedFiles(acceptedFiles);
-//       console.log(acceptedFiles);
 //     },
 //   });
 // //TO DO : Customize and Style this Drag and Drop to Upload box as you want🧑‍💻😊

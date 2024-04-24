@@ -23,12 +23,22 @@
     box-shadow: 0 5px 15px rgba(179, 174, 174, 0.20);
     letter-spacing: 0.15rem;
 }
+.btn-detail-demo{
+    border: 1px solid rgba(194, 185, 185, 0.8);
+    background-color: transparent;
+    padding: 8px 15px;
+    border-radius: 10px;
+    /* width: 300px; */
+    margin: 15px 10px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(191, 103, 103, 0.474);
+    letter-spacing: 0.085rem;
+}
 .btn-detail{
     border: 1px solid rgba(194, 185, 185, 0.8);
     background-color: transparent;
     padding: 10px 10px;
     border-radius: 10px;
-    /* width: 20%; */
     margin: 10px 20px;
     font-weight: 500;
     box-shadow: 0 5px 15px rgba(179, 174, 174, 0.20);

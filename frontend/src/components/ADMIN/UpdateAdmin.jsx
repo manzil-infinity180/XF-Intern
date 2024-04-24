@@ -19,8 +19,6 @@ export function UpdateAdmin() {
         e.preventDefault();
         const formData = new FormData();
         formData.append("image",filebg);
-        console.log(formData);
-        console.log(filebg);
         dispatch(updateAdminData(formData));
     }
     function handleChange(e){
