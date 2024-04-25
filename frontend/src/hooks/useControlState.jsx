@@ -1,26 +1,26 @@
-import { useContext,createContext,useState } from "react";
+import { useContext, createContext, useState } from "react";
 
 const controlStateContext = createContext();
 
-function ControlStateProvider({children}){
+function ControlStateProvider({ children }) {
 
-    const [isAuthenicated,setIsauthenicated] = useState(false);
-    const [isRegistered,setIsRegistered] = useState(false);
+    const [isAuthenicated, setIsauthenicated] = useState(false);
+    const [isRegistered, setIsRegistered] = useState(false);
 
 
 
-    return <controlStateContext.Provider value ={{
-        isAuthenicated,setIsauthenicated,
-        isRegistered,setIsRegistered
+    return <controlStateContext.Provider value={{
+        isAuthenicated, setIsauthenicated,
+        isRegistered, setIsRegistered
     }}>
         {children}
     </controlStateContext.Provider>
-} 
+}
 
-function useControlState(){
+function useControlState() {
     const context = useContext(controlStateContext);
-    if(context===undefined) throw new Error("Context is used outside the ContextProvider");
+    if (context === undefined) throw new Error("Context is used outside the ContextProvider");
     return context;
 }
 
-export {useControlState,ControlStateProvider};
+export { useControlState, ControlStateProvider };

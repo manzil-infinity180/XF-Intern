@@ -4,9 +4,9 @@ const initialAdminState = {
    isAuthenticated: false,
    loading: false,
    isRedirect: false,
-   isAdmin:false,
-   adminlogin:false,
-   userlogin:false
+   isAdmin: false,
+   adminlogin: false,
+   userlogin: false
 };
 
 const adminSlice = createSlice({
@@ -16,87 +16,87 @@ const adminSlice = createSlice({
       loginSuccess: (state, action) => {
          state.message = action.payload
          state.isRedirect = true,
-         state.error = '',
-         state.isAdmin = true
+            state.error = '',
+            state.isAdmin = true
       },
       loginFailed: (state, action) => {
          state.error = action.payload
       },
-      userSuccess : (state) => {
+      userSuccess: (state) => {
          state.userlogin = true,
-         state.isAuthenticated = true
+            state.isAuthenticated = true
       },
       otpSuccess: (state, action) => {
          state.isAuthenticated = true,
-         state.isRedirect = true,
-         state.user = action.payload,
-         state.adminlogin = true
+            state.isRedirect = true,
+            state.user = action.payload,
+            state.adminlogin = true
       },
       otpFailed: (state, action) => {
          state.isRedirect = true,
-         state.error = action.payload
+            state.error = action.payload
       },
-      registerSuccess : (state,action) => {
+      registerSuccess: (state, action) => {
          state.message = action.payload
          state.isRedirect = true,
-         state.error = '',
-         state.isAdmin = true
+            state.error = '',
+            state.isAdmin = true
       },
-      registerFailed : (state,action) =>{
+      registerFailed: (state, action) => {
          state.error = action.payload
       },
-      getAdminDetailSuccess : (state,action) =>{
+      getAdminDetailSuccess: (state, action) => {
          state.admin = action.payload,
-         state.loading = false
+            state.loading = false
       },
-      getAdminDetailFailed : (state,action) => {
+      getAdminDetailFailed: (state, action) => {
          state.error = action.payload
       },
-      getOtherAdminSuccess : (state,action) =>{
+      getOtherAdminSuccess: (state, action) => {
          state.adminOther = action.payload,
-         state.loading = false
+            state.loading = false
       },
-      getOtherAdminFailed : (state,action) => {
+      getOtherAdminFailed: (state, action) => {
          state.error = action.payload
       },
-      getAllAppliedPostSuccess : (state,action) =>{
+      getAllAppliedPostSuccess: (state, action) => {
          state.allPost = action.payload,
-         state.loading = false
+            state.loading = false
       },
-      getAllAppliedPostFailed : (state,action) =>{
+      getAllAppliedPostFailed: (state, action) => {
          state.error = action.payload
       },
-      getAllAdminDetailSuccess : (state,action) =>{
+      getAllAdminDetailSuccess: (state, action) => {
          state.adminDetail = action.payload
       },
-      getAppliedUserDetailSuccess : (state,action)=>{
+      getAppliedUserDetailSuccess: (state, action) => {
          state.appliedUser = action.payload
       },
-      getUserDetailsSuccess : (state,action) =>{
+      getUserDetailsSuccess: (state, action) => {
          state.userDetail = action.payload
       },
-      getLoginUserDetailsSuccess : (state,action) =>{
+      getLoginUserDetailsSuccess: (state, action) => {
          state.loginUser = action.payload
       },
-      getLoginUserDetailsFailed: (state,action) =>{
+      getLoginUserDetailsFailed: (state, action) => {
          state.error = action.payload
       }
       // changeStatusUserAppliedSuccess : (state,action) =>{
-         
+
       // }
    }
 
 });
 
-export const { 
+export const {
    loginSuccess, loginFailed,
-   otpFailed,otpSuccess,
-   registerFailed,registerSuccess,
+   otpFailed, otpSuccess,
+   registerFailed, registerSuccess,
    getAdminDetailSuccess, getAdminDetailFailed,
    getOtherAdminFailed, getOtherAdminSuccess,
    getAllAppliedPostFailed, getAllAppliedPostSuccess,
-   getAllAdminDetailSuccess,getAppliedUserDetailSuccess,
-   getUserDetailsSuccess,getLoginUserDetailsSuccess,userSuccess,getLoginUserDetailsFailed
- } = adminSlice.actions;
+   getAllAdminDetailSuccess, getAppliedUserDetailSuccess,
+   getUserDetailsSuccess, getLoginUserDetailsSuccess, userSuccess, getLoginUserDetailsFailed
+} = adminSlice.actions;
 
 export default adminSlice.reducer;

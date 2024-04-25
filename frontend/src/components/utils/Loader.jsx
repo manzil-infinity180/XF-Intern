@@ -6,7 +6,7 @@ export const Loader = () => {
       <div style={{
         textAlign: "center", justifyContent: "center", display: "flex",
         margin: "10% 0",
-        paddingBottom:"2%"
+        paddingBottom: "2%"
       }}
         className='fade-in-text'>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="150px" height="150px" style={{

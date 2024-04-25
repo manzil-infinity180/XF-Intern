@@ -1,12 +1,11 @@
 import Navbar from "../Navbar/Navbar";
 import { Loader } from "../utils/Loader";
 import { JobDetails } from "./JobDetails";
-import {useDispatch,useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getAllPost } from "../../redux/actions/postAction";
 import { useEffect } from "react";
 export function JobApplyPanel() {
     const dispatch = useDispatch();
-    const selector1 = useSelector(s => s.admin);
     useEffect(() => {
         dispatch(getAllPost());
     }, [dispatch]);
@@ -24,13 +23,13 @@ export function JobApplyPanel() {
                 {selector.aPost ? selector.aPost.map(el => <JobDetails data={el} key={el._id} />) : <Loader />}
                 {
                     !selector.aPost.length && <>
-                    <div className="basic_div" style={{
-                        marginTop:"5%"
-                    }}>
-                        <h1 style={{
-                            fontSize:"1.25rem"
-                        }}>No Post yet </h1>
-                    </div>
+                        <div className="basic_div" style={{
+                            marginTop: "5%"
+                        }}>
+                            <h1 style={{
+                                fontSize: "1.25rem"
+                            }}>No Post yet </h1>
+                        </div>
                     </>
                 }
 

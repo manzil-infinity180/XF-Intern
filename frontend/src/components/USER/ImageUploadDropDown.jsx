@@ -21,7 +21,7 @@
 //             height:"100px"
 //           }}/>
 //         </div>
-        
+
 //     </>
 //     );
 // }
@@ -57,8 +57,8 @@
 // };
 // export default ImageUploadDropDown;
 
-import {useEffect, useState} from 'react';
-import {useDropzone} from 'react-dropzone';
+import { useEffect, useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 
 const thumbsContainer = {
   display: 'flex',
@@ -89,12 +89,12 @@ const img = {
   display: 'block',
   width: 'auto',
   height: '100%'
-  
+
 };
 
 function ImageUploadDropDown() {
   const [files, setFiles] = useState([]);
-  const {getRootProps, getInputProps} = useDropzone({
+  const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/*': []
     },
@@ -104,7 +104,7 @@ function ImageUploadDropDown() {
       })));
     }
   });
-  
+
   const thumbs = files.map(file => (
     <div style={thumb} key={file.name}>
       <div style={thumbInner}>
@@ -125,7 +125,7 @@ function ImageUploadDropDown() {
 
   return (
     <section className="container">
-      <div {...getRootProps({className: 'dropzone'})}>
+      <div {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <p>Drag n drop some files here, or click to select files</p>
       </div>
