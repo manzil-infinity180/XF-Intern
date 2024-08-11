@@ -54,9 +54,12 @@ export function PostContent({ data, className }) {
                         <span className='mx-2 font-normal' >{formattedDate}</span>
                     </div>
                     <div className='flex justify-center mt-5 '>
-                        <button className='btn_applied' onClick={() => navigate(`/admin/update/${data._id}`)}>Update Post</button>
-                        <button className='btn_applied' onClick={handleDeleteFunction}>Delete Post</button>
-                        <button className='btn_applied' onClick={togglePopup}>Details</button>
+                        <button className='btn_applied' onClick={() => navigate(`/admin/update/${data._id}`)}
+                        data-testid="update-post-btn">Update Post</button>
+                        <button className='btn_applied' onClick={handleDeleteFunction}
+                        data-testid="delete-post-btn">Delete Post</button>
+                        <button className='btn_applied' onClick={togglePopup}
+                        data-testid="details-post-btn">Details</button>
                     </div>
                 </div>
             </div>
@@ -72,7 +75,7 @@ export function PostContent({ data, className }) {
                     <button style={{ borderRadius: "24px" }}
                         className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
                     >
-                        <Link to={`/admin/stats/${data._id}`}>WHO APPLIED</Link>
+                        <Link to={`/admin/stats/${data._id}`} data-testid="who-applied">WHO APPLIED</Link>
                     </button>
                 </div>
             </div>}

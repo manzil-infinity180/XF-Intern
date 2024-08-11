@@ -10,18 +10,10 @@ import { FaXTwitter } from 'react-icons/fa6';
 import { feedbackMe } from '../../redux/actions/postAction';
 
 function Navbar() {
-    const { isAuthenticated } = useSelector(s => s.admin);
-    const selector = useSelector(s => s.admin);
+
     const dispatch = useDispatch();
     const [isLogin, setIsLogin] = useState({ user: false, admin: false });
-    const [islog, setIslog] = useState(false);
-    const [enable, setEnable] = useState(false);
     const [details, setDetails] = useState(false);
-    const { data, refetch: fetchMe } = useQuery({
-        queryKey: ['profile'],
-        queryFn: getAppliedData,
-        enabled: enable
-    });
     useEffect(() => {
         if (sessionStorage.getItem("loginValue")) {
             const value = sessionStorage.getItem("loginValue")
@@ -40,7 +32,6 @@ function Navbar() {
         enabled: false
     });
     function handlelogoutBtn() {
-        setIslog(true);
         refetch();
         setTimeout(() => {
             window.location.reload(false);
@@ -53,11 +44,11 @@ function Navbar() {
             window.location.reload(false);
         }, 1000);
     }
-    useEffect(() => {
-        if (isAuthenticated) {
-            setEnable(true);
-        }
-    }, [fetchMe, isAuthenticated])
+    // useEffect(() => {
+    //     if (isAuthenticated) {
+    //         // setEnable(true);
+    //     }
+    // }, [isAuthenticated])
     function togglePopup() {
         setDetails(!details);
         if (!details) {
@@ -130,7 +121,8 @@ function Navbar() {
                             </a>
                         </li>}
                         {(!(adminLogin || userLogin) && !verifyLogin) && <li>
-                            <a href={"/login"} className='block md:hover:border-[#02F67C] md:hover:border md:hover:text-[#fff] border-[transparent] border font-medium text-[16px] text-white max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300 '>
+                            <a href={"/login"} className='block md:hover:border-[#02F67C] md:hover:border md:hover:text-[#fff] border-[transparent] border font-medium text-[16px] text-white max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300 '
+                            data-testid="login-btn">
                                 Login
                             </a>
                         </li>}
@@ -151,8 +143,8 @@ function Navbar() {
                                     cursor: "pointer"
                                 }}
                                 className='flex items-center hover:bg-transparent md:hover:border md:hover:text-[#fff] border-[#02F67C] border bg-[#02F67C] font-medium text-[16px] text-[#0A2121] max-h-[37px] px-4 py-2 rounded-full md:transition md:ease-in-out md:duration-300'
-                                onClick={(adminLogin || userLogin) ? (adminLogin ? handleAdmin : handlelogoutBtn) : ''}
-                            >
+                                onClick={(adminLogin || userLogin) ? (adminLogin ? handleAdmin : handlelogoutBtn) : ()=>{return}}
+                             data-testid="logout-register-btn">
                                 {((adminLogin || userLogin) && verifyLogin) ? 'Logout' : 'Register'}
                             </a>
                         </li>

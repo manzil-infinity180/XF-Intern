@@ -87,7 +87,8 @@ function Register() {
                             <input type='radio' style={{
                                 tabSize: "5px",
                                 width: "2%"
-                            }} checked={isUser ? true : false} onChange={() => setIsUser(true)} />
+                            }} checked={isUser ? true : false} onChange={() => setIsUser(true)} 
+                            data-testid="checkbox-user"/>
                             <label style={{
                                 margin: "0 20px",
                                 fontSize: "1.25rem"
@@ -95,7 +96,8 @@ function Register() {
                             <input type="radio" checked={isUser ? false : true} style={{
                                 tabSize: "5px",
                                 width: "2%"
-                            }} onChange={() => setIsUser(false)} />
+                            }} onChange={() => setIsUser(false)} 
+                            data-testid="checkbox-admin"/>
                             <label style={{
                                 margin: "0 20px",
                                 fontSize: "1.25rem"
@@ -121,7 +123,7 @@ function Register() {
                                     type="text" >Github</InputField>
                                 <InputField name="resume" placeholder="Enter Resume Browser URL"
                                     type="text" >Resume</InputField>
-                                <button type='submit'>Get Register</button>
+                                <button type='submit' data-testid="get-register">Get Register</button>
                             </form>}
 
                         {!isUser &&
@@ -143,7 +145,7 @@ function Register() {
                                 <InputField name="linkedin" placeholder="Enter Linkedin URL"
                                     type="text" >Linkedin</InputField>
 
-                                <button type='submit'>Get Register</button>
+                                <button type='submit' data-testid="get-register-admin">Get Register</button>
                             </form>
                         }
 

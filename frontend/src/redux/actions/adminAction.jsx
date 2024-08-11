@@ -7,20 +7,13 @@ import {
 } from "../admin/adminSlice";
 import { getError } from "../admin/postSlice";
 
-const removeCookies = () => {
-  sessionStorage.removeItem("loginValue");
-}
 const cookiesState = (valueX) => {
-  // const valueX = {
-  //   admin:true,
-  //   user:false,
-  //   verify:false
-  // }
   if (sessionStorage.getItem("loginValue")) {
     sessionStorage.removeItem("loginValue");
   }
   sessionStorage.setItem("loginValue", JSON.stringify(valueX));
 }
+
 
 // const server = 'https://back-anchors-1.onrender.com'
 // const server = 'https://job-internship-finders.vercel.app';

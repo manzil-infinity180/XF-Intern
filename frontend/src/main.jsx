@@ -4,7 +4,8 @@ import App from './App.jsx'
 import { Provider } from 'react-redux'
 import './index.css'
 import { store } from './redux/store.jsx'
-export const server = 'http://localhost:9009/';
+// export const server = 'http://localhost:9009/';
+export const server = 'https://xfintern.onrender.com';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 

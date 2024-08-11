@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { Loader } from '../utils/Loader';
-import { addToApplied, getAppliedData } from '../utils/http';
+import { addToApplied } from '../utils/http';
 import { useDispatch } from 'react-redux';
 import { FaLinkedin, FaFacebook } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import { ImCross } from "react-icons/im";
 import './Content.css'
 import toast from 'react-hot-toast';
-import { useMutation, useQuery } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query"
 import { Link, useNavigate } from "react-router-dom"
 import { addBookmark } from '../../redux/actions/postAction';
 function Content({ data, applyBool, withdraw = false, error, Bookmarked = false }) {
@@ -24,12 +24,6 @@ function Content({ data, applyBool, withdraw = false, error, Bookmarked = false 
             toast.error(error.info.message)
         },
 
-    });
-
-
-    const { data: isRegistered } = useQuery({
-        queryKey: ['profile'],
-        queryFn: getAppliedData
     });
 
     function handleClick() {
@@ -58,7 +52,7 @@ function Content({ data, applyBool, withdraw = false, error, Bookmarked = false 
         <>
             {data ? <div className='intern-data blurMe' style={{
                 // backgroundColor:"#0a101f"
-            }}>
+            }} data-testid="admin-post-opening">
                 <div className='flex justify-center'>
                     <div>
                         <h1 className='title-content-text'> {data.companyName.toUpperCase()}</h1>
@@ -85,15 +79,15 @@ function Content({ data, applyBool, withdraw = false, error, Bookmarked = false 
                     </div>
                 </div>
                 <div className='btn-applied-div'>
-                    <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
-                    <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={togglePopup}>Details</button>
+                    <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick} data-testid="applied-btn-apply">{applyBool && "✅ "}Apply</button>
+                    <button className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={togglePopup} data-testid="applied-btn-details">Details</button>
                     {withdraw && <button className='btn_applied'>
                         {withdraw && "❌ Withdraw "}</button>}
                 </div>
 
             </div> : <Loader />}
 
-            {details && <div className='popup'>
+            {details && <div className='popup' data-testid="popup-window">
                 <div className="popup-content">
 
                     <div className='share-btn'>
@@ -119,16 +113,18 @@ function Content({ data, applyBool, withdraw = false, error, Bookmarked = false 
 
                         {
                             data && data.adminId && <Link to={`/admin/${data.adminId}`}
-                            >Openings</Link>
+                            data-testid="popup-window-openings">Openings</Link>
                         }
                         {
                             data && data.companyId && <Link to={`/admin/${data.companyId}`}
-                            >Openings</Link>
+                            data-testid="popup-window-openings" >Openings</Link>
                         }
                     </button>
-                    <button style={{ borderRadius: "24px" }} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}>{applyBool && "✅ "}Apply</button>
+                    <button style={{ borderRadius: "24px" }} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleClick}
+                    data-testid="popup-window-apply">{applyBool && "✅ "}Apply</button>
                     <button
-                        style={{ borderRadius: "24px" }} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark} >Bookmark {Bookmarked && "✅"}</button>
+                        style={{ borderRadius: "24px" }} className='btn_applied hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer' onClick={handleBookmark}
+                        data-testid="popup-window-bookmark" >Bookmark {Bookmarked && "✅"}</button>
                 </div>
 
             </div>}

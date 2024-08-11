@@ -14,6 +14,7 @@ function InputFieldUpdate({ name, type, placeholder, children, required = false,
                 required={required}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                data-testid={`input-box-${name}`}
             >
             </input>
         </>

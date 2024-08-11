@@ -86,7 +86,8 @@ export function Login() {
                             <input type='radio' style={{
                                 tabSize: "5px",
                                 width: "2%"
-                            }} checked={isUser ? true : false} onChange={() => setIsUser(true)} />
+                            }} checked={isUser ? true : false} onChange={() => setIsUser(true)} 
+                            data-testid="radio-btn-user" />
                             <label style={{
                                 margin: "0 20px",
                                 fontSize: "1.25rem"
@@ -94,7 +95,8 @@ export function Login() {
                             <input type="radio" checked={isUser ? false : true} style={{
                                 tabSize: "5px",
                                 width: "2%"
-                            }} onChange={() => setIsUser(false)} />
+                            }} onChange={() => setIsUser(false)} 
+                            data-testid="radio-btn-admin"/>
                             <label style={{
                                 margin: "0 20px",
                                 fontSize: "1.25rem"
@@ -107,9 +109,9 @@ export function Login() {
                             </div>
                             <input type='email' placeholder='Your email address'
                                 autoComplete='off'
-                                name='email'>
+                                name='email' data-testid="input-box-login">
                             </input>
-                            <button type='submit'>Email</button>
+                            <button type='submit' data-testid="submit-login-user">Email</button>
                         </form>}
 
                         {!isUser && <form className='form_login' onSubmit={handleAdminSubmit}>
@@ -118,9 +120,10 @@ export function Login() {
                             </div>
                             <input type='email' placeholder='Your email address'
                                 autoComplete='off'
-                                name='email'>
+                                name='email'
+                                data-testid="input-box-login">
                             </input>
-                            <button type='submit'>Email</button>
+                            <button type='submit' data-testid="submit-login-admin">Email</button>
                         </form>}
 
 

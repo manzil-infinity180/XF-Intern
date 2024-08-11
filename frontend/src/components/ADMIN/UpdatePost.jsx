@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { updatePost, viewPost } from "../../redux/actions/postAction";
 import { useParams, useNavigate } from "react-router-dom"
 import { Header } from "../utils/Header";
-import { Logo } from "../utils/Logo";
 import InputFieldUpdate from "../utils/InputFieldUpdate";
 import { Loader } from "../utils/Loader";
 import { TextArea } from "../utils/TextArea";
 import { SelectField } from "../utils/SelectField";
+import { Logo } from "../utils/Logo";
 export function UpdatePost() {
   const dispatch = useDispatch();
 
@@ -62,7 +62,7 @@ export function UpdatePost() {
                 type="date" value={start}>Expected Starting date</InputFieldUpdate>
               <InputFieldUpdate name="deadline" placeholder="Deadline to apply"
                 type="date" value={deadline}>Deadline Date (For Apply) </InputFieldUpdate>
-              <button type='submit'>Update Post</button>
+              <button type='submit' data-testid="update-post-btn">Update Post</button>
             </form>
 
           </div>

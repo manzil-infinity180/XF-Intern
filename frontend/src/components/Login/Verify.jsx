@@ -80,9 +80,10 @@ function Verify() {
                             </div>
                             <input type='number' placeholder='Enter Five digit otp'
                                 autoComplete='off'
-                                name='otp'>
+                                name='otp'
+                                data-testid="otp-verify">
                             </input>
-                            <button type='submit'>Email</button>
+                            <button type='submit' data-testid="otp-submit-btn">Email</button>
                         </form>
 
                     </div>

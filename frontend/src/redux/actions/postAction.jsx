@@ -13,6 +13,7 @@ import {
 // const server = `http://localhost:9009`
 const server = `https://xfintern-backend.onrender.com`;
 
+
 export const getAllPostofAllAdmin = (limit = 10, skip = 0) => async (dispatch) => {
   try {
     const url = `${server}/api/post?limit=${limit}&skip=${skip * 10}`;

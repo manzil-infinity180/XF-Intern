@@ -51,8 +51,10 @@ export function UserDetailsAndUpdate() {
                         margin: "0 !important"
                     }}>
                         <form action="">
-                            {loginUser && <img src={loginUser.pic} alt="profile-image" className='container-big-img' />}
-                            <input type="file" name='pic' onChange={handleChange} />
+                            {loginUser && <img src={loginUser.pic} alt="profile-image" className='container-big-img' 
+                            data-testid="upload-image-box"
+                            />}
+                            <input type="file" name='pic' onChange={handleChange} data-testid="upload-image-here"/>
                             {change && <button type='submit' onClick={handleSubmitFunction}
                                 style={{
                                     border: "1px solid rgba(194, 185, 185, 0.8)",
@@ -67,6 +69,7 @@ export function UserDetailsAndUpdate() {
                                     margin: "5px"
                                 }}
                                 className='hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer'
+                            data-testid="update-me-image"
                             >Update Me</button>}
                         </form>
                     </div>
@@ -97,7 +100,9 @@ export function UserDetailsAndUpdate() {
                                     borderRadius: "25px",
                                     padding: "6px 12px",
                                     margin: "0 5px"
-                                }}>See Your Application</button></Link>
+                                }}
+                                data-testid="see-your-application"
+                                >See Your Application</button></Link>
                                 {/* <Link to={'/list'}><button style={{
                         cursor:"pointer",
                         backgroundColor:"pink",

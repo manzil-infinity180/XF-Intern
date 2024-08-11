@@ -37,7 +37,7 @@ export function AdminAllPost() {
                                 margin: "0 5px",
                                 padding: "4px",
 
-                            }}>Click Here</Link></h1>
+                            }} data-testid="click-here-btn">Click Here</Link></h1>
                         </div>}
                     </>
                 }

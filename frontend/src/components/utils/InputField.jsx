@@ -99,6 +99,7 @@ function InputField({ name, type, placeholder, children, required = false, style
                 name={name}
                 required={required}
                 style={{ style }}
+                data-testid={`input-box-${name}`}
             // onChange={handleInput(name)}
             >
             </input>

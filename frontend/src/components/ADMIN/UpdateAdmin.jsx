@@ -36,9 +36,11 @@ export function UpdateAdmin() {
 
                             <form action="">
                                 {admin && <img src={admin.image} alt="profile-image" className='container-big-img' />}
-                                <input type="file" name='image' onChange={handleChange} />
+                                <input type="file" name='image' onChange={handleChange} 
+                                data-testid="image-upload-admin"/>
                                 {change && <button type='submit' onClick={handleSubmitFunction}
                                     className='hover:scale-[1.05] transition-all duration-300 ease-out cursor-pointer update-me-class'
+                                data-testid="update-me-btn"
                                 >Update Me</button>}
                             </form>
                         </div>

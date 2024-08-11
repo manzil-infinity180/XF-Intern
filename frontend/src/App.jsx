@@ -19,15 +19,24 @@ import { UserDetailsAndUpdate } from "./components/USER/UserDetailsAndUpdate";
 import { Bookmark } from "./components/USER/Bookmark";
 
 function App() {
+  let authValue = JSON.parse(sessionStorage.getItem("loginValue"));
+  if(!authValue){
+     authValue = {
+      user:false,
+      admin:false
+     }
+  }
+  console.log(authValue);
   const router = createBrowserRouter([
     {
       path: '/login',
-      element: <Login />
+      element: (authValue.user || authValue.admin)? <Home /> :<Login />
     },
     {
       path: '/register',
-      element: <Register />
-    }, {
+      element: (authValue.user || authValue.admin)? <Home /> : <Register />
+    },
+    {
       path: "*",
       element: <Home />
     }, {
@@ -37,16 +46,16 @@ function App() {
     },
     {
       path: "/list",
-      element: <List />
+      element: !(authValue.user || authValue.admin)? <Home /> :<List />
     }, {
       path: '/admin/post',
-      element: <AdminPost />
+      element: !(authValue.admin) ? <Home /> :<AdminPost />
     }, {
       path: '/admin/allpost',
-      element: <AdminAllPost />
+      element: !(authValue.admin) ? <Home /> : <AdminAllPost />
     }, {
       path: '/admin/update/:id',
-      element: <UpdatePost />
+      element: !(authValue.admin) ? <Home /> : <UpdatePost />
     }
     // ,{
     //   path:'/user/job',
@@ -57,21 +66,21 @@ function App() {
       element: <CompanyDetailsAndOpening />
     }, {
       path: '/admin/profile/edits',
-      element: <UpdateAdmin />
+      element: !(authValue.admin) ? <Home /> : <UpdateAdmin />
     }, {
       path: "/admin/stats/:postId",
-      element: <WhoApplied />
+      element: !(authValue.admin) ? <Home /> : <WhoApplied />
     },
-    // {
-    //   path:'/user/profile/:id',
-    //   element:<UserDetailsPreview />
-    // },
+    {
+      path:'/user/profile/:id',
+      element:<UserDetailsPreview />
+    },
     {
       path: '/user/profile/edits',
-      element: <UserDetailsAndUpdate />
+      element: (authValue.user) ? <UserDetailsAndUpdate /> : <Home />
     }, {
       path: '/user/bookmark',
-      element: <Bookmark />
+      element: (authValue.user) ? <Bookmark /> : <Home />
     }
   ]);
 

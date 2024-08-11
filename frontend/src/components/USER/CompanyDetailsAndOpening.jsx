@@ -18,7 +18,7 @@ export function CompanyDetailsAndOpening() {
         <>
             <GoPrevPage />
             {adminDetail && <div>
-                <div className='container-big'>
+                <div className='container-big' data-testid="admin-detail-box">
                     <div className='container-child' style={{
                         width: "200px",
                         height: "200px",

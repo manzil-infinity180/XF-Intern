@@ -41,7 +41,7 @@ export function AdminPost() {
             </p>
             <form className='form_login' onSubmit={handleSubmit}>
               <div className='form_label'>
-                <select name="type" className="select_post">
+                <select name="type" className="select_post" data-testid="job-post-type">
                   <option value="internship-remote">internship-remote</option>
                   <option value="internship-onsite">internship-onsite</option>
                   <option value="job-onsite">job-onsite</option>
@@ -53,7 +53,8 @@ export function AdminPost() {
               <div className='form_label'>
                 <label>Description</label>
               </div>
-              <textarea rows="3" cols="33" placeholder="Enter Job/Iternship Description" name="description" className="textAreaField" />
+              <textarea rows="3" cols="33" placeholder="Enter Job/Iternship Description" name="description" className="textAreaField" 
+              data-testid="input-box-description"/>
               {/* <InputField name="description" placeholder="Enter Job/Iternship Description" 
                     type="text" style="width:'30%'" >Description</InputField> */}
               <InputField name="skills" placeholder="Enter required skills like java,springboot,nodejs"
@@ -68,7 +69,7 @@ export function AdminPost() {
                 type="date" >Deadline Date (For Apply) </InputField>
 
 
-              <button type='submit'>New Post</button>
+              <button type='submit' data-testid="new-post-btn">New Post</button>
             </form>
 
           </div>
