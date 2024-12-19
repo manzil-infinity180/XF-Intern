@@ -84,7 +84,7 @@ export async function getVerify(post){
 
   });
   if (!res.ok) {
-    
+
     const error = new Error('An error occurred while fetching the events');
     error.code = res.status;
     error.info = await res.json();

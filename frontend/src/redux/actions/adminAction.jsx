@@ -83,7 +83,7 @@ export const verifyAdmin = (post, navigate) => async (dispatch) => {
     valuedemo.verify = true;
     cookiesState(valuedemo);
     toast.success("Login/Register Successful");
-    navigate('/');
+    navigate('/home');
 
   } catch (err) {
     dispatch(otpFailed(err.info.message));
