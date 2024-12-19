@@ -17,6 +17,7 @@ import { WhoApplied } from "./components/ADMIN/WhoApplied";
 import { UserDetailsPreview } from "./components/USER/UserDetailsPreview";
 import { UserDetailsAndUpdate } from "./components/USER/UserDetailsAndUpdate";
 import { Bookmark } from "./components/USER/Bookmark";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 function App() {
   let authValue = JSON.parse(sessionStorage.getItem("loginValue"));
@@ -37,9 +38,9 @@ function App() {
       element: (authValue.user || authValue.admin)? <Home /> : <Register />
     },
     {
-      path: "*",
+      path: "/home",
       element: <Home />
-    }, {
+    },{
       path: '/verify',
       element: <Verify />
 
@@ -57,10 +58,10 @@ function App() {
       path: '/admin/update/:id',
       element: !(authValue.admin) ? <Home /> : <UpdatePost />
     }
-    // ,{
-    //   path:'/user/job',
-    //   element:<JobApplyPanel />
-    // }
+    ,{
+      path:'*',
+      element:<LandingPage />
+    }
     , {
       path: '/admin/:adminId',
       element: <CompanyDetailsAndOpening />

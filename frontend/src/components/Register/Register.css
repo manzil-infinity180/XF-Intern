@@ -3,10 +3,10 @@
     padding: 1rem 1.5rem;
     margin-inline: auto;
 }
-span{
+/* span{
      font-weight: 900;
      color: red;
-}
+} */
 .goBack_button{
     text-decoration: none;
     display: flex;

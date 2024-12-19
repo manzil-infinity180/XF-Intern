@@ -108,10 +108,10 @@ function Navbar() {
                                 Docs</a>
                         </li>
 
-                        <li className='relative h-full grid hover:text-[#02F67C]'>
+                        {/* <li className='relative h-full grid hover:text-[#02F67C]'>
                             <a href="https://github.com/manzil-infinity180/Job-Internship-Finder" style={{ backgroundSize: "200%" }} target='_blank' className='flex items-center h-full px-[30px] self-center font-normal text-[18px] bg-clip-text bg-linear-white-green bg-position-100 transition-colors ease-in duration-300 justify-center'>
                                 Contribute</a>
-                        </li>
+                        </li> */}
                     </ul>
 
                     <ul className='ml-auto hidden lg:flex lg:flex-row lg:gap-4 pr-8'>

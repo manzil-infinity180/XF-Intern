@@ -9,7 +9,6 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -17,20 +16,22 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 body{
   margin: 0;
   padding: 0;
   overflow-x:hidden ;
   background-color: #000000;
 }
+
 *{
   margin: 0;
   padding: 0;
   line-height: 1.75rem;
 }
-span{
+/* span{
   color: aliceblue;
-}
+} */
 .basic_div{
   display: flex;
   justify-content: center;
